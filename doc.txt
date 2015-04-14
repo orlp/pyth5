@@ -1,0 +1,8 @@
+Lines that start with ";" are comments. Whitespace followed by ";" means that the rest of the line
+is a comment. Lines starting with ";#" are meta-commands. There is one valid meta commands as of
+now:
+
+    ;# end
+    Everything after this line is ignored by the interpreter, except meta-commands.
+
+
