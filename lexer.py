@@ -22,7 +22,17 @@ class Lexer:
 
         return self.idx < len(self.source)
 
-    def get_token(self):
+    def peek_token(self, ahead=0):
+        idx = self.idx
+        while len(self.cache) <= ahead:
+            self.cache.append(self.get_token(ignore_cache=True))
+        self.idx = idx
+        return self.cache[ahead]
+
+    def get_token(self, *args, ignore_cache=False):
+        if self.cache and not ignore_cache:
+            return self.cache.pop(0)
+
         # Newlines only seperate tokens, just ignore.
         while self.idx < len(self.source) and self.source[self.idx] == ord(b"\n"):
             self.idx += 1
@@ -72,7 +82,13 @@ class Lexer:
             if c == b"\"":
                 break
 
-            s += c
+            # Reduce multiline strings to one line.
+            if c == b"\n":
+                s += b"\\n"
+            else:
+                s += c
+
+            # Make sure \" doesn't count as exiting the string.
             if c == b"\\":
                 s += self.source[self.idx:self.idx + 1]
                 self.idx += 1
@@ -204,15 +220,3 @@ class Lexer:
                 linenr += 1
 
         return b"\n".join(lines)
-
-lex = Lexer(b"""This is a test ; this a comment
-; this is a comment as well " open ." string
-" ; this is not a comment
-and should be on two lines"
-and ."test"third line1.
-2no ignore pls ;# end    
-this shouldn't show up""")
-
-while lex.has_token():
-    tok = lex.get_token()
-    print(tok.type,tok.data)
