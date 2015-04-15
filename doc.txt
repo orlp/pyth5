@@ -5,4 +5,10 @@ now:
     ;# end
     Everything after this line is ignored by the interpreter, except meta-commands.
 
+Pyth is a compact programming language in polish (prefix) notation. It has five data types:
 
+ - int, an integer number
+ - float, a floating point number
+ - str, a string of characters
+ - list, an ordered list of elements
+ - set, a sorted unique list of elements
