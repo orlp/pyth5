@@ -1,6 +1,5 @@
 Lines that start with ";" are comments. Whitespace followed by ";" means that the rest of the line
-is a comment. Lines starting with ";#" are meta-commands. There is one valid meta commands as of
-now:
+is a comment. Lines starting with ";#" are meta-commands. There is one valid meta command as of now:
 
     ;# end
     Everything after this line is ignored by the interpreter, except meta-commands.
@@ -12,3 +11,5 @@ Pyth is a compact programming language in polish (prefix) notation. It has five 
  - str, a string of characters
  - list, an ordered list of elements
  - set, a sorted unique list of elements
+
+

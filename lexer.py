@@ -89,6 +89,7 @@ class Lexer:
                 s += c
 
             # Make sure \" doesn't count as exiting the string.
+            # TODO: too sleepy to verify this - looks funky
             if c == b"\\":
                 s += self.source[self.idx:self.idx + 1]
                 self.idx += 1
@@ -97,11 +98,20 @@ class Lexer:
 
     def _tok_num(self):
         n = b""
-        while self.idx < len(self.source) and self.source[self.idx] in b"." + self.NUM:
-            c = self.source[self.idx:self.idx + 1]
-            if c == b"." and n.count(b".") != 0: break
-            n += c
+        # Leading zeroes are seperate tokens (in a golf language a leading zero is never useful):
+        if self.source[self.idx] == b"0":
+            n += b"0"
             self.idx += 1
+
+            if self.idx < len(self.source) and self.source[self.idx] in b".":
+                n += b"."
+                self.idx += 1
+        else:
+            while self.idx < len(self.source) and self.source[self.idx] in b"." + self.NUM:
+                c = self.source[self.idx:self.idx + 1]
+                if c == b"." and n.count(b".") != 0: break
+                n += c
+                self.idx += 1
 
         if n.endswith(b".") and self.idx < len(self.source) and self.source[self.idx] not in b" \n":
             self.idx -= 1
