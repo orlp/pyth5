@@ -11,7 +11,7 @@
 
 BLOCK_TOKS = "#DEFIVW"
 
-ARITIES = [
+ARITIES = {
     "!":   1,
     "%":   2,
     "&":   2,
@@ -122,7 +122,7 @@ ARITIES = [
     ".(":  2,
     "._":  1,
     ".:":  2,
-]
+}
 
 
 class ASTNode:
@@ -138,7 +138,7 @@ class Parser:
         pass
 
     def parse(self):
-        return parse_block(True)
+        return self.parse_block(True)
 
     def parse_block(self, root=False):
         implicit_print = True
@@ -158,7 +158,8 @@ class Parser:
                     self.lex.get_token()
                     continue
 
-                if tok.data == ")": self.lex.get_token()
+                if tok.data == ")":
+                    self.lex.get_token()
                 break
             elif tok.type == "symb" and tok.data in BLOCK_TOKS:
                 children.append((self.parse_block(), False))
@@ -193,3 +194,5 @@ class Parser:
             arity -= 1
 
         return ASTNode("expr", tok.data, children)
+
+

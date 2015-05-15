@@ -13,3 +13,7 @@ Pyth is a compact programming language in polish (prefix) notation. It has five 
  - set, a sorted unique list of elements
 
 
+In Pyth string literals there are only two escape sequences:
+
+    \\ becomes regular backslash
+    \" becomes a single quote
