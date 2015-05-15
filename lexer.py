@@ -11,10 +11,9 @@ class Lexer:
     SYMB = b" !#%&'()*+,-/:;<=>?@[]^_`{|}~"
 
     def __init__(self, src):
+        self.cache = []
         self.idx = 0
         self.src = src
-        self.cache = []
-
         self._preprocess()
 
     def has_token(self):
@@ -116,13 +115,13 @@ class Lexer:
         self.idx += 1
         return self.src[self.idx-1:self.idx]
 
-    def _preprocess(self, src):
+    def _preprocess(self):
         # Finite state machine.
         binstring = False
         string = False
 
         # Meta command results.
-        end_meta = -1
+        end_meta = None
 
         lines = [b""]
         while self._hasc():
@@ -178,7 +177,7 @@ class Lexer:
                     # Meta-command.
                     if comment.startswith(b"#"):
                         meta = comment[1:].strip()
-                        if meta == b"end" and end_meta == -1:
+                        if meta == b"end" and end_meta is None:
                             end_meta = len(lines) - 1
 
                 # Regular characters.
@@ -201,7 +200,7 @@ class Lexer:
                             lines[-1] += b"\n" if c in b"\r\n" else c
 
         # Handle the end metacommand.
-        if end_meta != -1:
+        if end_meta is not None:
             lines = lines[:end_meta]
 
         # Strip all trailing whitespace and an even amount of spaces from the
@@ -215,13 +214,14 @@ class Lexer:
         # next line begins in a number.
         linenr = 0
         while linenr + 1 < len(lines):
-            if not (lines[linenr][-1] in b".0123456789" and lines[linenr + 1][:1].isdigit()):
+            if not (lines[linenr][-1] in b".0123456789" and
+                    lines[linenr + 1][:1].isdigit()):
                 lines[linenr] += lines.pop(linenr + 1)
             else:
                 linenr += 1
 
-        return b"\n".join(lines)
-
+        self.src = b"\n".join(lines)
+        self.idx = 0
 
 
 lex = Lexer(open("test.pyth", "rb").read())

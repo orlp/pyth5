@@ -1,19 +1,30 @@
+Pyth is a compact programming language in polish (prefix) notation. It has five data types:
+
+ - int, an integer number
+ - float, a floating point number
+ - complex, a complex floating point number
+ - str, a string of characters
+ - list, an ordered list of elements
+
 Lines that start with ";" are comments. Whitespace followed by ";" means that the rest of the line
 is a comment. Lines starting with ";#" are meta-commands. There is one valid meta command as of now:
 
     ;# end
     Everything after this line is ignored by the interpreter, except meta-commands.
 
-Pyth is a compact programming language in polish (prefix) notation. It has five data types:
+The interpreter ignores an even amount of spaces at the start of the line - you can use this to
+indent. This is purely for aesthetics.
 
- - int, an integer number
- - float, a floating point number
- - str, a string of characters
- - list, an ordered list of elements
- - set, a sorted unique list of elements
+We will use the following typenames in the docs - these aren't concrete types, they're names for a
+set of types:
 
+ - real: int, float
+ - num: int, float, complex
+ - seq: str, list
 
 In Pyth string literals there are only two escape sequences:
 
     \\ becomes regular backslash
     \" becomes a single quote
+
+All other characters like newlines, tabs, etc must (and can be) embedded in string literals.
