@@ -1,3 +1,9 @@
+EXPR_FUNC = {
+    "+": "add",
+    "*": "mul",
+}
+
+
 class CodegenError(Exception):
     pass
 
@@ -7,7 +13,16 @@ def gen_preamble(ast):
 
 
 def gen_expr(ast):
-    return ""
+    assert ast.type == "expr" or ast.type == "lit"
+
+    if ast.type == "lit":
+        return ast.data
+
+    if ast.data in EXPR_FUNC:
+        children = map(gen_expr, ast.children)
+        return "{}({})".format(EXPR_FUNC[ast.data], ", ".join(children))
+
+    raise CodegenError("not implemented yet: '{}'".format(ast.data))
 
 
 def gen_block(ast, level=0):

@@ -1,8 +1,6 @@
-Pyth is a compact programming language in polish (prefix) notation. It has five data types:
+Pyth is a compact programming language in polish (prefix) notation. It has three data types:
 
  - int, an integer number
- - float, a floating point number
- - complex, a complex floating point number
  - str, a string of characters
  - list, an ordered list of elements
 
@@ -18,8 +16,6 @@ indent. This is purely for aesthetics.
 We will use the following typenames in the docs - these aren't concrete types, they're names for a
 set of types:
 
- - real: int, float
- - num: int, float, complex
  - seq: str, list
 
 In Pyth string literals there are only two escape sequences:

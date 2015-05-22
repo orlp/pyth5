@@ -1,11 +1,22 @@
+import argparse
+
 import lexer
 import parser
 import codegen
+import env
 
 
-lex = lexer.Lexer(open("test.pyth", "rb").read())
-ast = parser.parse(lex)
+def cli():
+    argparser = argparse.ArgumentParser(description="Pyth interpreter.")
+    argparser.add_argument("file", help="Pyth file to run")
+    args = argparser.parse_args()
 
+    with open(args.file, "rb") as source:
+        lex = lexer.Lexer(source.read())
+        ast = parser.parse(lex)
+        code = codegen.gen_code(ast)
+        env.run(code)
 
-print(ast)
-print(codegen.gen_code(ast))
+if __name__ == "__main__":
+    cli()
+
