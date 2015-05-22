@@ -2,6 +2,9 @@ import re
 import collections
 
 
+class LexerError(Exception):
+    pass
+
 Token = collections.namedtuple("Token", ["type", "data"])
 
 
@@ -23,10 +26,8 @@ class Lexer:
         return self._hasc()
 
     def peek_token(self, ahead=0):
-        idx = self.idx
         while len(self.cache) <= ahead:
             self.cache.append(self.get_token(ignore_cache=True))
-        self.idx = idx
         return self.cache[ahead]
 
     def get_token(self, *args, ignore_cache=False):
@@ -38,7 +39,7 @@ class Lexer:
             self.idx += 1
 
         if not self._hasc():
-            raise RuntimeError("expected character, found EOF")
+            raise LexerError("expected character, found EOF")
 
         c = self._getc()
         if c.lower() in self.ALPHA + self.SYMB:
@@ -55,12 +56,12 @@ class Lexer:
         if c == b".":
             return self._tok_dot()
 
-        raise RuntimeError(
+        raise LexerError(
             "unexpected character while parsing tokens: {:x}".format(c[0]))
 
     def _tok_dot(self):
         if self.idx >= len(self.src):
-            raise RuntimeError("expected character after '.', found EOF")
+            raise LexerError("expected character after '.', found EOF")
 
         c = self._getc()
         if c == b"\"":
@@ -203,6 +204,10 @@ class Lexer:
         if end_meta is not None:
             lines = lines[:end_meta]
 
+        self.src = self._preprocess_whitespace(lines)
+        self.idx = 0
+
+    def _preprocess_whitespace(self, lines):
         # Strip all trailing whitespace and an even amount of spaces from the
         # beginning.
         lines = [re.sub(b"^((  )|\t)*", b"", line.rstrip()) for line in lines]
@@ -211,7 +216,7 @@ class Lexer:
         lines = [line for line in lines if line.strip()]
 
         # Concatenate lines, unless a line ends in a number or period and the
-        # next line begins in a number.
+        # next line begins in a number (the only time a newline is necessary).
         linenr = 0
         while linenr + 1 < len(lines):
             if not (lines[linenr][-1] in b".0123456789" and
@@ -220,11 +225,4 @@ class Lexer:
             else:
                 linenr += 1
 
-        self.src = b"\n".join(lines)
-        self.idx = 0
-
-
-lex = Lexer(open("test.pyth", "rb").read())
-while lex.has_token():
-    tok = lex.get_token()
-    print(tok.type, tok.data)
+        return b"\n".join(lines)
