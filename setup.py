@@ -6,7 +6,7 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open("pyth/pyth.py").read(),
+    open("pyth_lang/pyth.py").read(),
     re.M).group(1)
 
 
@@ -15,9 +15,9 @@ with open("README.rst", "rb") as f:
 
 
 setup(
-    name="pyth",
-    packages=["pyth"],
-    entry_points={"console_scripts": ['pyth = pyth.pyth:cli']},
+    name="pyth-lang",
+    packages=["pyth_lang"],
+    entry_points={"console_scripts": ["pyth=pyth_lang.pyth:cli"]},
     version=version,
     description="Pyth programming language.",
     long_description=long_descr,
