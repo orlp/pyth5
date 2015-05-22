@@ -35,7 +35,7 @@ def gen_block(ast, level=0):
         elif child.type == "expr":
             child_code = gen_expr(child)
         elif child.type == "lit":
-            child_code = child
+            child_code = child.data
         else:
             raise CodegenError("unknown child type: '{}'".format(child.type))
 
