@@ -8,7 +8,7 @@ from . import codegen
 from . import env
 
 
-__version__ = "5.0"
+__version__ = "5.0preview0"
 
 
 def run_code(source, stdin=""):

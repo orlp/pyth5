@@ -3,8 +3,8 @@ Pyth
 
 Pyth, an extremely concise language.
 
-Install Pyth
-------------
+Installing Pyth
+---------------
 On Windows, add ``%APPDATA%\Python\Scripts`` to your PATH. On linux add ``~/.local/bin/`` to your PATH.
 
 Then, to install or update Pyth as a user from PyPi, use::
@@ -26,3 +26,11 @@ If you want to help develop Pyth, install the package as editable, so your chang
 For all of the above, to uninstall Pyth run::
 
     pip3 uninstall pyth-lang
+
+Using Pyth
+----------
+Pyth is invoked using the ``pyth`` command. Use ``pyth --help`` to see its usage.
+
+To run the Pyth testsuite run ``python3 -m unittest`` from the source directory, or
+``python3 -m unittest pyth_lang.test`` from anywhere. You can run only the tests for, say, ``+`` by
+running ``python3 -m unittest pyth_lang.test.Add``.

@@ -67,6 +67,17 @@ class BinString(metaclass=PythTest):
     """
 
 
+# ]
+class OneList(metaclass=PythTest):
+    r"""
+    ]5
+    [5]
+    ---
+    ]]]"test"
+    [[["test"]]]
+    """
+
+
 # +
 class Add(metaclass=PythTest):
     r"""
