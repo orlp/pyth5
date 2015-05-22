@@ -1,20 +1,23 @@
-Pyth is a compact programming language in polish (prefix) notation. It has three data types:
+Pyth is a compact programming language in polish (prefix) notation. It has three
+data types:
 
- - int, an integer number
+ - real, a real number
  - str, a string of characters
  - list, an ordered list of elements
 
-Lines that start with ";" are comments. Whitespace followed by ";" means that the rest of the line
-is a comment. Lines starting with ";#" are meta-commands. There is one valid meta command as of now:
+Lines that start with ";" are comments. Whitespace followed by ";" means that
+the rest of the line is a comment. Lines starting with ";#" are meta-commands.
+There is one valid meta command as of now:
 
     ;# end
-    Everything after this line is ignored by the interpreter, except meta-commands.
+    Everything after this line is ignored by the interpreter, except
+    meta-commands.
 
-The interpreter ignores an even amount of spaces at the start of the line - you can use this to
-indent. This is purely for aesthetics.
+The interpreter ignores an even amount of spaces at the start of the line - you
+can use this to indent. This is purely for aesthetics.
 
-We will use the following typenames in the docs - these aren't concrete types, they're names for a
-set of types:
+We will use the following typenames in the docs - these aren't concrete types,
+they're names for a set of types:
 
  - seq: str, list
 
@@ -23,4 +26,20 @@ In Pyth string literals there are only two escape sequences:
     \\ becomes regular backslash
     \" becomes a single quote
 
-All other characters like newlines, tabs, etc must (and can be) embedded in string literals.
+All other characters like newlines, tabs, etc must (and can be) embedded in
+string literals.
+
+0123456789 are used in numeric literals. A leading zero is a separate token, so
+*01 is actually 0 * 1.
+
+Now comes a listing of every Pyth operator. Column by column it respectively
+contains the operator, the arity (U is unbounded, S is special), the mnemonic
+and a description.
+
+   0 blank   Seperates tokens and surpresses printing.
+\n 0 newline Seperates tokens without surpressing printing.
++  2 add     On both same type, Python +.
+             On any/list or list/any respectively prepend/append.
+             On real/str or str/real convert to str and concatenate.
+*  2 mul     Python *. On real/seq or seq/real truncate real beforehand.
+

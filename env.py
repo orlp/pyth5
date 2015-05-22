@@ -1,8 +1,20 @@
 import collections.abc
 
 
+class BadTypeCombinationError(Exception):
+    def __init__(self, func, *args):
+        self.func = func
+        self.args = args
+
+    def __str__(self):
+        error_message = "\n    function '{}'".format(self.func)
+        for i, arg in enumerate(self.args):
+            error_message += "\n    arg {}: {!r}, type {}.".format(i + 1, arg, type(arg).__name__)
+        return error_message
+
+
 # Helper functions.
-def isint(obj):
+def isreal(obj):
     return isinstance(obj, int)
 
 
@@ -22,7 +34,7 @@ def issig(pattern, *objs):
     """Helper function to check the signature of the objects.
 
         a = any
-        i = int
+        r = real
         s = str
         l = list
         q = seq
@@ -32,7 +44,7 @@ def issig(pattern, *objs):
 
     checkers = {
         "a": lambda o: True,
-        "i": isint,
+        "r": isreal,
         "s": isstr,
         "l": islist,
         "q": isseq,
@@ -52,10 +64,10 @@ def add(a, b):
     if issig("la", a, b):
         return a + [b]
 
-    if issig("is", a, b) or issig("si", a, b):
+    if issig("rs", a, b) or issig("sr", a, b):
         return str(a) + str(b)
 
-
+    raise BadTypeCombinationError("add", a, b)
 
 
 # *.

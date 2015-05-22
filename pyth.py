@@ -24,14 +24,11 @@ def run_code(source, stdin=""):
         sys.stdout = sys.__stdout__
         sys.stdin = sys.__stdin__
 
-    print(result)
-
     return result, error
 
 
 def interpret(source):
     lex = lexer.Lexer(source)
-    print(parser)
     ast = parser.parse(lex)
     code = codegen.gen_code(ast)
     env.run(code)
@@ -43,7 +40,7 @@ def cli():
     args = argparser.parse_args()
 
     with open(args.file, "rb") as source:
-        interpret(source)
+        interpret(source.read())
 
 if __name__ == "__main__":
     cli()

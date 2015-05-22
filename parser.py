@@ -2,6 +2,7 @@ BLOCK_TOKS = ""
 
 ARITIES = {
     "+": 2,
+    "*": 2,
 }
 
 
