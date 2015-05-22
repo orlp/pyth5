@@ -1,4 +1,6 @@
-__pycache__/
-tags
-pyth_lang.egg-info
 /dist
+pyth_lang.egg-info
+__pycache__/
+*.pyc
+*.pyo
+tags
