@@ -2,10 +2,13 @@ import argparse
 import io
 import sys
 
-import lexer
-import parser
-import codegen
-import env
+from . import lexer
+from . import parser
+from . import codegen
+from . import env
+
+
+__version__ = "5.0"
 
 
 def run_code(source, stdin=""):
