@@ -107,7 +107,7 @@ class String(metaclass=PythTest):
 # (
 # )
 # *
-class Mul(metaclass=PythTest):
+class Times(metaclass=PythTest):
     r"""
     *3 5
     15
@@ -121,7 +121,7 @@ class Mul(metaclass=PythTest):
 
 
 # +
-class Add(metaclass=PythTest):
+class Plus(metaclass=PythTest):
     r"""
     +3 5
     8
@@ -138,7 +138,33 @@ class Add(metaclass=PythTest):
 
 
 # ,
+class Pair(metaclass=PythTest):
+    r"""
+    ,
+    []
+    ---
+    ,42
+    [42]
+    ---
+    ,"foo""bar"
+    ['foo', 'bar']
+    ---
+    ,,42 5
+    [[42, 5]]
+    """
+
+
 # -
+class Minus(metaclass=PythTest):
+    r"""
+    -10 5
+    5
+    ---
+    -10)
+    -10
+    """
+
+
 # /
 # :
 # ;
@@ -148,6 +174,20 @@ class Add(metaclass=PythTest):
 # ?
 # @
 # [
+class List(metaclass=PythTest):
+    r"""
+    [
+    []
+    ---
+    [0
+    [0]
+    ---
+    ["foo""bar")[10 20
+    ['foo', 'bar']
+    [10, 20]
+    """
+
+
 # \
 class OneString(metaclass=PythTest):
     r"""

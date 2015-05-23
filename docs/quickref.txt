@@ -21,51 +21,57 @@ they're names for a set of types:
 
  - seq: str, list
 
-In Pyth string literals there are only two escape sequences:
+In multi-character Pyth string literals (") there are only two escape sequences:
 
     \\ becomes regular backslash
     \" becomes a single quote
 
-All other characters like newlines, tabs, etc must (and can be) embedded in
-string literals.
+All other characters like newlines, tabs, etc must (and can) be directly
+embedded in string literals.
 
 0123456789 are used in numeric literals. A leading zero is a separate token, so
 *01 is actually 0 * 1.
 
-Now comes a listing of every Pyth operator. Column by column it respectively
-contains the operator, the arity (U is unbounded, S is special), the mnemonic
-and a description. In the description we will use a, b, etc as respectively the
+A lot of functions can have less arguments than their arity. This is done
+through the closing symbols ) and ;. Pyth automatically closes every symbol
+that's still left open at the end of the file - this is not an error.
+
+Now comes a listing of every Pyth symbol. Column by column it respectively
+contains the symbol, the arity (U is unbounded, S is special), the mnemonic and
+a description. In the description we will use a, b, etc as respectively the
 first, second, etc parameter.
 
-   0 blank    Seperates tokens and surpresses printing.
-\n 0 newline  Seperates tokens without surpressing printing.
- ! 1 not      Python not. Returns real: False -> 0, True -> 1.
- " 0 str      String literal.
+   0 blank     Seperates tokens and surpresses printing.
+\n 0 newline   Seperates tokens without surpressing printing.
+ ! 1 not       Python not. Returns real: False -> 0, True -> 1.
+ " 0 str       String literal.
  #
  $
  %
  &
  '
  (
- )
- * 2 mul      Python *. On real/seq or seq/real truncate real beforehand.
-              Cartesian product on seq/seq.
- + 2 add      On both same type, Python +.
-              On any/list or list/any respectively prepend/append.
-              On real/str or str/real convert to str and concatenate.
- ,
- -
+ ) S close     Closes one open symbol or block. E.g.: [) becomes [] in Python.
+ * 2 times     Python *. On real/seq or seq/real truncate real beforehand.
+               Cartesian product on seq/seq.
+ + 2 plus      On both same type, Python +.
+               On any/list or list/any respectively prepend/append.
+               On real/str or str/real convert to str and concatenate.
+               On single real argument, absolute value. No argument is inf.
+ , 2 pair      Equivalent to Python [a, b].
+ - 2 minus     On real/real, Python -.
+               On single real, negative absolute value. No argument is -inf.
  /
  :
- ;
+ ; S close-all Closes all open symbols and blocks. Infinite ).
  <
  =
  >
  ?
  @
- [
- \ 0 one-str  One-character string literal.
- ] 1 one-list Equivalent to Python [a].
+ [ U list      Unbounded list literal. Close with ).
+ \ 0 one-str   One-character string literal.
+ ] 1 one-list  Equivalent to Python [a].
  ^
  _
  `

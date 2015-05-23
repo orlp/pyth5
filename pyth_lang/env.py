@@ -46,7 +46,7 @@ def issig(pattern, *objs):
     assert(len(pattern) == len(objs))
 
     checkers = {
-        'a': lambda o: True,
+        'a': lambda o: o is not None,
         'r': isreal,
         's': isstr,
         'l': islist,
@@ -70,7 +70,7 @@ def Pnot(a):
 # (
 # )
 # *
-def mul(a, b):
+def times(a, b):
     if issig('rr', a, b):
         return a * b
 
@@ -83,11 +83,17 @@ def mul(a, b):
     if issig('qq', a, b):
         return [list(tup) for tup in itertools.product(a, b)]
 
-    raise BadTypeCombinationError('mul', a, b)
+    raise BadTypeCombinationError('times', a, b)
 
 
 # +
-def add(a, b):
+def plus(a=None, b=None):
+    if a is None and b is None:
+        return float('inf')
+
+    if b is None and isreal(a):
+        return abs(a)
+
     if type(a) is type(b):
         return a + b
 
@@ -100,11 +106,34 @@ def add(a, b):
     if issig('rs', a, b) or issig('sr', a, b):
         return str(a) + str(b)
 
-    raise BadTypeCombinationError('add', a, b)
+    raise BadTypeCombinationError('plus', a, b)
 
 
 # ,
+def pair(a=None, b=None):
+    if a is None and b is None:
+        return []
+
+    if b is None:
+        return [a]
+
+    return [a, b]
+
+
 # -
+def minus(a=None, b=None):
+    if a is None and b is None:
+        return -float('inf')
+
+    if b is None and isreal(a):
+        return -abs(a)
+
+    if issig('rr', a, b):
+        return a - b
+
+    raise BadTypeCombinationError('minus', a, b)
+
+
 # /
 # :
 # ;
@@ -147,7 +176,8 @@ def one_list(a=None):
 # o
 # p
 def Pprint(a, b='\n'):
-    print(a, end=b)
+    if a is not None:
+        print(a, end=b)
 
 
 # q

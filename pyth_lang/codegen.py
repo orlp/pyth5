@@ -1,7 +1,9 @@
 EXPR_FUNC = {
     '!': 'Pnot',
-    '*': 'mul',
-    '+': 'add',
+    '*': 'times',
+    '+': 'plus',
+    ',': 'pair',
+    '-': 'minus',
     ']': 'one_list',
 }
 
@@ -20,6 +22,8 @@ def gen_expr(ast):
     if ast.type == 'lit':
         return ast.data
 
+    if ast.data == "[":
+        return '[{}]'.format(', '.join(map(gen_expr, ast.children)))
     if ast.data in EXPR_FUNC:
         children = map(gen_expr, ast.children)
         return '{}({})'.format(EXPR_FUNC[ast.data], ', '.join(children))
