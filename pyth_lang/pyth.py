@@ -8,16 +8,16 @@ from . import codegen
 from . import env
 
 
-__version__ = "5.0preview0"
+__version__ = '5.0preview0'
 
 
-def run_code(source, stdin=""):
+def run_code(source, stdin=''):
     error = None
 
     try:
         sys.stdout = io.StringIO()
         sys.stdin = io.StringIO(stdin)
-        interpret(source.encode("utf-8"))
+        interpret(source.encode('utf-8'))
     except SystemExit:
         pass
     except Exception as e:
@@ -38,12 +38,12 @@ def interpret(source):
 
 
 def cli():
-    argparser = argparse.ArgumentParser(description="Pyth interpreter.")
-    argparser.add_argument("file", help="Pyth file to run")
+    argparser = argparse.ArgumentParser(description='Pyth interpreter.')
+    argparser.add_argument('file', help='Pyth file to run')
     args = argparser.parse_args()
 
-    with open(args.file, "rb") as source:
+    with open(args.file, 'rb') as source:
         interpret(source.read())
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     cli()

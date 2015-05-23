@@ -34,12 +34,177 @@ string literals.
 
 Now comes a listing of every Pyth operator. Column by column it respectively
 contains the operator, the arity (U is unbounded, S is special), the mnemonic
-and a description.
+and a description. In the description we will use a, b, etc as respectively the
+first, second, etc parameter.
 
-   0 blank   Seperates tokens and surpresses printing.
-\n 0 newline Seperates tokens without surpressing printing.
-+  2 add     On both same type, Python +.
-             On any/list or list/any respectively prepend/append.
-             On real/str or str/real convert to str and concatenate.
-*  2 mul     Python *. On real/seq or seq/real truncate real beforehand.
-
+   0 blank    Seperates tokens and surpresses printing.
+\n 0 newline  Seperates tokens without surpressing printing.
+ !
+ " 0 str      String literal.
+ #
+ $
+ %
+ &
+ '
+ (
+ )
+ * 2 mul      Python *. On real/seq or seq/real truncate real beforehand.
+              Cartesian product on seq/seq.
+ + 2 add      On both same type, Python +.
+              On any/list or list/any respectively prepend/append.
+              On real/str or str/real convert to str and concatenate.
+ ,
+ -
+ /
+ :
+ ;
+ <
+ =
+ >
+ ?
+ @
+ [
+ \ 0 one-str  One-character string literal.
+ ] 1 one-list Equivalent to Python [a].
+ ^
+ _
+ `
+ {
+ |
+ }
+ ~
+ a
+ b
+ c
+ d
+ e
+ f
+ g
+ h
+ i
+ j
+ k
+ l
+ m
+ n
+ o
+ p
+ q
+ r
+ s
+ t
+ u
+ v
+ w
+ x
+ y
+ z
+ A
+ B
+ C
+ D
+ E
+ F
+ G
+ H
+ I
+ J
+ K
+ L
+ M
+ N
+ O
+ P
+ Q
+ R
+ S
+ T
+ U
+ V
+ W
+ X
+ Y
+ Z
+.!
+."
+.#
+.$
+.%
+.&
+.'
+.(
+.)
+.*
+.+
+.,
+.-
+./
+.:
+.;
+.<
+.=
+.>
+.?
+.@
+.[
+.\
+.]
+.^
+._
+.`
+.{
+.|
+.}
+.~
+.a
+.b
+.c
+.d
+.e
+.f
+.g
+.h
+.i
+.j
+.k
+.l
+.m
+.n
+.o
+.p
+.q
+.r
+.s
+.t
+.u
+.v
+.w
+.x
+.y
+.z
+.A
+.B
+.C
+.D
+.E
+.F
+.G
+.H
+.I
+.J
+.K
+.L
+.M
+.N
+.O
+.P
+.Q
+.R
+.S
+.T
+.U
+.V
+.W
+.X
+.Y
+.Z

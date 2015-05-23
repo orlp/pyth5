@@ -1,8 +1,16 @@
+# To stay consistent, we keep all symbols in the following order where possible:
+# <space>
+# <newline>
+# !"#$%&'()*+,-/:;<=>?@[\]^_`{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+# <.symbols>
+
+
 BLOCK_TOKS = ""
 
 ARITIES = {
-    "+": 2,
     "*": 2,
+    "+": 2,
+    "]": 1,
 }
 
 
@@ -23,6 +31,9 @@ class ASTNode:
                 child = child[0]
             r += "\n" + child.__str__(level + 1)
         return r
+
+    def __repr__(self):
+        return "ASTNode({!r}, {!r}, {!r})".format(self.type, self.data, self.children)
 
 
 def parse_symbol(lex):
