@@ -154,6 +154,16 @@ def one_list(a=None):
 
 # ^
 # _
+def neg(a):
+    if isreal(a):
+        return -a
+
+    if isseq(a):
+        return a[::-1]
+
+    raise BadTypeCombinationError('neg', a)
+
+
 # `
 # {
 # |
@@ -176,8 +186,18 @@ def one_list(a=None):
 # o
 # p
 def Pprint(a, b='\n'):
-    if a is not None:
+    if a is None:
+        return
+
+    if issig("ss", a, b):
         print(a, end=b)
+        return
+
+    if issig("as", a, b):
+        print(repr(a), end=b)
+        return
+
+    raise BadTypeCombinationError('Pprint', a, b)
 
 
 # q

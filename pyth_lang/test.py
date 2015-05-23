@@ -134,6 +134,15 @@ class Plus(metaclass=PythTest):
     ---
     +99" bottles"
     99 bottles
+    ---
+    +_42)
+    42
+    ---
+    +10
+    10
+    ---
+    +)
+    inf
     """
 
 
@@ -162,6 +171,12 @@ class Minus(metaclass=PythTest):
     ---
     -10)
     -10
+    ---
+    -_42
+    -42
+    ---
+    -)
+    -inf
     """
 
 
@@ -218,6 +233,25 @@ class OneList(metaclass=PythTest):
 
 # ^
 # _
+class Neg(metaclass=PythTest):
+    r"""
+    _5
+    -5
+    ---
+    __42
+    42
+    ---
+    _"foobar
+    raboof
+    ---
+    __"ni
+    ni
+    ---
+    _,2 3
+    [3, 2]
+    """
+
+
 # `
 # {
 # |
