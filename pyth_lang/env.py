@@ -197,6 +197,10 @@ def Pprint(a, b='\n'):
         print(repr(a), end=b)
         return
 
+    if issig("sa", a, b):
+        print(a, end=repr(b))
+        return
+
     raise BadTypeCombinationError('Pprint', a, b)
 
 

@@ -273,6 +273,28 @@ class Neg(metaclass=PythTest):
 # n
 # o
 # p
+class Print(metaclass=PythTest):
+    r"""
+    p10
+    10
+    ---
+    p]10
+    [10]
+    ---
+    p"test"
+    test
+    ---
+    p10"test"
+    10test
+    ---
+    p"foo""bar"
+    foobar
+    ---
+    p"pier "10
+    pier 10
+    """
+
+
 # q
 # r
 # s
