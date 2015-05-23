@@ -3,9 +3,31 @@ import unittest
 from . import pyth
 
 
+class PythTestBase:
+    def assert_expected(self, source, expected, stdin=""):
+        try:
+            result, error = pyth.run_code(source, stdin)
+            if error is not None:
+                raise error
+
+            # Strip trailing newline.
+            if result.endswith('\n'):
+                result = result[:-1]
+
+            self.assertEqual(expected, result)
+        except Exception as e:
+            msg = e.args[0]
+            msg += '\n-- source --\n{}'.format(source)
+            if stdin:
+                msg += '\n-- stdin --\n{}'.format(stdin)
+            e.args = (msg,) + e.args[1:]
+            raise e
+
+
 class PythTest(type):
     def __new__(cls, name, bases, classdict):
-        bases = bases + (unittest.TestCase,)
+        bases = bases + (unittest.TestCase, PythTestBase)
+
         if '__doc__' in classdict:
             actual_text = '\n'.join(line[4:] for line in classdict['__doc__'].split('\n')[1:-1])
             auto_tests = actual_text.split('\n---\n')
@@ -20,15 +42,7 @@ class PythTest(type):
     @classmethod
     def gen_test(cls, source, expected):
         def test_code(self):
-            result, error = pyth.run_code(source)
-            if error is not None:
-                raise error
-
-            # Strip trailing newline.
-            if result.endswith('\n'):
-                result = result[:-1]
-
-            self.assertEqual(expected, result, source)
+            self.assert_expected(source, expected)
 
         return test_code
 
@@ -41,92 +55,201 @@ class Blank(metaclass=PythTest):
      "test"
     """
 
+
 # \n
-#  !
-#  "
-#  #
-#  $
-#  %
-#  &
-#  '
-#  (
-#  )
-#  *
-#  +
-#  ,
-#  -
-#  /
-#  :
-#  ;
-#  <
-#  =
-#  >
-#  ?
-#  @
-#  [
-#  \
-#  ]
-#  ^
-#  _
-#  `
-#  {
-#  |
-#  }
-#  ~
-#  a
-#  b
-#  c
-#  d
-#  e
-#  f
-#  g
-#  h
-#  i
-#  j
-#  k
-#  l
-#  m
-#  n
-#  o
-#  p
-#  q
-#  r
-#  s
-#  t
-#  u
-#  v
-#  w
-#  x
-#  y
-#  z
-#  A
-#  B
-#  C
-#  D
-#  E
-#  F
-#  G
-#  H
-#  I
-#  J
-#  K
-#  L
-#  M
-#  N
-#  O
-#  P
-#  Q
-#  R
-#  S
-#  T
-#  U
-#  V
-#  W
-#  X
-#  Y
-#  Z
+class Newline(metaclass=PythTest):
+    def test_newline(self):
+        self.assert_expected("1\n2", "1\n2")
+
+
+# !
+class Not(metaclass=PythTest):
+    r"""
+    !0
+    1
+    ---
+    !]
+    1
+    ---
+    !""
+    1
+    ---
+    !42
+    0
+    ---
+    !]]
+    0
+    ---
+    !"foo"
+    0
+    """
+
+
+# "
+class String(metaclass=PythTest):
+    r"""
+    ""
+
+    ---
+    "test"
+    test
+    ---
+    "ye
+    ye
+    """
+
+
+# #
+# $
+# %
+# &
+# '
+# (
+# )
+# *
+class Mul(metaclass=PythTest):
+    r"""
+    *3 5
+    15
+    ---
+    *3"ni"
+    ninini
+    ---
+    *." "5
+    [32, 32, 32, 32, 32]
+    """
+
+
+# +
+class Add(metaclass=PythTest):
+    r"""
+    +3 5
+    8
+    ---
+    ++"hello"", ""world"
+    hello, world
+    ---
+    +"the answer is "42
+    the answer is 42
+    ---
+    +99" bottles"
+    99 bottles
+    """
+
+
+# ,
+# -
+# /
+# :
+# ;
+# <
+# =
+# >
+# ?
+# @
+# [
+# \
+class OneString(metaclass=PythTest):
+    r"""
+    \a
+    a
+    ---
+    \\
+    \
+    """
+
+
+# ]
+class OneList(metaclass=PythTest):
+    r"""
+    ]5
+    [5]
+    ---
+    ]]]"test"
+    [[['test']]]
+    ---
+    ]
+    []
+    ---
+    ]]
+    [[]]
+    """
+
+
+# ^
+# _
+# `
+# {
+# |
+# }
+# ~
+# a
+# b
+# c
+# d
+# e
+# f
+# g
+# h
+# i
+# j
+# k
+# l
+# m
+# n
+# o
+# p
+# q
+# r
+# s
+# t
+# u
+# v
+# w
+# x
+# y
+# z
+# A
+# B
+# C
+# D
+# E
+# F
+# G
+# H
+# I
+# J
+# K
+# L
+# M
+# N
+# O
+# P
+# Q
+# R
+# S
+# T
+# U
+# V
+# W
+# X
+# Y
+# Z
 # .!
 # ."
+class BinString(metaclass=PythTest):
+    r"""
+    .""
+    []
+    ---
+    ." "
+    [32]
+    ---
+    ."test"
+    [116, 101, 115, 116]
+    """
+
+
 # .#
 # .$
 # .%
@@ -208,89 +331,3 @@ class Blank(metaclass=PythTest):
 # .X
 # .Y
 # .Z
-
-
-
-
-
-
-
-
-# " and \
-class String(metaclass=PythTest):
-    r"""
-    ""
-
-    ---
-    "test"
-    test
-    ---
-    "ye
-    ye
-    ---
-    \a
-    a
-    ---
-    \\
-    \
-    """
-
-
-# ."
-class BinString(metaclass=PythTest):
-    r"""
-    .""
-    []
-    ---
-    ." "
-    [32]
-    ---
-    ."test"
-    [116, 101, 115, 116]
-    """
-
-
-# ]
-class OneList(metaclass=PythTest):
-    r"""
-    ]5
-    [5]
-    ---
-    ]]]"test"
-    [[['test']]]
-    """
-
-
-# +
-class Add(metaclass=PythTest):
-    r"""
-    +3 5
-    8
-    ---
-    ++"hello"", ""world"
-    hello, world
-    ---
-    +"the answer is "42
-    the answer is 42
-    ---
-    +99" bottles"
-    99 bottles
-    """
-
-
-# *
-class Mul(metaclass=PythTest):
-    r"""
-    *3 5
-    15
-    ---
-    *3"ni"
-    ninini
-    ---
-    *." "5
-    [32, 32, 32, 32, 32]
-    """
-
-
-if __name__ == '__main__':
-    unittest.main()

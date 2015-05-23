@@ -39,7 +39,7 @@ first, second, etc parameter.
 
    0 blank    Seperates tokens and surpresses printing.
 \n 0 newline  Seperates tokens without surpressing printing.
- !
+ ! 1 not      Python not. Returns real: False -> 0, True -> 1.
  " 0 str      String literal.
  #
  $

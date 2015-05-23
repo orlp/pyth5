@@ -57,6 +57,10 @@ def issig(pattern, *objs):
 
 
 # !
+def Pnot(a):
+    return int(not a)
+
+
 # '
 # #
 # $
@@ -112,7 +116,10 @@ def add(a, b):
 # [
 # \
 # ]
-def one_list(a):
+def one_list(a=None):
+    if a is None:
+        return []
+
     return [a]
 
 
@@ -180,7 +187,6 @@ def Pprint(a, b='\n'):
 # Y
 # Z
 # .!
-# ."
 # .#
 # .$
 # .%

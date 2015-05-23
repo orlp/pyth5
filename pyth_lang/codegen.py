@@ -1,4 +1,5 @@
 EXPR_FUNC = {
+    '!': 'Pnot',
     '*': 'mul',
     '+': 'add',
     ']': 'one_list',
