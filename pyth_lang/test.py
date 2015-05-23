@@ -291,6 +291,19 @@ class Neg(metaclass=PythTest):
 
 
 # `
+class Repr(metaclass=PythTest):
+    r"""
+    `5
+    5
+    ---
+    `"foo"
+    'foo'
+    ---
+    `p""
+    None
+    """
+
+
 # {
 # |
 # }

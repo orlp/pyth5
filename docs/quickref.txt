@@ -74,7 +74,7 @@ first, second, etc parameter.
  ] 1 one-list  Equivalent to Python [a].
  ^
  _ 1 neg       Negation on real. Reverse on sequence.
- `
+ ` 1 repr      Python repr.
  {
  |
  }
