@@ -1,7 +1,8 @@
 /dist
-pyth_lang.egg-info
+/.coverage
+/cover
+/pyth_lang.egg-info
 __pycache__/
 *.pyc
 *.pyo
 tags
-.coverage
