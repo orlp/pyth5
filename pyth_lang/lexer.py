@@ -19,6 +19,9 @@ class Lexer:
         self.src = src
         self._preprocess()
 
+    def preprocessed_source(self):
+        return self.src
+
     def has_token(self):
         # Newlines only seperate tokens, just ignore.
         while self._hasc() and self._peekc() == b'\n':
