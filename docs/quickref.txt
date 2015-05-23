@@ -94,7 +94,7 @@ first, second, etc parameter.
  m
  n
  o
- p
+ p 1 print     Print without trailing newline.
  q
  r
  s

@@ -48,7 +48,7 @@ def gen_block(ast, level=0):
             raise CodegenError("unknown child type: '{}'".format(child.type))
 
         if implicit_print:
-            child_code = 'Pprint(' + child_code + ')'
+            child_code = 'autoprint(' + child_code + ')'
 
         lines.append(child_code)
 

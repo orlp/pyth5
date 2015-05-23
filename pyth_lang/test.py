@@ -106,6 +106,17 @@ class String(metaclass=PythTest):
 # '
 # (
 # )
+class Close(metaclass=PythTest):
+    r"""
+    [5)10
+    [5]
+    10
+    ---
+    [[5)10
+    [[5], 10]
+    """
+
+
 # *
 class Times(metaclass=PythTest):
     r"""
@@ -140,6 +151,15 @@ class Plus(metaclass=PythTest):
     ---
     +99" bottles"
     99 bottles
+    ---
+    +"test"[42 10 5
+    ['test', 42, 10, 5]
+    ---
+    +[3 2 1)"go"
+    [3, 2, 1, 'go']
+    ---
+    +[3 2 1)]]"go
+    [3, 2, 1, ['go']]
     ---
     +_42)
     42
@@ -189,6 +209,18 @@ class Minus(metaclass=PythTest):
 # /
 # :
 # ;
+class CloseAll(metaclass=PythTest):
+    r"""
+    [[5;10
+    [[5]]
+    10
+    ---
+    -+10;5
+    -10
+    5
+    """
+
+
 # <
 # =
 # >
@@ -298,6 +330,10 @@ class Print(metaclass=PythTest):
     ---
     p"pier "10
     pier 10
+    ---
+    p"no ""newline,""please
+    no newline,
+    please
     """
 
 

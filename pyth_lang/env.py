@@ -56,6 +56,11 @@ def issig(pattern, *objs):
     return all(checkers[t](o) for t, o in zip(pattern, objs))
 
 
+def autoprint(a):
+    if a is not None:
+        print(a)
+
+
 # !
 def Pnot(a):
     return int(not a)
@@ -188,23 +193,9 @@ def neg(a):
 # n
 # o
 # p
-def Pprint(a, b='\n'):
-    if a is None:
-        return
-
-    if issig("ss", a, b):
-        print(a, end=b)
-        return
-
-    if issig("as", a, b):
-        print(repr(a), end=b)
-        return
-
-    if issig("sa", a, b):
-        print(a, end=repr(b))
-        return
-
-    raise BadTypeCombinationError('Pprint', a, b)
+def Pprint(a=None):
+    if a is not None:
+        print(a, end="")
 
 
 # q
