@@ -80,6 +80,9 @@ def times(a, b):
     if issig('qr', a, b):
         return a * int(b)
 
+    if issig('ss', a, b):
+        return [p + q for p, q in itertools.product(a, b)]
+
     if issig('qq', a, b):
         return [list(tup) for tup in itertools.product(a, b)]
 
