@@ -12,6 +12,7 @@ EXPR_FUNC = {
     'p': 'Pprint',
     't': 'tail',
     'L': 'L',
+    'U': 'unary_range',
 }
 
 # Simple pattern with fixed arity.

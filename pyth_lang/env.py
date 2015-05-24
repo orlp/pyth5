@@ -304,6 +304,16 @@ def tail(a):
 # S
 # T
 # U
+def unary_range(a):
+    if isreal(a):
+        return list(real_to_range(a))
+
+    if isseq(a):
+        return list(range(len(a)))
+
+    raise BadTypeCombinationError('unary_range', a)
+
+
 # V
 # W
 # X

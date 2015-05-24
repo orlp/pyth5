@@ -558,6 +558,19 @@ class Lambda(metaclass=PythTest):
 # S
 # T
 # U
+class UnaryRange(metaclass=PythTest):
+    r"""
+    U[5 1 3
+    [0, 1, 2]
+    ---
+    U4
+    [0, 1, 2, 3]
+    ---
+    U_4
+    [-4, -3, -2, -1]
+    """
+
+
 # V
 # W
 # X
