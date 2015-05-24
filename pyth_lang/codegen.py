@@ -21,7 +21,6 @@ class CodegenError(Exception):
 class Codegen:
     def __init__(self, parser):
         self.ast = parser.parse()
-        self.seen_lambda = False
 
     def gen_code(self):
         return self._gen_block(self.ast)
