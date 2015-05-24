@@ -97,7 +97,7 @@ first, second, etc parameter.
  i
  j
  k
- l
+ l 1 len       Len on sequence. Log base 2 on real.
  m
  n
  o
