@@ -2,9 +2,9 @@ import argparse
 import io
 import sys
 
-from . import lexer
-from . import parser
-from . import codegen
+from .lexer import Lexer
+from .parser import Parser
+from .codegen import Codegen
 from . import env
 
 
@@ -12,10 +12,10 @@ __version__ = '5.0preview0'
 
 
 def interpret(source):
-    lex = lexer.Lexer(source)
-    ast = parser.parse(lex)
-    code = codegen.gen_code(ast)
-    env.run(code)
+    lexer = Lexer(source)
+    parser = Parser(lexer)
+    codegen = Codegen(parser)
+    env.run(codegen.gen_code())
 
 
 def run_code(source, stdin=''):
@@ -45,16 +45,17 @@ def cli():
     args = argparser.parse_args()
 
     with open(args.file, 'rb') as source:
-        lex = lexer.Lexer(source.read())
+        lexer = Lexer(source.read())
 
     if args.debug:
-        src = lex.preprocessed_source()
+        src = lexer.preprocessed_source()
         print('{:=^50}'.format(' ' + str(len(src)) + ' bytes '))
         print(src.decode(sys.stdout.encoding, errors='ignore'))
         print('='*50)
 
-    ast = parser.parse(lex)
-    code = codegen.gen_code(ast)
+    parser = Parser(lexer)
+    codegen = Codegen(parser)
+    code = codegen.gen_code()
 
     if args.debug:
         print(code)

@@ -18,47 +18,44 @@ class CodegenError(Exception):
     pass
 
 
-def gen_preamble(ast):
-    return ''
+class Codegen:
+    def __init__(self, parser):
+        self.ast = parser.parse()
+        self.seen_lambda = False
 
+    def gen_code(self):
+        return self._gen_block(self.ast)
 
-def gen_expr(ast):
-    assert ast.type == 'expr' or ast.type == 'lit'
+    def _gen_block(self, node, level=0):
+        assert node.type == 'block'
 
-    if ast.type == 'lit':
-        return ast.data
+        lines = []
+        for child, implicit_print in node.children:
+            if child.type == 'block':
+                child_code = self._gen_block(child)
+            elif child.type == 'expr':
+                child_code = self._gen_expr(child)
+            elif child.type == 'lit':
+                child_code = child.data
+            else:
+                raise CodegenError("unknown child type: '{}'".format(child.type))
 
-    if ast.data == "[":
-        return '[{}]'.format(', '.join(map(gen_expr, ast.children)))
-    if ast.data in EXPR_FUNC:
-        children = map(gen_expr, ast.children)
-        return '{}({})'.format(EXPR_FUNC[ast.data], ', '.join(children))
+            if implicit_print:
+                child_code = 'autoprint(' + child_code + ')'
 
-    raise CodegenError("AST node ('{}', '{}') not implemented".format(ast.type, ast.data))
+            lines.append(child_code)
 
+        return '\n'.join(lines)
 
-def gen_block(ast, level=0):
-    assert ast.type == 'block'
+    def _gen_expr(self, node):
+        assert node.type == 'expr' or node.type == 'lit'
 
-    lines = []
-    for child, implicit_print in ast.children:
-        if child.type == 'block':
-            child_code = gen_block(child)
-        elif child.type == 'expr':
-            child_code = gen_expr(child)
-        elif child.type == 'lit':
-            child_code = child.data
-        else:
-            raise CodegenError("unknown child type: '{}'".format(child.type))
+        if node.type == 'lit':
+            return node.data
+        if node.data == "[":
+            return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
+        if node.data in EXPR_FUNC:
+            children = map(self._gen_expr, node.children)
+            return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))
 
-        if implicit_print:
-            child_code = 'autoprint(' + child_code + ')'
-
-        lines.append(child_code)
-
-    return '\n'.join(lines)
-
-
-def gen_code(ast):
-    assert ast.type == 'block' and ast.data == 'root'
-    return gen_preamble(ast) + gen_block(ast)
+        raise CodegenError("AST node ('{}', '{}') not implemented".format(node.type, node.data))

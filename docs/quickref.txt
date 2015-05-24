@@ -80,7 +80,7 @@ first, second, etc parameter.
  \ 0 one-str   One-character string literal.
  ] 1 one-list  Equivalent to Python [a].
  ^
- _ 1 neg       Negation on real. Reverse on sequence.
+ _ 1 neg       Negation on real. Reverse on seq.
  ` 1 repr      Python repr.
  {
  |
@@ -97,7 +97,7 @@ first, second, etc parameter.
  i
  j
  k
- l 1 len       Len on sequence. Log base 2 on real.
+ l 1 len       Length of seq. Log base 2 of real.
  m
  n
  o
