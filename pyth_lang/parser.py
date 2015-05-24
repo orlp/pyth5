@@ -46,77 +46,79 @@ class ASTNode:
         return 'ASTNode({!r}, {!r}, {!r})'.format(self.type, self.data, self.children)
 
 
-def parse_symbol(lex):
-    tok = lex.get_token()
+class Parser:
+    def __init__(self, lex):
+        self.lex = lex
 
-    if tok.type == 'lit':
-        return ASTNode('lit', tok.data)
+    def parse(self):
+        return self._parse_block(True)
 
-    if tok.type == 'symb' and tok.data in BLOCK_TOKS:
-        raise ParserError(
-            'error while parsing, block ({}) found, expression expected'
-            .format(tok.data)
-        )
+    def _parse_symbol(self):
+        tok = self.lex.get_token()
 
-    if tok.data not in ARITIES:
-        raise ParserError("symbol not implemented: '{}'".format(tok.data))
+        if tok.type == 'lit':
+            return ASTNode('lit', tok.data)
 
-    data = tok.data
-    children = []
-    arity = ARITIES[tok.data]
-    while arity and lex.has_token():
-        tok = lex.peek_token()
+        if tok.type == 'symb' and tok.data in BLOCK_TOKS:
+            raise ParserError(
+                'error while parsing, block ({}) found, expression expected'
+                .format(tok.data)
+            )
 
-        # Handle early symbol close );.
-        if tok.type == 'symb' and tok.data in ');':
-            # Do not consume ; - it let trickle up to the root.
-            if tok.data == ')':
-                lex.get_token()
-            break
+        if tok.data not in ARITIES:
+            raise ParserError("symbol not implemented: '{}'".format(tok.data))
 
-        # Ignore spaces - only used to seperate tokens.
-        if tok.type == 'symb' and tok.data == ' ':
-            lex.get_token()
-            continue
+        data = tok.data
+        children = []
+        arity = ARITIES[tok.data]
+        while arity and self.lex.has_token():
+            tok = self.lex.peek_token()
 
-        children.append(parse_symbol(lex))
-        arity -= 1
+            # Handle early symbol close );.
+            if tok.type == 'symb' and tok.data in ');':
+                # Do not consume ; - let it trickle up to the root.
+                if tok.data == ')':
+                    self.lex.get_token()
+                break
 
-    return ASTNode('expr', data, children)
-
-
-def parse_block(lex, root=False):
-    implicit_print = True
-    children = []
-
-    if not root:
-        block = lex.get_token()
-
-    while lex.has_token():
-        tok = lex.peek_token()
-
-        if tok.type == 'symb' and tok.data == ' ':
-            implicit_print = False
-            lex.get_token()
-        elif tok.type == 'symb' and tok.data in ');':
-            # Ignore symbol exit if we're root.
-            if root:
-                lex.get_token()
+            # Ignore spaces - only used to seperate tokens.
+            if tok.type == 'symb' and tok.data == ' ':
+                self.lex.get_token()
                 continue
 
-            # Do not consume ; - it let trickle up to the root.
-            if tok.data == ')':
-                lex.get_token()
-            break
-        elif tok.type == 'symb' and tok.data in BLOCK_TOKS:
-            children.append((parse_block(lex), False))
-            implicit_print = True
-        else:
-            children.append((parse_symbol(lex), implicit_print))
-            implicit_print = True
+            children.append(self._parse_symbol())
+            arity -= 1
 
-    return ASTNode('block', 'root' if root else block.data, children)
+        return ASTNode('expr', data, children)
 
+    def _parse_block(self, root=False):
+        implicit_print = True
+        children = []
 
-def parse(lex):
-    return parse_block(lex, True)
+        if not root:
+            block = self.lex.get_token()
+
+        while self.lex.has_token():
+            tok = self.lex.peek_token()
+
+            if tok.type == 'symb' and tok.data == ' ':
+                implicit_print = False
+                self.lex.get_token()
+            elif tok.type == 'symb' and tok.data in ');':
+                # Ignore symbol exit if we're root.
+                if root:
+                    self.lex.get_token()
+                    continue
+
+                # Do not consume ; - let it trickle up to the root.
+                if tok.data == ')':
+                    self.lex.get_token()
+                break
+            elif tok.type == 'symb' and tok.data in BLOCK_TOKS:
+                children.append((self._parse_block(), False))
+                implicit_print = True
+            else:
+                children.append((self._parse_symbol(), implicit_print))
+                implicit_print = True
+
+        return ASTNode('block', 'root' if root else block.data, children)
