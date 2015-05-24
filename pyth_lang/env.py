@@ -264,6 +264,10 @@ def Pprint(a=None):
 
 
 # q
+def equals(a, b):
+    return int(a == b)
+
+
 # r
 # s
 # t

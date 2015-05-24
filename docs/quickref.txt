@@ -117,7 +117,7 @@ b, etc as respectively the first, second, etc parameter.
  n
  o
  p 1 print          Print without trailing newline.
- q
+ q 2 equals         Python ==.
  r
  s
  t 1 tail        q  Everything but first element (a[1:]).

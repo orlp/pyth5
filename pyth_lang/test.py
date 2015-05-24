@@ -497,6 +497,31 @@ class Print(metaclass=PythTest):
 
 
 # q
+class Equals(metaclass=PythTest):
+    r"""
+    q2 5
+    0
+    ---
+    q3 3
+    1
+    ---
+    q0 0
+    1
+    ---
+    q"foo"+\f"oo"
+    1
+    ---
+    q"foo""bar"
+    0
+    ---
+    q,2"a"[2"a"
+    1
+    ---
+    q[)]3
+    0
+    """
+
+
 # r
 # s
 # t

@@ -10,6 +10,7 @@ EXPR_FUNC = {
     'h': 'head',
     'l': 'Plen',
     'p': 'Pprint',
+    'q': 'equals',
     't': 'tail',
     'L': 'L',
     'U': 'unary_range',
