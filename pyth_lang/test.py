@@ -116,6 +116,21 @@ class String(metaclass=PythTest):
 # $
 # %
 # &
+class And(metaclass=PythTest):
+    r"""
+    &1 2
+    2
+    ---
+    &0 3
+    0
+    ---
+    &])"foo"
+    []
+    ---
+    &""p"noeval
+    """
+
+
 # '
 # (
 # )
@@ -288,6 +303,22 @@ class Assign(metaclass=PythTest):
 
 # >
 # ?
+class Ternary(metaclass=PythTest):
+    r"""
+    ?2])3
+    3
+    ---
+    ?"test"0"foo"
+    foo
+    ---
+    ?1"test"3
+    1
+    ---
+    ?p"noeval"0"yay"
+    yay
+    """
+
+
 # @
 # [
 class List(metaclass=PythTest):

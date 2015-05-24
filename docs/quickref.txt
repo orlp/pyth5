@@ -74,7 +74,7 @@ first, second, etc parameter.
  <
  = 2 assign     Assignment, using deep copy. Returns returns the updated value.
  >
- ?
+ ? 3 ternary    Python ternary. ?abc becomes a if b else c.
  @
  [ U list       Unbounded list literal. Close with ).
  \ 0 one-str    One-character string literal.
