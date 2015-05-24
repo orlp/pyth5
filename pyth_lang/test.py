@@ -274,6 +274,18 @@ class CloseAll(metaclass=PythTest):
 
 # <
 # =
+class Assign(metaclass=PythTest):
+    r"""
+    =Z5Z
+    5
+    ---
+    Z+3=Z5Z
+    0
+    8
+    5
+    """
+
+
 # >
 # ?
 # @
@@ -361,6 +373,16 @@ class Repr(metaclass=PythTest):
 # ~
 # a
 # b
+class LineBreak(metaclass=PythTest):
+    r"""
+    42b5
+    42
+
+
+    5
+    """
+
+
 # c
 # d
 # e
@@ -398,6 +420,8 @@ class Len(metaclass=PythTest):
     l[1 2 3
     3
     """
+
+
 # m
 # n
 # o
@@ -477,6 +501,20 @@ class Tail(metaclass=PythTest):
 # X
 # Y
 # Z
+class Zero(metaclass=PythTest):
+    r"""
+    Z
+    0
+    ---
+    +Z2
+    2
+    ---
+    Z"test"
+    0
+    test
+    """
+
+
 # .!
 # ."
 class BinString(metaclass=PythTest):

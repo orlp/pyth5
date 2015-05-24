@@ -51,8 +51,10 @@ class Codegen:
 
         if node.type == 'lit':
             return node.data
-        if node.data == "[":
+        if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
+        if node.data == '=':
+            return "assign('{}', {})".format(node.children[0].data, self._gen_expr(node.children[1]))
         if node.data in EXPR_FUNC:
             children = map(self._gen_expr, node.children)
             return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))

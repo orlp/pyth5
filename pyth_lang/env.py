@@ -1,6 +1,7 @@
 import collections.abc
 import itertools
 import math
+import copy
 
 
 class BadTypeCombinationError(Exception):
@@ -13,6 +14,10 @@ class BadTypeCombinationError(Exception):
         for i, arg in enumerate(self.args):
             error_message += '\n    arg {}: {!r}, type {}.'.format(i + 1, arg, type(arg).__name__)
         return error_message
+
+
+# The environment of Pyth.
+environment = {}
 
 
 # Helper functions.
@@ -174,6 +179,13 @@ def minus(a=None, b=None):
 # ;
 # <
 # =
+def assign(a, b):
+    if isstr(a):
+        environment[a] = b
+
+    return b
+
+
 # >
 # ?
 # @
@@ -209,6 +221,9 @@ Prepr = repr
 # ~
 # a
 # b
+b = "\n"
+
+
 # c
 # d
 # e
@@ -237,6 +252,8 @@ def Plen(a):
         return math.log(a, 2)
 
     raise BadTypeCombinationError('Plen', a)
+
+
 # m
 # n
 # o
@@ -292,6 +309,9 @@ def tail(a):
 # X
 # Y
 # Z
+Z = 0
+
+
 # .!
 # .#
 # .$
@@ -376,20 +396,13 @@ def tail(a):
 # .Z
 
 
-def make_env():
-    blacklist = ['collections', 'itertools', 'math'
+def run(code):
+    blacklist = {'collections', 'itertools', 'math', 'copy',
                  'BadTypeCombinationError',
                  'isreal', 'isstr', 'islist', 'isseq', 'issig', 'real_to_range',
-                 'make_env', 'run']
+                 'run'}
+    environment.clear()
+    clean_env = {k: copy.deepcopy(v) for k, v in globals().items() if k not in blacklist and not k.startswith('_')}
+    environment.update(clean_env)
 
-    env = {'__builtins__': {}}
-    env.update({k: v for k, v in globals().items() if k not in blacklist and not k.startswith('_')})
-
-    return env
-
-
-def run(code, env=None):
-    if env is None:
-        env = make_env()
-
-    exec(code, env)
+    exec(code, environment)

@@ -4,7 +4,8 @@
 # !"#$%&'()*+,-/:;<=>?@[\]^_`{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 # <.symbols>
 
-
+VARIABLES = 'bZ'
+NEVER_PRINT = {'='}
 BLOCK_TOKS = ''
 
 ARITIES = {
@@ -17,10 +18,12 @@ ARITIES = {
     ']': 1,
     '_': 1,
     '`': 1,
+    'b': 0,
     'h': 1,
     'l': 1,
     'p': 1,
     't': 1,
+    'Z': 0,
 }
 
 
@@ -56,7 +59,7 @@ class Parser:
     def _parse_symbol(self):
         tok = self.lex.get_token()
 
-        if tok.type == 'lit':
+        if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
             return ASTNode('lit', tok.data)
 
         if tok.type == 'symb' and tok.data in BLOCK_TOKS:
@@ -64,6 +67,9 @@ class Parser:
                 'error while parsing, block ({}) found, expression expected'
                 .format(tok.data)
             )
+
+        if tok.data == '=':
+            return self._parse_assign()
 
         if tok.data not in ARITIES:
             raise ParserError("symbol not implemented: '{}'".format(tok.data))
@@ -90,6 +96,13 @@ class Parser:
             arity -= 1
 
         return ASTNode('expr', data, children)
+
+    def _parse_assign(self):
+        var = self.lex.get_token()
+        if var.type != 'symb' or var.data not in VARIABLES:
+            raise ParserError("expected variable after '='")
+
+        return ASTNode('expr', '=', [var, self._parse_symbol()])
 
     def _parse_block(self, root=False):
         implicit_print = True
@@ -118,6 +131,8 @@ class Parser:
                 children.append((self._parse_block(), False))
                 implicit_print = True
             else:
+                if tok.type == 'symb' and tok.data in NEVER_PRINT:
+                    implicit_print = False
                 children.append((self._parse_symbol(), implicit_print))
                 implicit_print = True
 
