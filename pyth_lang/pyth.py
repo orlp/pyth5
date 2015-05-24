@@ -39,13 +39,19 @@ def run_code(source, stdin=''):
 
 def cli():
     argparser = argparse.ArgumentParser("pyth", description='Pyth interpreter.')
-    argparser.add_argument('file', help='Pyth file to run')
-    argparser.add_argument("-d", dest="debug", action="store_true", help='Show input and generated code.')
+    argparser.add_argument("file", nargs="?", default="", help='Pyth file to run')
+    argparser.add_argument("-c", "--code", help='Pyth code to run. Only used if file is not given.')
+    argparser.add_argument("-d", "--debug", action="store_true", help='Show input and generated code.')
     argparser.set_defaults(debug=False)
     args = argparser.parse_args()
 
-    with open(args.file, 'rb') as source:
-        lex = lexer.Lexer(source.read())
+    assert args.file or args.code
+
+    if args.file:
+        with open(args.file, 'rb') as source:
+            lex = lexer.Lexer(source.read())
+    elif args.code:
+        lex = lexer.Lexer(bytes(args.code, 'utf-8'))
 
     if args.debug:
         src = lex.preprocessed_source()
