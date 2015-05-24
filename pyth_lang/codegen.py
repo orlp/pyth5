@@ -8,6 +8,7 @@ EXPR_FUNC = {
     '_': 'neg',
     '`': 'Prepr',
     'h': 'head',
+    'l': 'Plen',
     'p': 'Pprint',
     't': 'tail',
 }

@@ -229,6 +229,14 @@ def head(a):
 # j
 # k
 # l
+def Plen(a):
+    if isseq(a):
+        return len(a)
+
+    if isreal(a):
+        return math.log(a, 2)
+
+    raise BadTypeCombinationError('Plen', a)
 # m
 # n
 # o
