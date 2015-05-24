@@ -49,7 +49,6 @@ class ASTNode:
 class Parser:
     def __init__(self, lex):
         self.lex = lex
-        self.seen_lambda = False
 
     def parse(self):
         return self._parse_block(True)
