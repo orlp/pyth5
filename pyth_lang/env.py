@@ -158,11 +158,8 @@ def minus(a=None, b=None):
     if issig('ll', a, b):
         return [el for el in a if el not in b]
 
-    if issig('sr', a, b) or issig('rs', a, b):
+    if issig('ss', a, b) or issig('sr', a, b) or issig('rs', a, b):
         return str(a).replace(str(b), '')
-
-    if issig('ss', a, b):
-        return a.replace(b, '')
 
     if issig('sl', a, b):
         for el in b:
