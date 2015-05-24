@@ -215,6 +215,16 @@ Prepr = repr
 # f
 # g
 # h
+def head(a):
+    if isseq(a):
+        return a[0]
+
+    if isreal(a):
+        return a + 1
+
+    raise BadTypeCombinationError('head', a)
+
+
 # i
 # j
 # k
@@ -232,6 +242,16 @@ def Pprint(a=None):
 # r
 # s
 # t
+def tail(a):
+    if isseq(a):
+        return a[1:]
+
+    if isreal(a):
+        return a - 1
+
+    raise BadTypeCombinationError('tail', a)
+
+
 # u
 # v
 # w

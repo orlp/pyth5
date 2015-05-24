@@ -367,6 +367,19 @@ class Repr(metaclass=PythTest):
 # f
 # g
 # h
+class Head(metaclass=PythTest):
+    r"""
+    h0
+    1
+    ---
+    h"test"
+    t
+    ---
+    h[2 3 4
+    2
+    """
+
+
 # i
 # j
 # k
@@ -405,6 +418,19 @@ class Print(metaclass=PythTest):
 # r
 # s
 # t
+class Tail(metaclass=PythTest):
+    r"""
+    t0
+    -1
+    ---
+    t"test"
+    est
+    ---
+    t[1 4 9)
+    [4, 9]
+    """
+
+
 # u
 # v
 # w

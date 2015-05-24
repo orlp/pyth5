@@ -93,7 +93,7 @@ first, second, etc parameter.
  e
  f
  g
- h
+ h 1 head      a[0] on seq, a+1 on real.
  i
  j
  k
@@ -105,7 +105,7 @@ first, second, etc parameter.
  q
  r
  s
- t
+ t 1 tail      a[1:] on seq, a-1 on real.
  u
  v
  w

@@ -7,7 +7,9 @@ EXPR_FUNC = {
     ']': 'one_list',
     '_': 'neg',
     '`': 'Prepr',
+    'h': 'head',
     'p': 'Pprint',
+    't': 'tail',
 }
 
 
