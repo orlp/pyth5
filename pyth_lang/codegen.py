@@ -11,6 +11,7 @@ EXPR_FUNC = {
     'l': 'Plen',
     'p': 'Pprint',
     't': 'tail',
+    'L': 'L',
 }
 
 
@@ -21,6 +22,7 @@ class CodegenError(Exception):
 class Codegen:
     def __init__(self, parser):
         self.ast = parser.parse()
+        self.seen_lambda = set()
 
     def gen_code(self):
         return self._gen_block(self.ast)
@@ -55,6 +57,9 @@ class Codegen:
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
         if node.data == '=':
             return "assign('{}', {})".format(node.children[0].data, self._gen_expr(node.children[1]))
+        if node.data == 'L' and 'L' not in self.seen_lambda:
+            self.seen_lambda.add('L')
+            return "def L(b):\n    return {}".format(self._gen_expr(node.children[0]))
         if node.data in EXPR_FUNC:
             children = map(self._gen_expr, node.children)
             return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))

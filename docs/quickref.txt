@@ -123,7 +123,7 @@ first, second, etc parameter.
  I
  J
  K
- L
+ L 1 lambda     First occurrence: def L(b): return _, later occurrences: L(_).
  M
  N
  O

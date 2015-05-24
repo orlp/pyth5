@@ -7,6 +7,7 @@
 VARIABLES = 'bZ'
 NEVER_PRINT = {'='}
 BLOCK_TOKS = ''
+LAMBDA_TOKS = {'L'}
 
 ARITIES = {
     '!': 1,
@@ -23,6 +24,7 @@ ARITIES = {
     'l': 1,
     'p': 1,
     't': 1,
+    'L': 1,
     'Z': 0,
 }
 
@@ -52,21 +54,25 @@ class ASTNode:
 class Parser:
     def __init__(self, lex):
         self.lex = lex
+        self.seen_lambda = set()
 
     def parse(self):
         return self._parse_block(True)
 
-    def _parse_symbol(self):
+    def _parse_expr(self):
         tok = self.lex.get_token()
 
         if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
             return ASTNode('lit', tok.data)
 
-        if tok.type == 'symb' and tok.data in BLOCK_TOKS:
+        if tok.data in BLOCK_TOKS:
             raise ParserError(
                 'error while parsing, block ({}) found, expression expected'
                 .format(tok.data)
             )
+
+        if tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
+            raise ParserError('lambda used in expression before definition')
 
         if tok.data == '=':
             return self._parse_assign()
@@ -92,7 +98,7 @@ class Parser:
                 self.lex.get_token()
                 continue
 
-            children.append(self._parse_symbol())
+            children.append(self._parse_expr())
             arity -= 1
 
         return ASTNode('expr', data, children)
@@ -102,7 +108,7 @@ class Parser:
         if var.type != 'symb' or var.data not in VARIABLES:
             raise ParserError("expected variable after '='")
 
-        return ASTNode('expr', '=', [var, self._parse_symbol()])
+        return ASTNode('expr', '=', [var, self._parse_expr()])
 
     def _parse_block(self, root=False):
         implicit_print = True
@@ -131,9 +137,12 @@ class Parser:
                 children.append((self._parse_block(), False))
                 implicit_print = True
             else:
+                if tok.type == 'symb' and tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
+                    self.seen_lambda.add(tok.data)
+                    implicit_print = False
                 if tok.type == 'symb' and tok.data in NEVER_PRINT:
                     implicit_print = False
-                children.append((self._parse_symbol(), implicit_print))
+                children.append((self._parse_expr(), implicit_print))
                 implicit_print = True
 
         return ASTNode('block', 'root' if root else block.data, children)
