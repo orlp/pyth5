@@ -1,5 +1,6 @@
 import collections.abc
 import itertools
+import math
 
 
 class BadTypeCombinationError(Exception):
@@ -54,6 +55,13 @@ def issig(pattern, *objs):
     }
 
     return all(checkers[t](o) for t, o in zip(pattern, objs))
+
+
+def real_to_range(r):
+    n = math.floor(r)
+    if n < 0:
+        return range(n, 0)
+    return range(0, n)
 
 
 def autoprint(a):
@@ -138,6 +146,26 @@ def minus(a=None, b=None):
 
     if issig('rr', a, b):
         return a - b
+
+    if issig('rl', a, b):
+        return [el for el in real_to_range(a) if el not in b]
+
+    if issig('lr', a, b) or issig('ls', a, b):
+        return [el for el in a if el != b]
+
+    if issig('ll', a, b):
+        return [el for el in a if el not in b]
+
+    if issig('sr', a, b) or issig('rs', a, b):
+        return str(a).replace(str(b), '')
+
+    if issig('ss', a, b):
+        return a.replace(b, '')
+
+    if issig('sl', a, b):
+        for el in b:
+            a = a.replace(str(el), '')
+        return a
 
     raise BadTypeCombinationError('minus', a, b)
 
@@ -322,9 +350,9 @@ def Pprint(a=None):
 
 
 def make_env():
-    blacklist = ['collections', 'itertools',
+    blacklist = ['collections', 'itertools', 'math'
                  'BadTypeCombinationError',
-                 'isreal', 'isstr', 'islist', 'isseq', 'issig',
+                 'isreal', 'isstr', 'islist', 'isseq', 'issig', 'real_to_range',
                  'make_env', 'run']
 
     env = {'__builtins__': {}}

@@ -1,10 +1,27 @@
 import unittest
+import sys
 
 from . import pyth
 
 
+class PythAssertionError(AssertionError):
+    def __init__(self, orig_except, source, expected, stdin):
+        self.orig_except = orig_except
+        self.source = source
+        self.expected = expected
+        self.stdin = stdin
+
+    def __str__(self):
+        msg = "\n{}: {}".format(type(self.orig_except).__name__, str(self.orig_except))
+        msg += '\n\n-- source --\n{}'.format(self.source)
+        if self.stdin:
+            msg += '\n-- stdin --\n{}'.format(self.stdin)
+
+        return msg
+
+
 class PythTestBase:
-    def assert_expected(self, source, expected, stdin=""):
+    def assert_pyth(self, source, expected, stdin=""):
         try:
             result, error = pyth.run_code(source, stdin)
             if error is not None:
@@ -16,12 +33,8 @@ class PythTestBase:
 
             self.assertEqual(expected, result)
         except Exception as e:
-            msg = e.args[0]
-            msg += '\n-- source --\n{}'.format(source)
-            if stdin:
-                msg += '\n-- stdin --\n{}'.format(stdin)
-            e.args = (msg,) + e.args[1:]
-            raise e
+            orig_tb = sys.exc_info()[2]
+            raise PythAssertionError(e, source, expected, stdin).with_traceback(orig_tb) from None
 
 
 class PythTest(type):
@@ -42,7 +55,7 @@ class PythTest(type):
     @classmethod
     def gen_test(cls, source, expected):
         def test_code(self):
-            self.assert_expected(source, expected)
+            self.assert_pyth(source, expected)
 
         return test_code
 
@@ -59,7 +72,7 @@ class Blank(metaclass=PythTest):
 # \n
 class Newline(metaclass=PythTest):
     def test_newline(self):
-        self.assert_expected("1\n2", "1\n2")
+        self.assert_pyth("1\n2", "1\n2")
 
 
 # !
@@ -203,6 +216,44 @@ class Minus(metaclass=PythTest):
     ---
     -)
     -inf
+    ---
+    -10[3 6 1)
+    [0, 2, 4, 5, 7, 8, 9]
+    ---
+    -_7[3 "test" _2)
+    [-7, -6, -5, -4, -3, -1]
+    ---
+    -["test" 42 5)5
+    ['test', 42]
+    ---
+    -[0 "bar" 1 "foo" 2)"foo"
+    [0, 'bar', 1, 2]
+    ---
+    -[0 1 2 3)[2 "foo" 3)
+    [0, 1]
+    ---
+    -["foo" "test" 24 3),24"test"
+    ['foo', 3]
+    ---
+    -"1250821084802134"1
+    2508208480234
+    ---
+    -`"101015"101
+    '015'
+    ---
+    -42"2"
+    4
+    ---
+    -"8805808"80
+    858
+    ---
+    -"testest""test"
+    est
+    ---
+    -"nininini""ni"
+    ---
+    -"nfooninibaro"["ni""foobar")
+    no
     """
 
 
