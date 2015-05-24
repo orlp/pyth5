@@ -68,7 +68,7 @@ def parse_symbol(lex):
 
         # Handle early symbol close );.
         if tok.type == 'symb' and tok.data in ');':
-            # Do not consume ; - it let trickle up to the root.
+            # Do not consume ; - let it trickle up to the root.
             if tok.data == ')':
                 lex.get_token()
             break
@@ -103,7 +103,7 @@ def parse_block(lex, root=False):
                 lex.get_token()
                 continue
 
-            # Do not consume ; - it let trickle up to the root.
+            # Do not consume ; - let it trickle up to the root.
             if tok.data == ')':
                 lex.get_token()
             break
