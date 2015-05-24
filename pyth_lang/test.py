@@ -369,6 +369,19 @@ class Repr(metaclass=PythTest):
 
 # {
 # |
+class Or(metaclass=PythTest):
+    r"""
+    |3"test"
+    3
+    ---
+    |0"foobar"
+    foobar
+    ---
+    |1p"noeval"
+    1
+    """
+
+
 # }
 # ~
 # a

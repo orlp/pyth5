@@ -48,7 +48,7 @@ first, second, etc parameter.
  #
  $
  %
- &
+ & 2 and        Logical and. Short-circuiting.
  '
  (
  ) S close      Closes one open symbol or block. E.g.: [) becomes [] in Python.
@@ -83,7 +83,7 @@ first, second, etc parameter.
  _ 1 neg        Negation on real. Reverse on seq.
  ` 1 repr       Python repr.
  {
- |
+ | 2 or         Logical or. Short-circuiting.
  }
  ~
  a

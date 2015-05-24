@@ -15,10 +15,12 @@ ARITIES = {
     '+': 2,
     ',': 2,
     '-': 2,
+    '=': 2,
     '[': -1,
     ']': 1,
     '_': 1,
     '`': 1,
+    '|': 2,
     'b': 0,
     'h': 1,
     'l': 1,
@@ -72,7 +74,9 @@ class Parser:
             )
 
         if tok.data == '=':
-            return self._parse_assign()
+            var = self.lex.peek_token()
+            if var.type != 'symb' or var.data not in VARIABLES:
+                raise ParserError("expected variable after '='")
 
         if tok.data not in ARITIES:
             raise ParserError("symbol not implemented: '{}'".format(tok.data))
@@ -104,13 +108,6 @@ class Parser:
             arity -= 1
 
         return ASTNode('expr', data, children)
-
-    def _parse_assign(self):
-        var = self.lex.get_token()
-        if var.type != 'symb' or var.data not in VARIABLES:
-            raise ParserError("expected variable after '='")
-
-        return ASTNode('expr', '=', [var, self._parse_expr()])
 
     def _parse_block(self, root=False):
         implicit_print = True

@@ -14,6 +14,13 @@ EXPR_FUNC = {
     'L': 'L',
 }
 
+# Simple pattern with fixed arity.
+EXPR_PATTERN = {
+    '|': (2, '({} or {})'),
+    '&': (2, '({} and {})'),
+    '=': (2, "assign('{}', {})"),
+}
+
 
 class CodegenError(Exception):
     pass
@@ -55,14 +62,17 @@ class Codegen:
             return node.data
         if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
-        if node.data == '=':
-            return "assign('{}', {})".format(node.children[0].data, self._gen_expr(node.children[1]))
         if node.data == 'L' and 'L' not in self.seen_lambda:
             self.seen_lambda.add('L')
             code = "assign('L', lambda b: {})".format(self._gen_expr(node.children[0]))
             if len(node.children) > 1:
                 code += '({})'.format(', '.join(map(self._gen_expr, node.children[1:])))
             return code
+        if node.data in EXPR_PATTERN:
+            arity, pattern = EXPR_PATTERN[node.data]
+            if arity != len(node.children):
+                raise CodegenError("arity of '{}' must be {}".format(node.data, arity))
+            return pattern.format(*map(self._gen_expr, node.children))
         if node.data in EXPR_FUNC:
             children = map(self._gen_expr, node.children)
             return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))
