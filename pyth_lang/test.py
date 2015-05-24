@@ -2,7 +2,6 @@ import unittest
 import sys
 
 from . import pyth
-from . import parser
 
 
 class PythAssertionError(AssertionError):
@@ -491,13 +490,19 @@ class Tail(metaclass=PythTest):
 class Lambda(metaclass=PythTest):
     # TODO: recursion testcase.
     r"""
-    L*5bL2
+    L*5b2L50
     10
+    250
+    ---
+    L0
+    ---
+    L0)L"test"
+    0
+    ---
+    +L+2*3b5L10L30
+    49
+    92
     """
-
-    def test_use_before_definition(self):
-        _, error = pyth.run_code("+L*5b3")
-        self.assertIsInstance(error, parser.ParserError)
 
 
 # M

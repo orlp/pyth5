@@ -123,7 +123,9 @@ first, second, etc parameter.
  I
  J
  K
- L 1 lambda     First occurrence: def L(b): return _, later occurrences: L(_).
+ L 1 lambda     On first occurrence define lambda function with parameter b and
+                call (arity 2, call is optional), later occurrences only call
+                the lambda.
  M
  N
  O

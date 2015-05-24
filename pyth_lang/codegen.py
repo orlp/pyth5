@@ -59,7 +59,10 @@ class Codegen:
             return "assign('{}', {})".format(node.children[0].data, self._gen_expr(node.children[1]))
         if node.data == 'L' and 'L' not in self.seen_lambda:
             self.seen_lambda.add('L')
-            return "def L(b):\n    return {}".format(self._gen_expr(node.children[0]))
+            code = "assign('L', lambda b: {})".format(self._gen_expr(node.children[0]))
+            if len(node.children) > 1:
+                code += '({})'.format(', '.join(map(self._gen_expr, node.children[1:])))
+            return code
         if node.data in EXPR_FUNC:
             children = map(self._gen_expr, node.children)
             return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))

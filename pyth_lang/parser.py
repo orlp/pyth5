@@ -71,9 +71,6 @@ class Parser:
                 .format(tok.data)
             )
 
-        if tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
-            raise ParserError('lambda used in expression before definition')
-
         if tok.data == '=':
             return self._parse_assign()
 
@@ -83,6 +80,11 @@ class Parser:
         data = tok.data
         children = []
         arity = ARITIES[tok.data]
+
+        if tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
+            self.seen_lambda.add(tok.data)
+            arity += 1
+
         while arity and self.lex.has_token():
             tok = self.lex.peek_token()
 
@@ -138,11 +140,15 @@ class Parser:
                 implicit_print = True
             else:
                 if tok.type == 'symb' and tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
-                    self.seen_lambda.add(tok.data)
-                    implicit_print = False
+                    expr = self._parse_expr()
+                    if len(expr.children) == 1:
+                        implicit_print = False
+                else:
+                    expr = self._parse_expr()
+
                 if tok.type == 'symb' and tok.data in NEVER_PRINT:
                     implicit_print = False
-                children.append((self._parse_expr(), implicit_print))
+                children.append((expr, implicit_print))
                 implicit_print = True
 
         return ASTNode('block', 'root' if root else block.data, children)
