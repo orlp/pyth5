@@ -37,7 +37,8 @@ def issig(pattern, *objs):
 
     Type codes:
 
-        a = any
+        _ = None
+        a = any (not None)
         r = real
         s = str
         l = list
@@ -47,6 +48,7 @@ def issig(pattern, *objs):
     assert(len(pattern) == len(objs))
 
     checkers = {
+        '_': lambda o: o is None,
         'a': lambda o: o is not None,
         'r': isreal,
         's': isstr,
@@ -104,10 +106,10 @@ def times(a, b):
 
 # +
 def plus(a=None, b=None):
-    if a is None and b is None:
+    if issig('__', a, b):
         return float('inf')
 
-    if b is None and isreal(a):
+    if issig('r_', a, b):
         return abs(a)
 
     if type(a) is type(b):
@@ -127,10 +129,10 @@ def plus(a=None, b=None):
 
 # ,
 def pair(a=None, b=None):
-    if a is None and b is None:
+    if issig('__', a, b):
         return []
 
-    if b is None:
+    if issig('a_', a, b):
         return [a]
 
     return [a, b]
@@ -138,10 +140,10 @@ def pair(a=None, b=None):
 
 # -
 def minus(a=None, b=None):
-    if a is None and b is None:
+    if issig('__', a, b):
         return -float('inf')
 
-    if b is None and isreal(a):
+    if issig('r_', a, b):
         return -abs(a)
 
     if issig('rr', a, b):
