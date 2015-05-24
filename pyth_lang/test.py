@@ -384,6 +384,20 @@ class Head(metaclass=PythTest):
 # j
 # k
 # l
+class Len(metaclass=PythTest):
+    r"""
+    l1
+    0.0
+    ---
+    l"abd"
+    3
+    ---
+    l"
+    0
+    ---
+    l[1 2 3
+    3
+    """
 # m
 # n
 # o
