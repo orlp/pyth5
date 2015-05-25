@@ -641,6 +641,37 @@ class Equals(metaclass=PythTest):
 
 # r
 # s
+class Sum(metaclass=PythTest):
+    r"""
+    s.5
+    0
+    ---
+    s_.5
+    -1
+    ---
+    s1
+    1
+    ---
+    s"1.5"
+    1.5
+    ---
+    s"01"
+    1
+    ---
+    sU5
+    10
+    ---
+    s["foo""bar""ni""spam")
+    foobarnispam
+    ---
+    s["foo"0"bar"1)
+    foo0bar1
+    ---
+    s[
+    0
+    """
+
+
 # t
 class Tail(metaclass=PythTest):
     r"""

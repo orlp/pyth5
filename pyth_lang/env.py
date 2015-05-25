@@ -1,5 +1,6 @@
 import collections.abc
 import itertools
+import functools
 import copy
 import sympy as sym
 
@@ -335,6 +336,23 @@ def equals(a, b):
 
 # r
 # s
+def Psum(a):
+    if isstr(a):
+        return Real(a)
+
+    if islist(a):
+        if a:
+            return functools.reduce(plus, a)
+
+        return Real(0)
+
+    if isreal(a):
+        return sym.floor(a)
+
+    raise BadTypeCombinationError('Psum', a)
+
+
+
 # t
 def tail(a):
     if isseq(a):
@@ -476,7 +494,7 @@ Z = Real(0)
 
 
 def run(code):
-    blacklist = {'collections', 'itertools', 'copy', 'sym',
+    blacklist = {'collections', 'itertools', 'copy', 'sym', 'functools',
                  'BadTypeCombinationError',
                  'isreal', 'isstr', 'islist', 'isseq', 'issig', 'real_to_range',
                  'run'}

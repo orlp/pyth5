@@ -15,6 +15,7 @@ EXPR_FUNC = {
     'l': 'Plen',
     'p': 'Pprint',
     'q': 'equals',
+    's': 'Psum',
     't': 'tail',
     'L': 'L',
     'U': 'unary_range',

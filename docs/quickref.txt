@@ -123,7 +123,9 @@ b, etc as respectively the first, second, etc parameter.
  p 1 print          Print without trailing newline.
  q 2 equals         Python ==.
  r
- s
+ s 1 sum         l  Fold elements using +. Sum of empty list is real 0.
+                 s  Convert string to real.
+                 r  floor(a).
  t 1 tail        q  Everything but first element (a[1:]).
                  r  Decrement (a - 1).
  u
