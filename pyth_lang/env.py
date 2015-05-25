@@ -273,6 +273,16 @@ def Prepr(a):
 # {
 # |
 # }
+def Pin(a, b):
+    if issig('al', a, b):
+        return Real(a in b)
+
+    if issig('rr', a, b) or issig('rs', a, b) or issig('sr', a, b) or issig('ss', a, b):
+        return Real(Pstr(a) in Pstr(b))
+
+    raise BadTypeCombinationError('Pin', a, b)
+
+
 # ~
 # a
 # b

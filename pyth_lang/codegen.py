@@ -10,6 +10,7 @@ EXPR_FUNC = {
     '^': 'power',
     '_': 'neg',
     '`': 'Prepr',
+    '}': 'Pin',
     'h': 'head',
     'l': 'Plen',
     'p': 'Pprint',

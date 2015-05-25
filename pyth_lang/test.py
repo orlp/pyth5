@@ -497,6 +497,40 @@ class Or(metaclass=PythTest):
 
 
 # }
+class In(metaclass=PythTest):
+    r"""
+    }5 .15
+    1
+    ---
+    }3 42
+    0
+    ---
+    }20"120"
+    1
+    ---
+    }23"32"
+    0
+    ---
+    }"test"["testing""bar"
+    0
+    ---
+    }"test"["foo""test"
+    1
+    ---
+    }3U4
+    1
+    ---
+    }4U4
+    0
+    ---
+    },1 2[,0 1,1 2,3 4
+    1
+    ---
+    }[1)U4
+    0
+    """
+
+
 # ~
 # a
 # b
