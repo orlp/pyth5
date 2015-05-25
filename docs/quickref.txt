@@ -163,7 +163,7 @@ b, etc as respectively the first, second, etc parameter.
  X
  Y
  Z 0 zero           Variable. 0
-.!
+.! 1 factorial   r  Factorial or gamma(a+1) function.
 ."
 .#
 .$
@@ -179,9 +179,11 @@ b, etc as respectively the first, second, etc parameter.
 ./
 .:
 .;
-.<
+.< 2 leftshift  rr  Python floor(a) << floor(b).
+                qr  Cyclic leftshift of a by floor(b).
 .=
-.>
+.> 2 rightshift rr  Python floor(a) >> floor(b).
+                qr  Cyclic rightshift of a by floor(b).
 .?
 .@
 .[

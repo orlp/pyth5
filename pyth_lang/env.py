@@ -415,7 +415,7 @@ Z = Real(0)
 def factorial(a):
     if isreal(a):
         if not a.is_integer:
-            a = a.evalf(precisiion)
+            a = a.evalf(precision)
 
         return sym.factorial(a)
 
@@ -437,8 +437,30 @@ def factorial(a):
 # .:
 # .;
 # .<
+def leftshift(a, b):
+    if issig('rr', a, b):
+        return Real(int(sym.floor(a)) << int(sym.floor(b)))
+
+    if issig('qr', a, b):
+        b = sym.floor(b)
+        return a[b:] + a[:b]
+
+    raise BadTypeCombinationError('leftshift', a, b)
+
+
 # .=
 # .>
+def rightshift(a, b):
+    if issig('rr', a, b):
+        return Real(int(sym.floor(a)) >> int(sym.floor(b)))
+
+    if issig('qr', a, b):
+        b = sym.floor(b)
+        return a[-b:] + a[:-b]
+
+    raise BadTypeCombinationError('rightshift', a, b)
+
+
 # .?
 # .@
 # .[

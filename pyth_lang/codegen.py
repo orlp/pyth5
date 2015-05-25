@@ -20,6 +20,8 @@ EXPR_FUNC = {
     'L':  'L',
     'U':  'unary_range',
     '.!': 'factorial',
+    '.<':  'leftshift',
+    '.>':  'rightshift',
 }
 
 # Simple pattern with fixed arity.
