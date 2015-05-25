@@ -87,7 +87,8 @@ b, etc as respectively the first, second, etc parameter.
  < 2 less-than      Python <.
                qr   Python a[:floor(b)].
  = 2 assign         Deep copy assignment. Returns returns the updated value.
- >
+ > 2 greater-than   Python >.
+               qr   Python a[floor(b):].
  ? 3 ternary        Python ternary. ?abc becomes a if b else c.
  @
  [ U list           Unbounded list literal. Close with ).

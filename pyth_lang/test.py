@@ -335,6 +335,40 @@ class Assign(metaclass=PythTest):
 
 
 # >
+class GreaterThan(metaclass=PythTest):
+    r"""
+    >5 10
+    0
+    ---
+    >5 5
+    0
+    ---
+    >-)0
+    0
+    ---
+    >0+)
+    0
+    ---
+    >-)+)
+    0
+    ---
+    >+)-)
+    1
+    ---
+    >[1 2)[3 1)
+    0
+    ---
+    >[3 1)[1 2)
+    1
+    ---
+    >"nini"1
+    ini
+    ---
+    >"foobar"_2
+    ar
+    """
+
+
 # ?
 class Ternary(metaclass=PythTest):
     r"""
