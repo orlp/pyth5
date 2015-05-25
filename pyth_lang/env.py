@@ -21,6 +21,7 @@ class BadTypeCombinationError(Exception):
 
 # The environment of Pyth.
 environment = {}
+precision = Real(20)
 
 
 # Helper functions.
@@ -80,8 +81,10 @@ def Pstr(a):
             return 'inf'
         if a == -sym.oo:
             return '-inf'
+        if a.is_integer:
+            return str(a)
 
-        s = str(a.evalf(20)).rstrip('0').rstrip('.')
+        s = str(a.evalf(precision)).rstrip('0').rstrip('.')
         return s or '0'
 
     if islist(a):
@@ -352,7 +355,6 @@ def Psum(a):
     raise BadTypeCombinationError('Psum', a)
 
 
-
 # t
 def tail(a):
     if isseq(a):
@@ -410,6 +412,16 @@ Z = Real(0)
 
 
 # .!
+def factorial(a):
+    if isreal(a):
+        if not a.is_integer:
+            a = a.evalf(precisiion)
+
+        return sym.factorial(a)
+
+    raise BadTypeCombinationError('factorial', a)
+
+
 # .#
 # .$
 # .%

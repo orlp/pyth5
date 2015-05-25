@@ -766,6 +766,19 @@ class Zero(metaclass=PythTest):
 
 
 # .!
+def Factorial(metaclass=PythTest):
+    r"""
+    .!5
+    120
+    ---
+    .!0
+    1
+    ---
+    .!.5
+    0.88622692545275801365
+    """
+
+
 # ."
 class BinString(metaclass=PythTest):
     r"""
