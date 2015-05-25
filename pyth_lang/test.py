@@ -606,13 +606,15 @@ class Tail(metaclass=PythTest):
 # K
 # L
 class Lambda(metaclass=PythTest):
-    # TODO: recursion testcase.
     r"""
     L*5b2L50
     10
     250
     ---
     L0
+    ---
+    L|<b1*bLtb5
+    120
     ---
     L0)L"test"
     0
