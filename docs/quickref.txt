@@ -92,7 +92,8 @@ b, etc as respectively the first, second, etc parameter.
  [ U list           Unbounded list literal. Close with ).
  \ 0 one-str        One-character string literal.
  ] 1 one-list       Equivalent to Python [a].
- ^
+ ^ 2 power      rr  Power.
+                qr  Cartesian product of a with b repeats.
  _ 1 neg         r  Negation.
                  q  Reverse (a[::-1]).
  ` 1 repr           Python repr.

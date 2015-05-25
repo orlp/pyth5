@@ -5,6 +5,7 @@ EXPR_FUNC = {
     ',': 'pair',
     '-': 'minus',
     ']': 'one_list',
+    '^': 'power',
     '_': 'neg',
     '`': 'Prepr',
     'h': 'head',
@@ -47,7 +48,7 @@ class Codegen:
             elif child.type == 'expr':
                 child_code = self._gen_expr(child)
             elif child.type == 'lit':
-                child_code = child.data
+                child_code = self._gen_lit(child)
             else:
                 raise CodegenError("unknown child type: '{}'".format(child.type))
 
@@ -62,7 +63,7 @@ class Codegen:
         assert node.type == 'expr' or node.type == 'lit'
 
         if node.type == 'lit':
-            return node.data
+            return self._gen_lit(node)
 
         if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
@@ -85,3 +86,9 @@ class Codegen:
             return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))
 
         raise CodegenError("AST node ('{}', '{}') not implemented".format(node.type, node.data))
+
+    def _gen_lit(self, node):
+        if node.data[-1] in '0123456789.':
+            return "Real('{}')".format(node.data)
+
+        return node.data

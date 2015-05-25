@@ -1,7 +1,9 @@
 import collections.abc
 import itertools
-import math
 import copy
+import sympy as sym
+
+from sympy import Rational as Real
 
 
 class BadTypeCombinationError(Exception):
@@ -22,7 +24,7 @@ environment = {}
 
 # Helper functions.
 def isreal(obj):
-    return isinstance(obj, int)
+    return isinstance(obj, sym.Expr)
 
 
 def isstr(obj):
@@ -65,20 +67,36 @@ def issig(pattern, *objs):
 
 
 def real_to_range(r):
-    n = math.floor(r)
+    n = sym.floor(r)
     if n < 0:
-        return range(n, 0)
-    return range(0, n)
+        return sym.Range(n, 0)
+    return sym.Range(0, n)
+
+
+def Pstr(a):
+    if isreal(a):
+        if a == sym.oo:
+            return 'inf'
+        if a == -sym.oo:
+            return '-inf'
+
+        s = str(a.evalf(20)).rstrip('0').rstrip('.')
+        return s or '0'
+
+    if islist(a):
+        return '[{}]'.format(', '.join(map(Prepr, a)))
+
+    return str(a)
 
 
 def autoprint(a):
     if a is not None:
-        print(a)
+        print(Pstr(a))
 
 
 # !
 def Pnot(a):
-    return int(not a)
+    return Real(not a)
 
 
 # '
@@ -95,10 +113,10 @@ def times(a, b):
         return a * b
 
     if issig('rq', a, b):
-        return int(a) * b
+        return sym.floor(a) * b
 
     if issig('qr', a, b):
-        return a * int(b)
+        return a * sym.floor(b)
 
     if issig('ss', a, b):
         return [p + q for p, q in itertools.product(a, b)]
@@ -112,12 +130,12 @@ def times(a, b):
 # +
 def plus(a=None, b=None):
     if issig('__', a, b):
-        return float('inf')
+        return sym.oo
 
     if issig('r_', a, b):
-        return abs(a)
+        return sym.Abs(a)
 
-    if type(a) is type(b):
+    if issig('rr', a, b) or type(a) is type(b):
         return a + b
 
     if issig('al', a, b):
@@ -127,7 +145,7 @@ def plus(a=None, b=None):
         return a + [b]
 
     if issig('rs', a, b) or issig('sr', a, b):
-        return str(a) + str(b)
+        return Pstr(a) + Pstr(b)
 
     raise BadTypeCombinationError('plus', a, b)
 
@@ -146,10 +164,10 @@ def pair(a=None, b=None):
 # -
 def minus(a=None, b=None):
     if issig('__', a, b):
-        return -float('inf')
+        return -sym.oo
 
     if issig('r_', a, b):
-        return -abs(a)
+        return -sym.Abs(a)
 
     if issig('rr', a, b):
         return a - b
@@ -164,11 +182,11 @@ def minus(a=None, b=None):
         return [el for el in a if el not in b]
 
     if issig('ss', a, b) or issig('sr', a, b) or issig('rs', a, b):
-        return str(a).replace(str(b), '')
+        return Pstr(a).replace(Pstr(b), '')
 
     if issig('sl', a, b):
         for el in b:
-            a = a.replace(str(el), '')
+            a = a.replace(Pstr(el), '')
         return a
 
     raise BadTypeCombinationError('minus', a, b)
@@ -200,6 +218,19 @@ def one_list(a=None):
 
 
 # ^
+def power(a, b):
+    if issig('rr', a, b):
+        return sym.Pow(a, b)
+
+    if issig('sr', a, b):
+        return [p + q for p, q in itertools.product(a, repeat=sym.floor(b))]
+
+    if issig('qr', a, b):
+        return [list(tup) for tup in itertools.product(a, repeat=sym.floor(b))]
+
+    raise BadTypeCombinationError('power', a, b)
+
+
 # _
 def neg(a):
     if isreal(a):
@@ -212,7 +243,11 @@ def neg(a):
 
 
 # `
-Prepr = repr
+def Prepr(a):
+    if isstr(a):
+        return "'{}'".format(a)
+
+    return Pstr(a)
 
 
 # {
@@ -246,10 +281,10 @@ def head(a):
 # l
 def Plen(a):
     if isseq(a):
-        return len(a)
+        return Real(len(a))
 
     if isreal(a):
-        return math.log(a, 2)
+        return sym.log(a, 2)
 
     raise BadTypeCombinationError('Plen', a)
 
@@ -265,7 +300,7 @@ def Pprint(a=None):
 
 # q
 def equals(a, b):
-    return int(a == b)
+    return Real(a == b)
 
 
 # r
@@ -323,7 +358,7 @@ def unary_range(a):
 # X
 # Y
 # Z
-Z = 0
+Z = Real(0)
 
 
 # .!
@@ -411,7 +446,7 @@ Z = 0
 
 
 def run(code):
-    blacklist = {'collections', 'itertools', 'math', 'copy',
+    blacklist = {'collections', 'itertools', 'copy', 'sym',
                  'BadTypeCombinationError',
                  'isreal', 'isstr', 'islist', 'isseq', 'issig', 'real_to_range',
                  'run'}

@@ -17,6 +17,7 @@ with open('README.rst', 'rb') as f:
 setup(
     name='pyth-lang',
     packages=['pyth_lang'],
+    install_requires=['sympy'],
     entry_points={'console_scripts': ['pyth=pyth_lang.pyth:cli']},
     version=version,
     description='Pyth programming language.',

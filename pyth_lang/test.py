@@ -364,6 +364,22 @@ class OneList(metaclass=PythTest):
 
 
 # ^
+class Power(metaclass=PythTest):
+    r"""
+    ^.04 .5
+    0.2
+    ---
+    ^50 0
+    1
+    ---
+    ^"bar"2
+    ['bb', 'ba', 'br', 'ab', 'aa', 'ar', 'rb', 'ra', 'rr']
+    ---
+    ^U2 3
+    [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
+    """
+
+
 # _
 class Neg(metaclass=PythTest):
     r"""
@@ -453,7 +469,7 @@ class Head(metaclass=PythTest):
 class Len(metaclass=PythTest):
     r"""
     l1
-    0.0
+    0
     ---
     l"abd"
     3
