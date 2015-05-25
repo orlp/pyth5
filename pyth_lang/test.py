@@ -288,6 +288,39 @@ class CloseAll(metaclass=PythTest):
 
 
 # <
+class LessThan(metaclass=PythTest):
+    r"""
+    <5 10
+    1
+    ---
+    <5 5
+    0
+    ---
+    <-)0
+    1
+    ---
+    <0+)
+    1
+    ---
+    <-)+)
+    1
+    ---
+    <+)-)
+    0
+    ---
+    <[1 2)[3 1)
+    1
+    ---
+    <[3 1)[1 2)
+    0
+    ---
+    <"nini"3
+    nin
+    ---
+    <"foobar"0
+    """
+
+
 # =
 class Assign(metaclass=PythTest):
     r"""

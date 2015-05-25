@@ -4,6 +4,7 @@ EXPR_FUNC = {
     '+': 'plus',
     ',': 'pair',
     '-': 'minus',
+    '<': 'less_than',
     ']': 'one_list',
     '^': 'power',
     '_': 'neg',

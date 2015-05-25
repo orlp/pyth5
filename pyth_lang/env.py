@@ -196,6 +196,16 @@ def minus(a=None, b=None):
 # :
 # ;
 # <
+def less_than(a, b):
+    if issig('qr', a, b):
+        return a[:sym.floor(b)]
+
+    if issig('rr', a, b) or issig('ll', a, b) or issig('ss', a, b):
+        return Real(bool(a < b))
+
+    raise BadTypeCombinationError('less_than', a, b)
+
+
 # =
 def assign(a, b):
     if isstr(a):
@@ -300,7 +310,7 @@ def Pprint(a=None):
 
 # q
 def equals(a, b):
-    return Real(a == b)
+    return Real(bool(a == b))
 
 
 # r

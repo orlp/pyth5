@@ -84,7 +84,8 @@ b, etc as respectively the first, second, etc parameter.
  /
  :
  ; S close-all      Closes all open symbols and blocks. Infinite ).
- <
+ < 2 less-than      Python <.
+               qr   Python a[:floor(b)].
  = 2 assign         Deep copy assignment. Returns returns the updated value.
  >
  ? 3 ternary        Python ternary. ?abc becomes a if b else c.
@@ -93,7 +94,7 @@ b, etc as respectively the first, second, etc parameter.
  \ 0 one-str        One-character string literal.
  ] 1 one-list       Equivalent to Python [a].
  ^ 2 power      rr  Power.
-                qr  Cartesian product of a with b repeats.
+                qr  Cartesian product of a with floor(b) repeats.
  _ 1 neg         r  Negation.
                  q  Reverse (a[::-1]).
  ` 1 repr           Python repr.
