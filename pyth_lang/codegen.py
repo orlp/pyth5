@@ -64,6 +64,10 @@ class Codegen:
 
             lines.append(child_code)
 
+        if node.data == 'F':
+            lines = [" "*4 + line for line in lines]
+            lines = ['for {} in {}:'.format(node.variable.data, self._gen_expr(node.iterable))] + lines
+
         return '\n'.join(lines)
 
     def _gen_expr(self, node):

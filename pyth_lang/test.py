@@ -704,6 +704,27 @@ class Tail(metaclass=PythTest):
 # D
 # E
 # F
+class For(metaclass=PythTest):
+    r"""
+    FZ[1 42 30 3)+Z5Z)10
+    6
+    1
+    47
+    42
+    35
+    30
+    8
+    3
+    10
+    ---
+    FZ"test"+"ni"Z
+    nit
+    nie
+    nis
+    nit
+    """
+
+
 # G
 # H
 # I

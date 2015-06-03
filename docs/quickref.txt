@@ -141,7 +141,7 @@ b, etc as respectively the first, second, etc parameter.
  C
  D
  E
- F
+ F S for            Fab becomes Python's for a in b.
  G
  H
  I

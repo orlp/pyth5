@@ -4,9 +4,9 @@
 # !"#$%&'()*+,-/:;<=>?@[\]^_`{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 # <.symbols>
 
-VARIABLES = 'bZ'
+VARIABLES = ['b', 'Z']
 NEVER_PRINT = {'='}
-BLOCK_TOKS = ''
+BLOCK_TOKS = 'F'
 LAMBDA_TOKS = {'L'}
 
 ARITIES = {
@@ -48,10 +48,11 @@ class ParserError(Exception):
 
 
 class ASTNode:
-    def __init__(self, type, data, children=None):
+    def __init__(self, type, data, children=None, attrib=None):
         self.type = type
         self.data = data
         self.children = children or []
+        self.attrib = attrib or {}
 
     def __repr__(self):
         return 'ASTNode({!r}, {!r}, {!r})'.format(self.type, self.data, self.children)
@@ -115,10 +116,19 @@ class Parser:
 
     def _parse_block(self, root=False):
         implicit_print = True
-        children = []
 
         if not root:
-            block = self.lex.get_token()
+            block_tok = self.lex.get_token()
+
+        block = ASTNode('block', 'root' if root else block_tok.data)
+
+        if block.data == 'F':
+            var = self.lex.peek_token()
+            if var.type != 'symb' or var.data not in VARIABLES:
+                raise ParserError("expected variable after 'F'")
+
+            block.variable = self._parse_expr()
+            block.iterable = self._parse_expr()
 
         while self.lex.has_token():
             tok = self.lex.peek_token()
@@ -137,7 +147,7 @@ class Parser:
                     self.lex.get_token()
                 break
             elif tok.type == 'symb' and tok.data in BLOCK_TOKS:
-                children.append((self._parse_block(), False))
+                block.children.append((self._parse_block(), False))
                 implicit_print = True
             else:
                 if tok.type == 'symb' and tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
@@ -150,7 +160,7 @@ class Parser:
 
                 if tok.type == 'symb' and tok.data in NEVER_PRINT:
                     implicit_print = False
-                children.append((expr, implicit_print))
+                block.children.append((expr, implicit_print))
                 implicit_print = True
 
-        return ASTNode('block', 'root' if root else block.data, children)
+        return block
