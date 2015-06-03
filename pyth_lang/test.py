@@ -318,6 +318,9 @@ class LessThan(metaclass=PythTest):
     nin
     ---
     <"foobar"0
+    ---
+    <3"nini"
+    n
     """
 
 
@@ -365,6 +368,9 @@ class GreaterThan(metaclass=PythTest):
     ini
     ---
     >"foobar"_2
+    ar
+    ---
+    >2"foobar"
     ar
     """
 

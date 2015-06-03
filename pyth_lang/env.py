@@ -204,6 +204,9 @@ def less_than(a, b):
     if issig('qr', a, b):
         return a[:sym.floor(b)]
 
+    if issig('rq', a, b):
+        return b[:-sym.floor(a)]
+
     if issig('rr', a, b) or issig('ll', a, b) or issig('ss', a, b):
         return Real(bool(a < b))
 
@@ -222,6 +225,9 @@ def assign(a, b):
 def greater_than(a, b):
     if issig('qr', a, b):
         return a[sym.floor(b):]
+
+    if issig('rq', a, b):
+        return b[-sym.floor(a):]
 
     if issig('rr', a, b) or issig('ll', a, b) or issig('ss', a, b):
         return Real(bool(a > b))
