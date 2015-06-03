@@ -1,19 +1,27 @@
 EXPR_FUNC = {
-    '!': 'Pnot',
-    '*': 'times',
-    '+': 'plus',
-    ',': 'pair',
-    '-': 'minus',
-    ']': 'one_list',
-    '_': 'neg',
-    '`': 'Prepr',
-    'h': 'head',
-    'l': 'Plen',
-    'p': 'Pprint',
-    'q': 'equals',
-    't': 'tail',
-    'L': 'L',
-    'U': 'unary_range',
+    '!':  'Pnot',
+    '*':  'times',
+    '+':  'plus',
+    ',':  'pair',
+    '-':  'minus',
+    '<':  'less_than',
+    '>':  'greater_than',
+    ']':  'one_list',
+    '^':  'power',
+    '_':  'neg',
+    '`':  'Prepr',
+    '}':  'Pin',
+    'h':  'head',
+    'l':  'Plen',
+    'p':  'Pprint',
+    'q':  'equals',
+    's':  'Psum',
+    't':  'tail',
+    'L':  'L',
+    'U':  'unary_range',
+    '.!': 'factorial',
+    '.<':  'leftshift',
+    '.>':  'rightshift',
 }
 
 # Simple pattern with fixed arity.
@@ -47,7 +55,7 @@ class Codegen:
             elif child.type == 'expr':
                 child_code = self._gen_expr(child)
             elif child.type == 'lit':
-                child_code = child.data
+                child_code = self._gen_lit(child)
             else:
                 raise CodegenError("unknown child type: '{}'".format(child.type))
 
@@ -62,7 +70,7 @@ class Codegen:
         assert node.type == 'expr' or node.type == 'lit'
 
         if node.type == 'lit':
-            return node.data
+            return self._gen_lit(node)
 
         if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
@@ -85,3 +93,9 @@ class Codegen:
             return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))
 
         raise CodegenError("AST node ('{}', '{}') not implemented".format(node.type, node.data))
+
+    def _gen_lit(self, node):
+        if node.data[-1] in '0123456789.':
+            return "Real('{}')".format(node.data)
+
+        return node.data

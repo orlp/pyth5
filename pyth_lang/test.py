@@ -288,6 +288,39 @@ class CloseAll(metaclass=PythTest):
 
 
 # <
+class LessThan(metaclass=PythTest):
+    r"""
+    <5 10
+    1
+    ---
+    <5 5
+    0
+    ---
+    <-)0
+    1
+    ---
+    <0+)
+    1
+    ---
+    <-)+)
+    1
+    ---
+    <+)-)
+    0
+    ---
+    <[1 2)[3 1)
+    1
+    ---
+    <[3 1)[1 2)
+    0
+    ---
+    <"nini"3
+    nin
+    ---
+    <"foobar"0
+    """
+
+
 # =
 class Assign(metaclass=PythTest):
     r"""
@@ -302,6 +335,40 @@ class Assign(metaclass=PythTest):
 
 
 # >
+class GreaterThan(metaclass=PythTest):
+    r"""
+    >5 10
+    0
+    ---
+    >5 5
+    0
+    ---
+    >-)0
+    0
+    ---
+    >0+)
+    0
+    ---
+    >-)+)
+    0
+    ---
+    >+)-)
+    1
+    ---
+    >[1 2)[3 1)
+    0
+    ---
+    >[3 1)[1 2)
+    1
+    ---
+    >"nini"1
+    ini
+    ---
+    >"foobar"_2
+    ar
+    """
+
+
 # ?
 class Ternary(metaclass=PythTest):
     r"""
@@ -364,6 +431,22 @@ class OneList(metaclass=PythTest):
 
 
 # ^
+class Power(metaclass=PythTest):
+    r"""
+    ^.04 .5
+    0.2
+    ---
+    ^50 0
+    1
+    ---
+    ^"bar"2
+    ['bb', 'ba', 'br', 'ab', 'aa', 'ar', 'rb', 'ra', 'rr']
+    ---
+    ^U2 3
+    [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
+    """
+
+
 # _
 class Neg(metaclass=PythTest):
     r"""
@@ -414,6 +497,40 @@ class Or(metaclass=PythTest):
 
 
 # }
+class In(metaclass=PythTest):
+    r"""
+    }5 .15
+    1
+    ---
+    }3 42
+    0
+    ---
+    }20"120"
+    1
+    ---
+    }23"32"
+    0
+    ---
+    }"test"["testing""bar"
+    0
+    ---
+    }"test"["foo""test"
+    1
+    ---
+    }3U4
+    1
+    ---
+    }4U4
+    0
+    ---
+    },1 2[,0 1,1 2,3 4
+    1
+    ---
+    }[1)U4
+    0
+    """
+
+
 # ~
 # a
 # b
@@ -453,7 +570,7 @@ class Head(metaclass=PythTest):
 class Len(metaclass=PythTest):
     r"""
     l1
-    0.0
+    0
     ---
     l"abd"
     3
@@ -524,6 +641,37 @@ class Equals(metaclass=PythTest):
 
 # r
 # s
+class Sum(metaclass=PythTest):
+    r"""
+    s.5
+    0
+    ---
+    s_.5
+    -1
+    ---
+    s1
+    1
+    ---
+    s"1.5"
+    1.5
+    ---
+    s"01"
+    1
+    ---
+    sU5
+    10
+    ---
+    s["foo""bar""ni""spam")
+    foobarnispam
+    ---
+    s["foo"0"bar"1)
+    foo0bar1
+    ---
+    s[
+    0
+    """
+
+
 # t
 class Tail(metaclass=PythTest):
     r"""
@@ -557,13 +705,15 @@ class Tail(metaclass=PythTest):
 # K
 # L
 class Lambda(metaclass=PythTest):
-    # TODO: recursion testcase.
     r"""
     L*5b2L50
     10
     250
     ---
     L0
+    ---
+    L|<b1*bLtb5
+    120
     ---
     L0)L"test"
     0
@@ -616,6 +766,19 @@ class Zero(metaclass=PythTest):
 
 
 # .!
+class Factorial(metaclass=PythTest):
+    r"""
+    .!5
+    120
+    ---
+    .!0
+    1
+    ---
+    .!.5
+    0.88622692545275801365
+    """
+
+
 # ."
 class BinString(metaclass=PythTest):
     r"""
@@ -645,8 +808,49 @@ class BinString(metaclass=PythTest):
 # .:
 # .;
 # .<
+class Leftshift(metaclass=PythTest):
+    r"""
+    .<3 3
+    24
+    ---
+    .<0 10
+    0
+    ---
+    .<1 8
+    256
+    ---
+    .<"foobar"2
+    obarfo
+    ---
+    .<U10 3
+    [3, 4, 5, 6, 7, 8, 9, 0, 1, 2]
+    """
+
+
 # .=
 # .>
+class Rightshift(metaclass=PythTest):
+    r"""
+    .>24 3
+    3
+    ---
+    .>0 10
+    0
+    ---
+    .>256 8
+    1
+    ---
+    .>7 1
+    3
+    ---
+    .>"foobar"2
+    arfoob
+    ---
+    .>U10 3
+    [7, 8, 9, 0, 1, 2, 3, 4, 5, 6]
+    """
+
+
 # .?
 # .@
 # .[

@@ -1,7 +1,10 @@
 import collections.abc
 import itertools
-import math
+import functools
 import copy
+import sympy as sym
+
+from sympy import Rational as Real
 
 
 class BadTypeCombinationError(Exception):
@@ -18,11 +21,12 @@ class BadTypeCombinationError(Exception):
 
 # The environment of Pyth.
 environment = {}
+precision = Real(20)
 
 
 # Helper functions.
 def isreal(obj):
-    return isinstance(obj, int)
+    return isinstance(obj, sym.Expr)
 
 
 def isstr(obj):
@@ -65,20 +69,38 @@ def issig(pattern, *objs):
 
 
 def real_to_range(r):
-    n = math.floor(r)
+    n = sym.floor(r)
     if n < 0:
-        return range(n, 0)
-    return range(0, n)
+        return sym.Range(n, 0)
+    return sym.Range(0, n)
+
+
+def Pstr(a):
+    if isreal(a):
+        if a == sym.oo:
+            return 'inf'
+        if a == -sym.oo:
+            return '-inf'
+        if a.is_integer:
+            return str(a)
+
+        s = str(a.evalf(precision)).rstrip('0').rstrip('.')
+        return s or '0'
+
+    if islist(a):
+        return '[{}]'.format(', '.join(map(Prepr, a)))
+
+    return str(a)
 
 
 def autoprint(a):
     if a is not None:
-        print(a)
+        print(Pstr(a))
 
 
 # !
 def Pnot(a):
-    return int(not a)
+    return Real(not a)
 
 
 # '
@@ -95,10 +117,10 @@ def times(a, b):
         return a * b
 
     if issig('rq', a, b):
-        return int(a) * b
+        return sym.floor(a) * b
 
     if issig('qr', a, b):
-        return a * int(b)
+        return a * sym.floor(b)
 
     if issig('ss', a, b):
         return [p + q for p, q in itertools.product(a, b)]
@@ -112,12 +134,12 @@ def times(a, b):
 # +
 def plus(a=None, b=None):
     if issig('__', a, b):
-        return float('inf')
+        return sym.oo
 
     if issig('r_', a, b):
-        return abs(a)
+        return sym.Abs(a)
 
-    if type(a) is type(b):
+    if issig('rr', a, b) or type(a) is type(b):
         return a + b
 
     if issig('al', a, b):
@@ -127,7 +149,7 @@ def plus(a=None, b=None):
         return a + [b]
 
     if issig('rs', a, b) or issig('sr', a, b):
-        return str(a) + str(b)
+        return Pstr(a) + Pstr(b)
 
     raise BadTypeCombinationError('plus', a, b)
 
@@ -146,10 +168,10 @@ def pair(a=None, b=None):
 # -
 def minus(a=None, b=None):
     if issig('__', a, b):
-        return -float('inf')
+        return -sym.oo
 
     if issig('r_', a, b):
-        return -abs(a)
+        return -sym.Abs(a)
 
     if issig('rr', a, b):
         return a - b
@@ -164,11 +186,11 @@ def minus(a=None, b=None):
         return [el for el in a if el not in b]
 
     if issig('ss', a, b) or issig('sr', a, b) or issig('rs', a, b):
-        return str(a).replace(str(b), '')
+        return Pstr(a).replace(Pstr(b), '')
 
     if issig('sl', a, b):
         for el in b:
-            a = a.replace(str(el), '')
+            a = a.replace(Pstr(el), '')
         return a
 
     raise BadTypeCombinationError('minus', a, b)
@@ -178,6 +200,16 @@ def minus(a=None, b=None):
 # :
 # ;
 # <
+def less_than(a, b):
+    if issig('qr', a, b):
+        return a[:sym.floor(b)]
+
+    if issig('rr', a, b) or issig('ll', a, b) or issig('ss', a, b):
+        return Real(bool(a < b))
+
+    raise BadTypeCombinationError('less_than', a, b)
+
+
 # =
 def assign(a, b):
     if isstr(a):
@@ -187,6 +219,16 @@ def assign(a, b):
 
 
 # >
+def greater_than(a, b):
+    if issig('qr', a, b):
+        return a[sym.floor(b):]
+
+    if issig('rr', a, b) or issig('ll', a, b) or issig('ss', a, b):
+        return Real(bool(a > b))
+
+    raise BadTypeCombinationError('greater_than', a, b)
+
+
 # ?
 # @
 # [
@@ -200,6 +242,19 @@ def one_list(a=None):
 
 
 # ^
+def power(a, b):
+    if issig('rr', a, b):
+        return sym.Pow(a, b)
+
+    if issig('sr', a, b):
+        return [p + q for p, q in itertools.product(a, repeat=sym.floor(b))]
+
+    if issig('qr', a, b):
+        return [list(tup) for tup in itertools.product(a, repeat=sym.floor(b))]
+
+    raise BadTypeCombinationError('power', a, b)
+
+
 # _
 def neg(a):
     if isreal(a):
@@ -212,12 +267,26 @@ def neg(a):
 
 
 # `
-Prepr = repr
+def Prepr(a):
+    if isstr(a):
+        return "'{}'".format(a)
+
+    return Pstr(a)
 
 
 # {
 # |
 # }
+def Pin(a, b):
+    if issig('al', a, b):
+        return Real(a in b)
+
+    if issig('rr', a, b) or issig('rs', a, b) or issig('sr', a, b) or issig('ss', a, b):
+        return Real(Pstr(a) in Pstr(b))
+
+    raise BadTypeCombinationError('Pin', a, b)
+
+
 # ~
 # a
 # b
@@ -246,10 +315,10 @@ def head(a):
 # l
 def Plen(a):
     if isseq(a):
-        return len(a)
+        return Real(len(a))
 
     if isreal(a):
-        return math.log(a, 2)
+        return sym.log(a, 2)
 
     raise BadTypeCombinationError('Plen', a)
 
@@ -265,11 +334,27 @@ def Pprint(a=None):
 
 # q
 def equals(a, b):
-    return int(a == b)
+    return Real(bool(a == b))
 
 
 # r
 # s
+def Psum(a):
+    if isstr(a):
+        return Real(a)
+
+    if islist(a):
+        if a:
+            return functools.reduce(plus, a)
+
+        return Real(0)
+
+    if isreal(a):
+        return sym.floor(a)
+
+    raise BadTypeCombinationError('Psum', a)
+
+
 # t
 def tail(a):
     if isseq(a):
@@ -323,10 +408,20 @@ def unary_range(a):
 # X
 # Y
 # Z
-Z = 0
+Z = Real(0)
 
 
 # .!
+def factorial(a):
+    if isreal(a):
+        if not a.is_integer:
+            a = a.evalf(precision)
+
+        return sym.factorial(a)
+
+    raise BadTypeCombinationError('factorial', a)
+
+
 # .#
 # .$
 # .%
@@ -342,8 +437,30 @@ Z = 0
 # .:
 # .;
 # .<
+def leftshift(a, b):
+    if issig('rr', a, b):
+        return Real(int(sym.floor(a)) << int(sym.floor(b)))
+
+    if issig('qr', a, b):
+        b = sym.floor(b)
+        return a[b:] + a[:b]
+
+    raise BadTypeCombinationError('leftshift', a, b)
+
+
 # .=
 # .>
+def rightshift(a, b):
+    if issig('rr', a, b):
+        return Real(int(sym.floor(a)) >> int(sym.floor(b)))
+
+    if issig('qr', a, b):
+        b = sym.floor(b)
+        return a[-b:] + a[:-b]
+
+    raise BadTypeCombinationError('rightshift', a, b)
+
+
 # .?
 # .@
 # .[
@@ -411,7 +528,7 @@ Z = 0
 
 
 def run(code):
-    blacklist = {'collections', 'itertools', 'math', 'copy',
+    blacklist = {'collections', 'itertools', 'copy', 'sym', 'functools',
                  'BadTypeCombinationError',
                  'isreal', 'isstr', 'islist', 'isseq', 'issig', 'real_to_range',
                  'run'}
