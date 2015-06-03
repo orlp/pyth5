@@ -66,7 +66,7 @@ class Codegen:
 
         if node.data == 'F':
             lines = [" "*4 + line for line in lines]
-            lines = ['for {} in {}:'.format(node.variable.data, self._gen_expr(node.iterable))] + lines
+            lines = ['for {} in makeiter({}):'.format(node.variable.data, self._gen_expr(node.iterable))] + lines
 
         return '\n'.join(lines)
 

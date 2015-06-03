@@ -98,6 +98,13 @@ def autoprint(a):
         print(Pstr(a))
 
 
+def makeiter(r):
+    if isreal(r):
+        return real_to_range(r)
+
+    return r
+
+
 # !
 def Pnot(a):
     return Real(not a)

@@ -722,6 +722,13 @@ class For(metaclass=PythTest):
     nie
     nis
     nit
+    ---
+    FZ5^Z3
+    0
+    1
+    8
+    27
+    64
     """
 
 
