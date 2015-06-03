@@ -53,14 +53,6 @@ class ASTNode:
         self.data = data
         self.children = children or []
 
-    def __str__(self, level=0):
-        r = '  ' * level + '{} {}'.format(self.type, self.data)
-        for child in self.children:
-            if self.type == 'block':
-                child = child[0]
-            r += '\n' + child.__str__(level + 1)
-        return r
-
     def __repr__(self):
         return 'ASTNode({!r}, {!r}, {!r})'.format(self.type, self.data, self.children)
 
@@ -150,6 +142,7 @@ class Parser:
             else:
                 if tok.type == 'symb' and tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
                     expr = self._parse_expr()
+                    # Don't autoprint if we're only defining a lambda function.
                     if len(expr.children) == 1:
                         implicit_print = False
                 else:
