@@ -64,7 +64,7 @@ b, etc as respectively the first, second, etc parameter.
  (
  ) S close          Close one open expr or block. [) becomes [] in Python.
  * 2 times          Python *.
-            rs|sr   Truncate real before multiplying.
+            rs|sr   Truncate real and repeat sequence.
                sq   Cartesian product.
  + 2 plus           On both same type, Python +.
             al|la   Prepend/append.
