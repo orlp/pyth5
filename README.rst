@@ -40,5 +40,6 @@ tests for, say, ``+`` by running ``python3 -m unittest pyth_lang.test.Add``.
 
 Or even better, use nose (`pip3 install nose`) and run `nosetests`. nose has all
 kinds of amazing plugins and tools, for example if you install Ned Batchelder’s
-coverage plugin (`pip3 install coverage`) and run `nosetests --with-coverage`
-you get a code coverage summary for the testsuite.
+coverage plugin (`pip3 install coverage`) and run `nosetests --with-coverage
+--cover-html --cover-package pyth_lang` you get a code coverage summary for the
+testsuite.
