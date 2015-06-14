@@ -43,7 +43,7 @@ class Codegen:
         self.seen_lambda = set()
 
     def gen_code(self):
-        return self._gen_block(self.ast)
+        return "\n".join(self._gen_block(self.ast))
 
     def _gen_block(self, node, level=0):
         assert node.type == 'block'
@@ -62,13 +62,20 @@ class Codegen:
             if implicit_print:
                 child_code = 'autoprint(' + child_code + ')'
 
-            lines.append(child_code)
+            if child.type == 'block':
+                lines += child_code
+            else:
+                lines.append(child_code)
 
         if node.data == 'F':
             lines = [" "*4 + line for line in lines]
             lines = ['for {} in makeiter({}):'.format(node.variable.data, self._gen_expr(node.iterable))] + lines
+        elif node.data == 'B':
+            lines = ['break']
+        elif node.data != 'root':
+            raise CodegenError("unknown block type: '{}'".format(node.data))
 
-        return '\n'.join(lines)
+        return lines
 
     def _gen_expr(self, node):
         assert node.type == 'expr' or node.type == 'lit'

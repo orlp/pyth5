@@ -137,11 +137,11 @@ b, etc as respectively the first, second, etc parameter.
  y
  z
  A
- B
+ B 0 break          Python break. Implicit ).
  C
  D
  E
- F S for            Fab becomes Python's for a in b.
+ F S for            Fab becomes Python's for a in b. Works as FaUb if b is real.
  G
  H
  I

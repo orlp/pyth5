@@ -700,6 +700,23 @@ class Tail(metaclass=PythTest):
 # z
 # A
 # B
+class Break(metaclass=PythTest):
+    r"""
+    FZ[1 2)ZB
+    1
+    ---
+    Fb"test"FZ"12"+bZB
+    t1
+    e1
+    s1
+    t1
+    ---
+    Fb"test"FZ"12"+bZ)B
+    t1
+    t2
+    """
+
+
 # C
 # D
 # E

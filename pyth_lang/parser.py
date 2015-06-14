@@ -6,7 +6,7 @@
 
 VARIABLES = ['b', 'Z']
 NEVER_PRINT = {'='}
-BLOCK_TOKS = 'F'
+BLOCK_TOKS = 'FB'
 LAMBDA_TOKS = {'L'}
 
 ARITIES = {
@@ -134,8 +134,18 @@ class Parser:
             tok = self.lex.peek_token()
 
             if tok.type == 'symb' and tok.data == ' ':
-                implicit_print = False
                 self.lex.get_token()
+                implicit_print = False
+
+            # Handle break.
+            elif tok.type == 'symb' and tok.data in 'B':
+                self.lex.get_token()
+                block.children.append((ASTNode('block', 'B'), False))
+                implicit_print = True
+
+                if not root:
+                    break
+
             elif tok.type == 'symb' and tok.data in ');':
                 # Ignore symbol exit if we're root.
                 if root:
