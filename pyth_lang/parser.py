@@ -4,7 +4,7 @@
 # !"#$%&'()*+,-/:;<=>?@[\]^_`{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 # <.symbols>
 
-VARIABLES = ['b', 'Z']
+VARIABLES = ['b', 'T', 'Z']
 NEVER_PRINT = {'='}
 BLOCK_TOKS = 'FB'
 LAMBDA_TOKS = {'L'}
@@ -34,6 +34,7 @@ ARITIES = {
     'q':  2,
     's':  1,
     't':  1,
+    'T':  0,
     'L':  1,
     'U':  1,
     'Z':  0,

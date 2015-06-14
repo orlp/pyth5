@@ -783,6 +783,16 @@ class Lambda(metaclass=PythTest):
 # R
 # S
 # T
+class Ten(metaclass=PythTest):
+    r"""
+    T
+    10
+    ---
+    =T*T2T
+    20
+    """
+
+
 # U
 class UnaryRange(metaclass=PythTest):
     r"""

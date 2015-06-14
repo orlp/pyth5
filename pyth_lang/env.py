@@ -405,6 +405,9 @@ def tail(a):
 # R
 # S
 # T
+T = Real(10)
+
+
 # U
 def unary_range(a):
     if isreal(a):

@@ -157,7 +157,7 @@ b, etc as respectively the first, second, etc parameter.
  Q
  R
  S
- T
+ T 0 ten            Variable with initial value 10.
  U 1 unary-range q  Python range(len(a)).
                  r  If a > 0 range(floor(a)) else range(floor(a), 0).
  V
