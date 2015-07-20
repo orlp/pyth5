@@ -334,6 +334,12 @@ class Assign(metaclass=PythTest):
     0
     8
     5
+    ---
+    =+Z5Z
+    5
+    ---
+    =Z5=.!ZZ
+    120
     """
 
 

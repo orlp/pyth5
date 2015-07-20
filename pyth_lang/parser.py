@@ -67,8 +67,8 @@ class Parser:
     def parse(self):
         return self._parse_block(True)
 
-    def _parse_expr(self):
-        tok = self.lex.get_token()
+    def _parse_expr(self, start_tok=None):
+        tok = start_tok or self.lex.get_token()
 
         if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
             return ASTNode('lit', tok.data)
@@ -79,13 +79,11 @@ class Parser:
                 .format(tok.data)
             )
 
-        if tok.data == '=':
-            var = self.lex.peek_token()
-            if var.type != 'symb' or var.data not in VARIABLES:
-                raise ParserError("expected variable after '='")
-
         if tok.data not in ARITIES:
             raise ParserError("symbol not implemented: '{}'".format(tok.data))
+
+        if tok.data == '=':
+            return self._parse_assign()
 
         data = tok.data
         children = []
@@ -114,6 +112,26 @@ class Parser:
             arity -= 1
 
         return ASTNode('expr', data, children)
+
+    def _parse_assign(self):
+        assign_var = self.lex.get_token()
+        if assign_var.type != 'symb':
+            raise ParserError("expected symbol after '='")
+
+        if assign_var.data in VARIABLES:
+            return ASTNode('expr', '=', [ASTNode('lit', assign_var.data, []), self._parse_expr()])
+
+        start_tok = assign_var
+        if start_tok.data not in ARITIES or ARITIES[start_tok.data] < 1 or start_tok.data == '=':
+            raise ParserError("expected function after '='")
+
+        # We peek to keep the variable in the lexer as first argument.
+        assign_var = self.lex.peek_token()
+        if assign_var.type != 'symb' or assign_var.data not in VARIABLES:
+            raise ParserError("expected variable after '={}'".format(start_tok.data))
+
+        return ASTNode('expr', '=', [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
+
 
     def _parse_block(self, root=False):
         implicit_print = True
