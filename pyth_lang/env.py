@@ -110,32 +110,41 @@ def Pnot(a):
     return Real(not a)
 
 
-# '
-# #
-# $
-# %
 # &
-# '
+# |
+# ?
 # (
 # )
-# *
-def times(a, b):
-    if issig('rr', a, b):
-        return a * b
+# ;
+# [
+# ]
+def one_list(a=None):
+    if a is None:
+        return []
 
-    if issig('rq', a, b):
-        return sym.floor(a) * b
+    return [a]
 
-    if issig('qr', a, b):
-        return a * sym.floor(b)
 
-    if issig('ss', a, b):
-        return [p + q for p, q in itertools.product(a, b)]
+# ,
+def pair(a=None, b=None):
+    if issig('__', a, b):
+        return []
 
-    if issig('qq', a, b):
-        return [list(tup) for tup in itertools.product(a, b)]
+    if issig('a_', a, b):
+        return [a]
 
-    raise BadTypeCombinationError('times', a, b)
+    return [a, b]
+
+
+# _
+def neg(a):
+    if isreal(a):
+        return -a
+
+    if isseq(a):
+        return a[::-1]
+
+    raise BadTypeCombinationError('neg', a)
 
 
 # +
@@ -159,17 +168,6 @@ def plus(a=None, b=None):
         return Pstr(a) + Pstr(b)
 
     raise BadTypeCombinationError('plus', a, b)
-
-
-# ,
-def pair(a=None, b=None):
-    if issig('__', a, b):
-        return []
-
-    if issig('a_', a, b):
-        return [a]
-
-    return [a, b]
 
 
 # -
@@ -203,9 +201,50 @@ def minus(a=None, b=None):
     raise BadTypeCombinationError('minus', a, b)
 
 
+# *
+def times(a, b):
+    if issig('rr', a, b):
+        return a * b
+
+    if issig('rq', a, b):
+        return sym.floor(a) * b
+
+    if issig('qr', a, b):
+        return a * sym.floor(b)
+
+    if issig('ss', a, b):
+        return [p + q for p, q in itertools.product(a, b)]
+
+    if issig('qq', a, b):
+        return [list(tup) for tup in itertools.product(a, b)]
+
+    raise BadTypeCombinationError('times', a, b)
+
+
 # /
-# :
-# ;
+# %
+# ^
+def power(a, b):
+    if issig('rr', a, b):
+        return sym.Pow(a, b)
+
+    if issig('sr', a, b):
+        return [p + q for p, q in itertools.product(a, repeat=sym.floor(b))]
+
+    if issig('qr', a, b):
+        return [list(tup) for tup in itertools.product(a, repeat=sym.floor(b))]
+
+    raise BadTypeCombinationError('power', a, b)
+
+
+# =
+def assign(a, b):
+    if isstr(a):
+        environment[a] = b
+
+    return b
+
+
 # <
 def less_than(a, b):
     if issig('qr', a, b):
@@ -218,14 +257,6 @@ def less_than(a, b):
         return Real(bool(a < b))
 
     raise BadTypeCombinationError('less_than', a, b)
-
-
-# =
-def assign(a, b):
-    if isstr(a):
-        environment[a] = b
-
-    return b
 
 
 # >
@@ -242,53 +273,9 @@ def greater_than(a, b):
     raise BadTypeCombinationError('greater_than', a, b)
 
 
-# ?
+# :
 # @
-# [
-# \
-# ]
-def one_list(a=None):
-    if a is None:
-        return []
-
-    return [a]
-
-
-# ^
-def power(a, b):
-    if issig('rr', a, b):
-        return sym.Pow(a, b)
-
-    if issig('sr', a, b):
-        return [p + q for p, q in itertools.product(a, repeat=sym.floor(b))]
-
-    if issig('qr', a, b):
-        return [list(tup) for tup in itertools.product(a, repeat=sym.floor(b))]
-
-    raise BadTypeCombinationError('power', a, b)
-
-
-# _
-def neg(a):
-    if isreal(a):
-        return -a
-
-    if isseq(a):
-        return a[::-1]
-
-    raise BadTypeCombinationError('neg', a)
-
-
-# `
-def Prepr(a):
-    if isstr(a):
-        return "'{}'".format(a)
-
-    return Pstr(a)
-
-
 # {
-# |
 # }
 def Pin(a, b):
     if issig('al', a, b):
@@ -300,7 +287,18 @@ def Pin(a, b):
     raise BadTypeCombinationError('Pin', a, b)
 
 
+# `
+def Prepr(a):
+    if isstr(a):
+        return "'{}'".format(a)
+
+    return Pstr(a)
+
+
+# '
 # ~
+# #
+# $
 # a
 # b
 b = "\n"
@@ -444,20 +442,23 @@ def factorial(a):
     raise BadTypeCombinationError('factorial', a)
 
 
-# .#
-# .$
-# .%
 # .&
-# .'
+# .|
+# .?
 # .(
 # .)
-# .*
-# .+
-# .,
-# .-
-# ./
-# .:
 # .;
+# .[
+# .]
+# .,
+# ._
+# .+
+# .-
+# .*
+# ./
+# .%
+# .^
+# .=
 # .<
 def leftshift(a, b):
     if issig('rr', a, b):
@@ -470,7 +471,6 @@ def leftshift(a, b):
     raise BadTypeCombinationError('leftshift', a, b)
 
 
-# .=
 # .>
 def rightshift(a, b):
     if issig('rr', a, b):
@@ -483,18 +483,15 @@ def rightshift(a, b):
     raise BadTypeCombinationError('rightshift', a, b)
 
 
-# .?
+# .:
 # .@
-# .[
-# .\
-# .]
-# .^
-# ._
-# .`
 # .{
-# .|
 # .}
+# .`
+# .'
 # .~
+# .#
+# .$
 # .a
 # .b
 # .c

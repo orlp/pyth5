@@ -66,6 +66,9 @@ class Blank(metaclass=PythTest):
      1
     ---
      "test"
+    ---
+    ,1 2
+    [1, 2]
     """
 
 
@@ -73,6 +76,31 @@ class Blank(metaclass=PythTest):
 class Newline(metaclass=PythTest):
     def test_newline(self):
         self.assert_pyth("1\n2", "1\n2")
+
+
+# "
+class String(metaclass=PythTest):
+    r"""
+    ""
+
+    ---
+    "test"
+    test
+    ---
+    "ye
+    ye
+    """
+
+
+# \
+class OneString(metaclass=PythTest):
+    r"""
+    \a
+    a
+    ---
+    \\
+    \
+    """
 
 
 # !
@@ -98,23 +126,6 @@ class Not(metaclass=PythTest):
     """
 
 
-# "
-class String(metaclass=PythTest):
-    r"""
-    ""
-
-    ---
-    "test"
-    test
-    ---
-    "ye
-    ye
-    """
-
-
-# #
-# $
-# %
 # &
 class And(metaclass=PythTest):
     r"""
@@ -131,7 +142,37 @@ class And(metaclass=PythTest):
     """
 
 
-# '
+# |
+class Or(metaclass=PythTest):
+    r"""
+    |3"test"
+    3
+    ---
+    |0"foobar"
+    foobar
+    ---
+    |1p"noeval"
+    1
+    """
+
+
+# ?
+class Ternary(metaclass=PythTest):
+    r"""
+    ?])2 3
+    3
+    ---
+    ?0"test""foo"
+    foo
+    ---
+    ?"test"1 3
+    1
+    ---
+    ?0p"noeval""yay"
+    yay
+    """
+
+
 # (
 # )
 class Close(metaclass=PythTest):
@@ -145,23 +186,85 @@ class Close(metaclass=PythTest):
     """
 
 
-# *
-class Times(metaclass=PythTest):
+# ;
+class CloseAll(metaclass=PythTest):
     r"""
-    *3 5
-    15
+    [[5;10
+    [[5]]
+    10
     ---
-    *3"ni"
-    ninini
+    -+10;5
+    -10
+    5
+    """
+
+
+# [
+class List(metaclass=PythTest):
+    r"""
+    [
+    []
     ---
-    *." "5
-    [32, 32, 32, 32, 32]
+    [0
+    [0]
     ---
-    *[10 20)[40 10)
-    [[10, 40], [10, 10], [20, 40], [20, 10]]
+    ["foo""bar")[10 20
+    ['foo', 'bar']
+    [10, 20]
+    """
+
+
+# ]
+class OneList(metaclass=PythTest):
+    r"""
+    ]5
+    [5]
     ---
-    *"foo""bar"
-    ['fb', 'fa', 'fr', 'ob', 'oa', 'or', 'ob', 'oa', 'or']
+    ]]]"test"
+    [[['test']]]
+    ---
+    ]
+    []
+    ---
+    ]]
+    [[]]
+    """
+
+
+# ,
+class Pair(metaclass=PythTest):
+    r"""
+    ,
+    []
+    ---
+    ,42
+    [42]
+    ---
+    ,"foo""bar"
+    ['foo', 'bar']
+    ---
+    ,,42 5
+    [[42, 5]]
+    """
+
+
+# _
+class Neg(metaclass=PythTest):
+    r"""
+    _5
+    -5
+    ---
+    __42
+    42
+    ---
+    _"foobar
+    raboof
+    ---
+    __"ni
+    ni
+    ---
+    _,2 3
+    [3, 2]
     """
 
 
@@ -197,23 +300,6 @@ class Plus(metaclass=PythTest):
     ---
     +)
     inf
-    """
-
-
-# ,
-class Pair(metaclass=PythTest):
-    r"""
-    ,
-    []
-    ---
-    ,42
-    [42]
-    ---
-    ,"foo""bar"
-    ['foo', 'bar']
-    ---
-    ,,42 5
-    [[42, 5]]
     """
 
 
@@ -272,18 +358,61 @@ class Minus(metaclass=PythTest):
     """
 
 
-# /
-# :
-# ;
-class CloseAll(metaclass=PythTest):
+# *
+class Times(metaclass=PythTest):
     r"""
-    [[5;10
-    [[5]]
-    10
+    *3 5
+    15
     ---
-    -+10;5
-    -10
+    *3"ni"
+    ninini
+    ---
+    *." "5
+    [32, 32, 32, 32, 32]
+    ---
+    *[10 20)[40 10)
+    [[10, 40], [10, 10], [20, 40], [20, 10]]
+    ---
+    *"foo""bar"
+    ['fb', 'fa', 'fr', 'ob', 'oa', 'or', 'ob', 'oa', 'or']
+    """
+
+
+# /
+# %
+# ^
+class Power(metaclass=PythTest):
+    r"""
+    ^.04 .5
+    0.2
+    ---
+    ^50 0
+    1
+    ---
+    ^"bar"2
+    ['bb', 'ba', 'br', 'ab', 'aa', 'ar', 'rb', 'ra', 'rr']
+    ---
+    ^U2 3
+    [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
+    """
+
+
+# =
+class Assign(metaclass=PythTest):
+    r"""
+    =Z5Z
     5
+    ---
+    Z+3=Z5Z
+    0
+    8
+    5
+    ---
+    =+Z5Z
+    5
+    ---
+    =Z5=.!ZZ
+    120
     """
 
 
@@ -321,25 +450,6 @@ class LessThan(metaclass=PythTest):
     ---
     <3"nini"
     n
-    """
-
-
-# =
-class Assign(metaclass=PythTest):
-    r"""
-    =Z5Z
-    5
-    ---
-    Z+3=Z5Z
-    0
-    8
-    5
-    ---
-    =+Z5Z
-    5
-    ---
-    =Z5=.!ZZ
-    120
     """
 
 
@@ -381,133 +491,9 @@ class GreaterThan(metaclass=PythTest):
     """
 
 
-# ?
-class Ternary(metaclass=PythTest):
-    r"""
-    ?])2 3
-    3
-    ---
-    ?0"test""foo"
-    foo
-    ---
-    ?"test"1 3
-    1
-    ---
-    ?0p"noeval""yay"
-    yay
-    """
-
-
+# :
 # @
-# [
-class List(metaclass=PythTest):
-    r"""
-    [
-    []
-    ---
-    [0
-    [0]
-    ---
-    ["foo""bar")[10 20
-    ['foo', 'bar']
-    [10, 20]
-    """
-
-
-# \
-class OneString(metaclass=PythTest):
-    r"""
-    \a
-    a
-    ---
-    \\
-    \
-    """
-
-
-# ]
-class OneList(metaclass=PythTest):
-    r"""
-    ]5
-    [5]
-    ---
-    ]]]"test"
-    [[['test']]]
-    ---
-    ]
-    []
-    ---
-    ]]
-    [[]]
-    """
-
-
-# ^
-class Power(metaclass=PythTest):
-    r"""
-    ^.04 .5
-    0.2
-    ---
-    ^50 0
-    1
-    ---
-    ^"bar"2
-    ['bb', 'ba', 'br', 'ab', 'aa', 'ar', 'rb', 'ra', 'rr']
-    ---
-    ^U2 3
-    [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
-    """
-
-
-# _
-class Neg(metaclass=PythTest):
-    r"""
-    _5
-    -5
-    ---
-    __42
-    42
-    ---
-    _"foobar
-    raboof
-    ---
-    __"ni
-    ni
-    ---
-    _,2 3
-    [3, 2]
-    """
-
-
-# `
-class Repr(metaclass=PythTest):
-    r"""
-    `5
-    5
-    ---
-    `"foo"
-    'foo'
-    ---
-    `[5 [3"test"
-    [5, [3, 'test']]
-    """
-
-
 # {
-# |
-class Or(metaclass=PythTest):
-    r"""
-    |3"test"
-    3
-    ---
-    |0"foobar"
-    foobar
-    ---
-    |1p"noeval"
-    1
-    """
-
-
 # }
 class In(metaclass=PythTest):
     r"""
@@ -543,7 +529,24 @@ class In(metaclass=PythTest):
     """
 
 
+# `
+class Repr(metaclass=PythTest):
+    r"""
+    `5
+    5
+    ---
+    `"foo"
+    'foo'
+    ---
+    `[5 [3"test"
+    [5, [3, 'test']]
+    """
+
+
+# '
 # ~
+# #
+# $
 # a
 # b
 class LineBreak(metaclass=PythTest):
@@ -868,20 +871,6 @@ class Zero(metaclass=PythTest):
     """
 
 
-# .!
-class Factorial(metaclass=PythTest):
-    r"""
-    .!5
-    120
-    ---
-    .!0
-    1
-    ---
-    .!.5
-    0.88622692545275801365
-    """
-
-
 # ."
 class BinString(metaclass=PythTest):
     r"""
@@ -896,20 +885,38 @@ class BinString(metaclass=PythTest):
     """
 
 
-# .#
-# .$
-# .%
+# .\
+# .!
+class Factorial(metaclass=PythTest):
+    r"""
+    .!5
+    120
+    ---
+    .!0
+    1
+    ---
+    .!.5
+    0.88622692545275801365
+    """
+
+
 # .&
-# .'
+# .|
+# .?
 # .(
 # .)
-# .*
-# .+
-# .,
-# .-
-# ./
-# .:
 # .;
+# .[
+# .]
+# .,
+# ._
+# .+
+# .-
+# .*
+# ./
+# .%
+# .^
+# .=
 # .<
 class Leftshift(metaclass=PythTest):
     r"""
@@ -930,7 +937,6 @@ class Leftshift(metaclass=PythTest):
     """
 
 
-# .=
 # .>
 class Rightshift(metaclass=PythTest):
     r"""
@@ -954,18 +960,15 @@ class Rightshift(metaclass=PythTest):
     """
 
 
-# .?
+# .:
 # .@
-# .[
-# .\
-# .]
-# .^
-# ._
-# .`
 # .{
-# .|
 # .}
+# .`
+# .'
 # .~
+# .#
+# .$
 # .a
 # .b
 # .c

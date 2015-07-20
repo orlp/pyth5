@@ -60,24 +60,25 @@ b, etc as respectively the first, second, etc parameter.
 
    0 blank          Seperates tokens and surpresses printing.
 \n 0 newline        Seperates tokens without surpressing printing.
- ! 1 not            Python not. Returns real: False -> 0, True -> 1.
  " 0 str            String literal.
- #
- $
- %
+ \ 0 one-str        One-character string literal.
+ ! 1 not            Python not. Returns real: False -> 0, True -> 1.
  & 2 and            Logical and. Short-circuiting.
- '
+ | 2 or             Logical or. Short-circuiting.
+ ? 3 ternary        Python ternary. ?abc becomes b if a else c.
  (
  ) S close          Close one open expr or block. [) becomes [] in Python.
- * 2 times          Python *.
-            rs|sr   Truncate real and repeat sequence.
-               sq   Cartesian product.
+ ; S close-all      Closes all open symbols and blocks. Infinite ).
+ [ U list           Unbounded list literal. Close with ).
+ ] 1 one-list       Equivalent to Python [a].
+ , 2 pair           Equivalent to Python [a, b].
+ _ 1 neg         r  Negation.
+                 q  Reverse (a[::-1]).
  + 2 plus           On both same type, Python +.
             al|la   Prepend/append.
             rs|sr   Convert to str and concatenate.
                r_   Absolute value.
                __   Positive infinity.
- , 2 pair           Equivalent to Python [a, b].
  - 2 minus     rr   Subtraction.
                rl   Convert a to range (like U) and setwise difference.
                ll   Setwise difference.
@@ -87,31 +88,31 @@ b, etc as respectively the first, second, etc parameter.
                       remove all occurences of the elements in b from a.
                r_   Negative absolute value.
                __   Negative infinity.
+ * 2 times          Python *.
+            rs|sr   Truncate real and repeat sequence.
+               sq   Cartesian product.
  /
- :
- ; S close-all      Closes all open symbols and blocks. Infinite ).
+ %
+ ^ 2 power      rr  Power.
+                qr  Cartesian product of a with floor(b) repeats.
+ = 2 assign         Deep copy assignment. Returns returns the updated value.
+                    Supports augmented assignment, e.g. =+Z5 is equal to =Z+Z5
  < 2 less-than      Python <.
                qr   Python a[:floor(b)].
                rq   Python b[:-floor(a)].
- = 2 assign         Deep copy assignment. Returns returns the updated value.
  > 2 greater-than   Python >.
                qr   Python a[floor(b):].
                rq   Python b[-floor(a):].
- ? 3 ternary        Python ternary. ?abc becomes b if a else c.
+ :
  @
- [ U list           Unbounded list literal. Close with ).
- \ 0 one-str        One-character string literal.
- ] 1 one-list       Equivalent to Python [a].
- ^ 2 power      rr  Power.
-                qr  Cartesian product of a with floor(b) repeats.
- _ 1 neg         r  Negation.
-                 q  Reverse (a[::-1]).
- ` 1 repr           Python repr.
  {
- | 2 or             Logical or. Short-circuiting.
  } 2 in             Python in.
           rr|rs|sr  Check if str(a) is in str(b).
+ ` 1 repr           Python repr.
+ '
  ~
+ #
+ $
  a
  b 0 line-break     Variable with initial value "\n".
  c
@@ -172,39 +173,39 @@ b, etc as respectively the first, second, etc parameter.
  X
  Y
  Z 0 zero           Variable with initial value 0.
-.! 1 factorial   r  Factorial or gamma(a+1) function.
 ."
-.#
-.$
-.%
+.\
+.! 1 factorial   r  Factorial or gamma(a+1) function.
 .&
-.'
+.|
+.?
 .(
 .)
-.*
-.+
-.,
-.-
-./
-.:
 .;
+.[
+.]
+.,
+._
+.+
+.-
+.*
+./
+.%
+.^
+.=
 .< 2 leftshift  rr  Python floor(a) << floor(b).
                 qr  Cyclic leftshift of a by floor(b).
-.=
 .> 2 rightshift rr  Python floor(a) >> floor(b).
                 qr  Cyclic rightshift of a by floor(b).
-.?
+.:
 .@
-.[
-.\
-.]
-.^
-._
-.`
 .{
-.|
 .}
+.`
+.'
 .~
+.#
+.$
 .a
 .b
 .c

@@ -1,8 +1,11 @@
 # To stay consistent, we keep all symbols in the following order where possible:
 # <space>
 # <newline>
-# !"#$%&'()*+,-/:;<=>?@[\]^_`{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+# "\!&|?();[],_+-*/%^=<>:@{}`'~#$
+# abcdefghijklmnopqrstuvwxyz
+# ABCDEFGHIJKLMNOPQRSTUVWXYZ
 # <.symbols>
+
 
 VARIABLES = ['b', 'd', 'k', 'T', 'Z']
 NO_AUTOPRINT = {'=', 'p'}
@@ -12,20 +15,20 @@ LAMBDA_TOKS = {'L'}
 ARITIES = {
     '!':  1,
     '&':  2,
-    '*':  2,
-    '+':  2,
-    ',':  2,
-    '-':  2,
-    '<':  2,
-    '=':  2,
-    '>':  2,
+    '|':  2,
     '?':  3,
     '[': -1,
     ']':  1,
-    '^':  2,
+    ',':  2,
     '_':  1,
+    '+':  2,
+    '-':  2,
+    '*':  2,
+    '^':  2,
+    '=':  2,
+    '<':  2,
+    '>':  2,
     '`':  1,
-    '|':  2,
     '}':  2,
     'b':  0,
     'd':  0,

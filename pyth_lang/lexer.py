@@ -11,7 +11,7 @@ Token = collections.namedtuple('Token', ['type', 'data'])
 class Lexer:
     ALPHA = b'abcdefghijklmnopqrstuvwxyz'
     NUM = b'0123456789'
-    SYMB = b" !#%&'()*+,-/:;<=>?@[]^_`{|}~"
+    SYMB = b" !&|?();[],_+-*/%^=<>:@{}`'~#$"
 
     def __init__(self, src):
         self.cache = []

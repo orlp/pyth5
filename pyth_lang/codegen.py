@@ -1,16 +1,17 @@
 import collections
 
+
 EXPR_FUNC = {
     '!':  'Pnot',
-    '*':  'times',
-    '+':  'plus',
+    ']':  'one_list',
     ',':  'pair',
+    '_':  'neg',
+    '+':  'plus',
     '-':  'minus',
+    '*':  'times',
+    '^':  'power',
     '<':  'less_than',
     '>':  'greater_than',
-    ']':  'one_list',
-    '^':  'power',
-    '_':  'neg',
     '`':  'Prepr',
     '}':  'Pin',
     'h':  'head',
@@ -28,8 +29,8 @@ EXPR_FUNC = {
 
 # Simple pattern with fixed arity.
 EXPR_PATTERN = {
-    '|': (2, '({} or {})'),
     '&': (2, '({} and {})'),
+    '|': (2, '({} or {})'),
     '?': (3, '({1} if {0} else {2})'),
     '=': (2, "assign('{}', {})"),
 }
