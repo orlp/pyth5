@@ -91,7 +91,7 @@ b, etc as respectively the first, second, etc parameter.
  > 2 greater-than   Python >.
                qr   Python a[floor(b):].
                rq   Python b[-floor(a):].
- ? 3 ternary        Python ternary. ?abc becomes a if b else c.
+ ? 3 ternary        Python ternary. ?abc becomes b if a else c.
  @
  [ U list           Unbounded list literal. Close with ).
  \ 0 one-str        One-character string literal.
@@ -122,7 +122,7 @@ b, etc as respectively the first, second, etc parameter.
  m
  n
  o
- p 1 print          Print without trailing newline.
+ p 1 print          Print without trailing newline. Returns its input.
  q 2 equals         Python ==.
  r
  s 1 sum         l  Fold elements using +. Sum of empty list is real 0.

@@ -378,16 +378,16 @@ class GreaterThan(metaclass=PythTest):
 # ?
 class Ternary(metaclass=PythTest):
     r"""
-    ?2])3
+    ?])2 3
     3
     ---
-    ?"test"0"foo"
+    ?0"test""foo"
     foo
     ---
-    ?1"test"3
+    ?"test"1 3
     1
     ---
-    ?p"noeval"0"yay"
+    ?0p"noeval""yay"
     yay
     """
 
@@ -482,8 +482,8 @@ class Repr(metaclass=PythTest):
     `"foo"
     'foo'
     ---
-    `p""
-    None
+    `[5 [3"test"
+    [5, [3, 'test']]
     """
 
 
@@ -616,6 +616,9 @@ class Print(metaclass=PythTest):
     p"no ""newline,""please
     no newline,
     please
+    ---
+    +5p3
+    38
     """
 
 

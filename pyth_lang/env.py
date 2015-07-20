@@ -340,9 +340,9 @@ def Plen(a):
 # n
 # o
 # p
-def Pprint(a=None):
-    if a is not None:
-        print(a, end="")
+def Pprint(a):
+    print(Pstr(a), end="")
+    return a
 
 
 # q

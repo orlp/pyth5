@@ -5,7 +5,7 @@
 # <.symbols>
 
 VARIABLES = ['b', 'T', 'Z']
-NEVER_PRINT = {'='}
+NO_AUTOPRINT = {'=', 'p'}
 BLOCK_TOKS = 'FB'
 LAMBDA_TOKS = {'L'}
 
@@ -169,7 +169,7 @@ class Parser:
                 else:
                     expr = self._parse_expr()
 
-                if tok.type == 'symb' and tok.data in NEVER_PRINT:
+                if tok.type == 'symb' and tok.data in NO_AUTOPRINT:
                     implicit_print = False
                 block.children.append((expr, implicit_print))
                 implicit_print = True
