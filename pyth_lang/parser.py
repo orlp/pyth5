@@ -4,7 +4,7 @@
 # !"#$%&'()*+,-/:;<=>?@[\]^_`{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 # <.symbols>
 
-VARIABLES = ['b', 'T', 'Z']
+VARIABLES = ['b', 'd', 'k', 'T', 'Z']
 NO_AUTOPRINT = {'=', 'p'}
 BLOCK_TOKS = 'FB'
 LAMBDA_TOKS = {'L'}
@@ -28,8 +28,11 @@ ARITIES = {
     '|':  2,
     '}':  2,
     'b':  0,
+    'd':  0,
     'h':  1,
+    'k':  0,
     'l':  1,
+    'm':  2,
     'p':  1,
     'q':  2,
     's':  1,
@@ -131,7 +134,6 @@ class Parser:
             raise ParserError("expected variable after '={}'".format(start_tok.data))
 
         return ASTNode('expr', '=', [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
-
 
     def _parse_block(self, root=False):
         implicit_print = True

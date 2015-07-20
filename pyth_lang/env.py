@@ -308,6 +308,9 @@ b = "\n"
 
 # c
 # d
+d = " "
+
+
 # e
 # f
 # g
@@ -325,6 +328,9 @@ def head(a):
 # i
 # j
 # k
+k = ""
+
+
 # l
 def Plen(a):
     if isseq(a):

@@ -40,12 +40,18 @@ that's still left open at the end of the file - this is not an error.
 
 We use the following shorthands in the table below to distinguish overloads:
 
- - real  ->  r
- - str   ->  s
- - list  ->  l
- - seq   ->  q
- - any   ->  a
- - none  ->  _
+ - real   ->  r
+ - str    ->  s
+ - list   ->  l
+ - seq    ->  q
+ - any    ->  a
+ - lambda ->  :
+ - none   ->  _
+
+Notice the lambda. Some functions implicitly define one of its arguments as a
+lambda function. Every such function documents which variables are used to pass
+the arguments. If multiple variables are listed, Pyth will cycle through them as
+you nest calls.
 
 Now comes a listing of every Pyth symbol. Column by column it respectively
 contains the symbol, the arity (U is unbounded, S is special), the mnemonic, the
@@ -109,7 +115,7 @@ b, etc as respectively the first, second, etc parameter.
  a
  b 0 line-break     Variable with initial value "\n".
  c
- d
+ d 0 space          Variable with initial value " ".
  e
  f
  g
@@ -117,9 +123,10 @@ b, etc as respectively the first, second, etc parameter.
                  r  Increment (a + 1).
  i
  j
- k
+ k 0 empty-string   Variable with initial value "".
  l 1 len            Length of seq. Log base 2 of real.
- m
+ m 2 map        q:  List from mapping over sequence using lambda d -> k -> b.
+                r:  Convert to range using U before mapping.
  n
  o
  p 1 print          Print without trailing newline. Returns its input.

@@ -558,6 +558,16 @@ class LineBreak(metaclass=PythTest):
 
 # c
 # d
+class Space(metaclass=PythTest):
+    r"""
+    +d"foo
+     foo
+    ---
+    =d5d
+    5
+    """
+
+
 # e
 # f
 # g
@@ -578,6 +588,16 @@ class Head(metaclass=PythTest):
 # i
 # j
 # k
+class EmptyString(metaclass=PythTest):
+    r"""
+    s["foo"k"bar"
+    foobar
+    ---
+    lk
+    0
+    """
+
+
 # l
 class Len(metaclass=PythTest):
     r"""
@@ -596,6 +616,19 @@ class Len(metaclass=PythTest):
 
 
 # m
+class Map(metaclass=PythTest):
+    r"""
+    m[1 2)d
+    [1, 2]
+    ---
+    m5d
+    [0, 1, 2, 3, 4]
+    ---
+    m5mdk
+    [[], [0], [0, 1], [0, 1, 2], [0, 1, 2, 3]]
+    """
+
+
 # n
 # o
 # p

@@ -1,3 +1,5 @@
+import collections
+
 EXPR_FUNC = {
     '!':  'Pnot',
     '*':  'times',
@@ -32,6 +34,10 @@ EXPR_PATTERN = {
     '=': (2, "assign('{}', {})"),
 }
 
+EXPR_LAMBDA_VAR = {
+    'm': ('d', 'k', 'b'),
+}
+
 
 class CodegenError(Exception):
     pass
@@ -40,7 +46,8 @@ class CodegenError(Exception):
 class Codegen:
     def __init__(self, parser):
         self.ast = parser.parse()
-        self.seen_lambda = set()
+        self.arity_seen = set()
+        self.lambda_var_cycle = collections.defaultdict(int)
 
     def gen_code(self):
         return "\n".join(self._gen_block(self.ast))
@@ -86,8 +93,16 @@ class Codegen:
         if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
 
-        if node.data == 'L' and 'L' not in self.seen_lambda:
-            self.seen_lambda.add('L')
+        if node.data == 'm':
+            var_cycle = EXPR_LAMBDA_VAR['m']
+            var = var_cycle[self.lambda_var_cycle['m'] % len(var_cycle)]
+            self.lambda_var_cycle['m'] += 1
+            seq = self._gen_expr(node.children[0])
+            body = self._gen_expr(node.children[1])
+            return "[{} for {} in makeiter({})]".format(body, var, seq)
+
+        if node.data == 'L' and 'L' not in self.arity_seen:
+            self.arity_seen.add('L')
             code = "assign('L', lambda b: {})".format(self._gen_expr(node.children[0]))
             if len(node.children) > 1:
                 code += '({})'.format(', '.join(map(self._gen_expr, node.children[1:])))
