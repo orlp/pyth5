@@ -100,6 +100,7 @@ class Codegen:
             self.lambda_var_cycle['m'] += 1
             seq = self._gen_expr(node.children[0])
             body = self._gen_expr(node.children[1])
+            self.lambda_var_cycle['m'] -= 1
             return "[{} for {} in makeiter({})]".format(body, var, seq)
 
         if node.data == 'L' and 'L' not in self.arity_seen:
