@@ -106,7 +106,7 @@ b, etc as respectively the first, second, etc parameter.
  :
  @
  {
- } 2 in             Python in.
+ } 2 in             Python a in b.
           rr|rs|sr  Check if str(a) is in str(b).
  ` 1 repr           Python repr.
  '
@@ -131,7 +131,7 @@ b, etc as respectively the first, second, etc parameter.
  n
  o
  p 1 print          Print without trailing newline. Returns its input.
- q 2 equals         Python ==.
+ q 2 equals         Python a == b.
  r
  s 1 sum         l  Fold elements using +. Sum of empty list is real 0.
                  s  Convert string to real.
@@ -164,7 +164,8 @@ b, etc as respectively the first, second, etc parameter.
  P
  Q
  R
- S
+ S 1 sorted      q  Sorts the sequence.
+                 r  If a > 0 range(1, 1+floor(a)) else range(1+floor(a), 1)
  T 0 ten            Variable with initial value 10.
  U 1 unary-range q  Python range(len(a)).
                  r  If a > 0 range(floor(a)) else range(floor(a), 0).
@@ -173,7 +174,7 @@ b, etc as respectively the first, second, etc parameter.
  X
  Y
  Z 0 zero           Variable with initial value 0.
-."
+." 0 bin-string     Binary string. ."test" is the same as [116 101 115 116).
 .\
 .! 1 factorial   r  Factorial or gamma(a+1) function.
 .&
