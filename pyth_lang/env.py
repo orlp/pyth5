@@ -408,6 +408,22 @@ def tail(a):
 # Q
 # R
 # S
+def Psorted(a):
+    if isreal(a):
+        a = sym.floor(a)
+        if a < 0:
+            return list(sym.Range(1+a, 1))
+        return list(sym.Range(1, 1+a))
+
+    if islist(a):
+        return list(sorted(a))
+
+    if isstr(a):
+        return "".join(sorted(a))
+
+    raise BadTypeCombinationError('Psorted', a)
+
+
 # T
 T = Real(10)
 

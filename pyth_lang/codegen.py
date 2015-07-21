@@ -21,6 +21,7 @@ EXPR_FUNC = {
     's':  'Psum',
     't':  'tail',
     'L':  'L',
+    'S':  'Psorted',
     'U':  'unary_range',
     '.!': 'factorial',
     '.<':  'leftshift',

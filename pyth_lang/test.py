@@ -831,6 +831,25 @@ class Lambda(metaclass=PythTest):
 # Q
 # R
 # S
+class Sorted(metaclass=PythTest):
+    r"""
+    S5
+    [1, 2, 3, 4, 5]
+    ---
+    S_3
+    [-2, -1, 0]
+    ---
+    S"test"
+    estt
+    ---
+    S[1 5 2 0 9
+    [0, 1, 2, 5, 9]
+    ---
+    S["foo""bar"
+    ['bar', 'foo']
+    """
+
+
 # T
 class Ten(metaclass=PythTest):
     r"""
