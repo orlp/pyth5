@@ -76,11 +76,11 @@ class Parser:
     def _parse_expr(self, start_tok=None):
         tok = start_tok or self.lex.get_token()
 
-        if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
-            return ASTNode('lit', tok.data)
-
         if tok.data in INIT_FIRST_TIME and tok.data not in self.seen_init:
             return self._parse_init(tok)
+
+        if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
+            return ASTNode('lit', tok.data)
 
         if tok.data in BLOCK_TOKS:
             raise ParserError(
