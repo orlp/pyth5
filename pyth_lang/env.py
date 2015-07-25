@@ -343,6 +343,13 @@ def Plen(a):
 # m
 # n
 # o
+def order_by(a, b):
+    if isstr(a):
+        return "".join(sorted(a, key=b))
+
+    return list(sorted(makeiter(a), key=b))
+
+
 # p
 def Pprint(a):
     print(Pstr(a), end="")
@@ -403,6 +410,9 @@ def tail(a):
 # L
 # M
 # N
+N = '"'
+
+
 # O
 # P
 # Q

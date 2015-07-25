@@ -7,7 +7,7 @@
 # <.symbols>
 
 
-VARIABLES = ['b', 'd', 'k', 'T', 'Z']
+VARIABLES = ['b', 'd', 'k', 'N', 'T', 'Z']
 NO_AUTOPRINT = {'=', 'p'}
 BLOCK_TOKS = 'FB'
 LAMBDA_TOKS = {'L'}
@@ -30,25 +30,24 @@ ARITIES = {
     '>':  2,
     '`':  1,
     '}':  2,
-    'b':  0,
-    'd':  0,
     'h':  1,
-    'k':  0,
     'l':  1,
     'm':  2,
+    'o':  2,
     'p':  1,
     'q':  2,
     's':  1,
     't':  1,
-    'T':  0,
     'L':  1,
     'S':  1,
     'U':  1,
-    'Z':  0,
     '.!': 1,
     '.<': 2,
     '.>': 2,
 }
+
+for var in VARIABLES:
+    ARITIES[var] = 0
 
 
 class ParserError(Exception):

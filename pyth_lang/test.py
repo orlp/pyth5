@@ -638,6 +638,13 @@ class Map(metaclass=PythTest):
 
 # n
 # o
+class OrderBy(metaclass=PythTest):
+    r"""
+    o["cc""b""aaa")lN
+    ['b', 'cc', 'aaa']
+    """
+
+
 # p
 class Print(metaclass=PythTest):
     r"""
@@ -826,6 +833,16 @@ class Lambda(metaclass=PythTest):
 
 # M
 # N
+class Quote(metaclass=PythTest):
+    r"""
+    N
+    "
+    ---
+    =N5N
+    5
+    """
+
+
 # O
 # P
 # Q

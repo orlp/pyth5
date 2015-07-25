@@ -129,7 +129,8 @@ b, etc as respectively the first, second, etc parameter.
  m 2 map        q:  List from mapping over sequence using lambda d -> k -> b.
                 r:  Convert to range using U before mapping.
  n
- o
+ o 2 order-by   q:  Sorting with lambda key function using N -> Z.
+                r:  Convert to range using U before sorting.
  p 1 print          Print without trailing newline. Returns its input.
  q 2 equals         Python a == b.
  r
@@ -159,7 +160,7 @@ b, etc as respectively the first, second, etc parameter.
                     and call (arity 2, call is optional), later occurrences only
                     call the lambda.
  M
- N
+ N 0 quote          Variable with initial value '"'.
  O
  P
  Q
