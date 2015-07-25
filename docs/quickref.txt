@@ -111,7 +111,7 @@ b, etc as respectively the first, second, etc parameter.
  ` 1 repr           Python repr.
  '
  ~
- #
+ # S forever        Infinite while loop. On exception, surpresses it and breaks.
  a 0 alphabet       Variable with initial value "abcdefghijklmnopqrstuvwxyz".
  b 0 line-break     Variable with initial value "\n".
  c 0 space          Variable with initial value " ".

@@ -9,7 +9,7 @@
 
 VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
 NO_AUTOPRINT = {'=', 'p'}
-BLOCK_TOKS = 'FB'
+BLOCK_TOKS = 'FB#'
 INIT_FIRST_TIME = {'x', 'y', 'L'}
 
 ARITIES = {

@@ -88,6 +88,10 @@ class Codegen:
             var = LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)]
             lines = [" "*4 + line for line in lines]
             lines = ['for {} in makeiter({}):'.format(var, self._gen_expr(node.iterable))] + lines
+        elif node.data == '#':
+            lines = [" "*8 + line for line in lines]
+            lines = ['while True:', '    try:'] + lines
+            lines += ['    except Exception:', '        break']
         elif node.data == 'B':
             lines = ['break']
         elif node.data != 'root':

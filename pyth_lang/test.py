@@ -546,6 +546,17 @@ class Repr(metaclass=PythTest):
 # '
 # ~
 # #
+class Forever(metaclass=PythTest):
+    r"""
+    #1B
+    1
+    ---
+    #1hw)2
+    1
+    2
+    """
+
+
 # $
 # a
 class Alphabet(metaclass=PythTest):

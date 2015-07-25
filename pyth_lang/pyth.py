@@ -40,7 +40,8 @@ def run_code(source, stdin=''):
 def cli():
     argparser = argparse.ArgumentParser("pyth", description='Pyth interpreter.')
     argparser.add_argument('file', help='Pyth file to run')
-    argparser.add_argument("-d", dest="debug", action="store_true", help='Show input and generated code.')
+    argparser.add_argument("-d", dest="debug", action="store_true", help='Show trimmed input and generated code.')
+    argparser.add_argument("-g", dest="gen_code", action="store_true", help='Only generate code.')
     argparser.set_defaults(debug=False)
     args = argparser.parse_args()
 
@@ -57,11 +58,14 @@ def cli():
     codegen = Codegen(parser)
     code = codegen.gen_code()
 
-    if args.debug:
+    if args.gen_code:
+        print(code)
+    elif args.debug:
         print(code)
         print('='*50)
 
-    env.run(code)
+    if not args.gen_code:
+        env.run(code)
 
 if __name__ == '__main__':
     cli()
