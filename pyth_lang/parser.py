@@ -7,7 +7,7 @@
 # <.symbols>
 
 
-VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z']
+VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
 NO_AUTOPRINT = {'=', 'p'}
 BLOCK_TOKS = 'FB'
 LAMBDA_TOKS = {'L'}

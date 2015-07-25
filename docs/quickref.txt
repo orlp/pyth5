@@ -112,7 +112,6 @@ b, etc as respectively the first, second, etc parameter.
  '
  ~
  #
- $
  a 0 alphabet       Variable with initial value "abcdefghijklmnopqrstuvwxyz".
  b 0 line-break     Variable with initial value "\n".
  c 0 space          Variable with initial value " ".
@@ -260,3 +259,7 @@ b, etc as respectively the first, second, etc parameter.
 .X
 .Y
 .Z
+$a 0 alphabet-$    Variable with initial value "abcdefghijklmnopqrstuvwxyz".
+$q 0 qwerty        Variable with initial value "qwertyuiopasdfghjklzxcvbnm".
+$A 0 ALPHABET      Variable with initial value "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+$Q 0 QWERTY        Variable with initial value "QWERTYUIOPASDFGHJKLZXCVBNM".

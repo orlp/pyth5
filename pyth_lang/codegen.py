@@ -128,4 +128,7 @@ class Codegen:
         if node.data[-1] in '0123456789.':
             return "Real('{}')".format(node.data)
 
+        if node.data.startswith('$'):
+            return 'dollar_' + node.data[1:]
+
         return node.data

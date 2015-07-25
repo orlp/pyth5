@@ -576,6 +576,20 @@ def rightshift(a, b):
 # .X
 # .Y
 # .Z
+# $a
+dollar_a = 'abcdefghijklmnopqrstuvwxyz'
+
+
+# $q
+dollar_q = 'qwertyuiopasdfghjklzxcvbnm'
+
+
+# $A
+dollar_A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+
+# $Q
+dollar_Q = 'QWERTYUIOPASDFGHJKLZXCVBNM'
 
 
 def run(code):

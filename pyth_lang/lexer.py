@@ -11,7 +11,7 @@ Token = collections.namedtuple('Token', ['type', 'data'])
 class Lexer:
     ALPHA = b'abcdefghijklmnopqrstuvwxyz'
     NUM = b'0123456789'
-    SYMB = b" !&|?();[],_+-*/%^=<>:@{}`'~#$"
+    SYMB = b" !&|?();[],_+-*/%^=<>:@{}`'~#"
 
     def __init__(self, src):
         self.cache = []
@@ -47,6 +47,12 @@ class Lexer:
         c = self._getc()
         if c.lower() in self.ALPHA + self.SYMB:
             return Token('symb', c.decode('utf-8'))
+
+        if c == b'$':
+            c = self._getc()
+            if c.lower() not in self.ALPHA + self.SYMB + b'$':
+                raise LexerError("expected alphanumeric or symbol after '$'")
+            return Token('symb', "$" + c.decode('utf-8'))
 
         if c in b'"\\':
             data = self._getc() if c == b'\\' else self._tok_str()

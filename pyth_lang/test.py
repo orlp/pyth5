@@ -1071,3 +1071,45 @@ class Rightshift(metaclass=PythTest):
 # .X
 # .Y
 # .Z
+# $a
+class AlphabetDollar(metaclass=PythTest):
+    r"""
+    =a5$a
+    abcdefghijklmnopqrstuvwxyz
+    ---
+    =$a5$a
+    5
+    """
+
+
+# $A
+class ALPHABET(metaclass=PythTest):
+    r"""
+    $A
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    ---
+    =$a5$a
+    5
+    """
+
+
+# $q
+class Qwerty(metaclass=PythTest):
+    r"""
+    $q
+    qwertyuiopasdfghjklzxcvbnm
+    ---
+    =$q5$q
+    5
+    """
+
+
+# $Q
+class QWERTY(metaclass=PythTest):
+    r"""
+    $Q
+    QWERTYUIOPASDFGHJKLZXCVBNM
+    ---
+    =$Q5$Q
+    5
+    """
