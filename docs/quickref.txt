@@ -5,7 +5,7 @@ data types:
  - str, a string of characters
  - list, an ordered list of elements
 
-We will use the following typenames in the docs - these aren't concrete types,
+We will use the following type names in the docs - these aren't concrete types,
 they're names for a set of types or an idea:
 
  - seq: str, list
@@ -28,7 +28,7 @@ In multi-character Pyth string literals (") there are only two escape sequences:
     \\ becomes regular backslash
     \" becomes a single quote
 
-All other characters like newlines, tabs, etc must (and can) be directly
+All other characters like newlines, tabs, etc., must (and can) be directly
 embedded in string literals.
 
 0123456789 are used in numeric literals. A leading zero is a separate token, so
@@ -49,9 +49,9 @@ We use the following shorthands in the table below to distinguish overloads:
  - none   ->  _
 
 Notice the lambda. Some functions implicitly define one of its arguments as a
-lambda function. Every such function documents which variables are used to pass
-the arguments. If multiple variables are listed, Pyth will cycle through them as
-you nest calls.
+lambda function. When this happens, the following expression is nested, giving
+the lambda arguments using a, b, c, d and e. The first nesting uses a to store
+its argument, then b, etc. If you reach all the way to e, it loops back to a.
 
 Now comes a listing of every Pyth symbol. Column by column it respectively
 contains the symbol, the arity (U is unbounded, S is special), the mnemonic, the
@@ -113,18 +113,18 @@ b, etc as respectively the first, second, etc parameter.
  ~
  #
  $
- a
+ a 0 alphabet       Variable with initial value "abcdefghijklmnopqrstuvwxyz".
  b 0 line-break     Variable with initial value "\n".
- c
- d 0 space          Variable with initial value " ".
- e
+ c 0 space          Variable with initial value " ".
+ d 0 empty-string   Variable with initial value "".
+ e 0 ten            Variable with initial value 10.
  f
- g
+ g 
  h 1 head        q  First element (a[0]).
                  r  Increment (a + 1).
  i
  j
- k 0 empty-string   Variable with initial value "".
+ k
  l 1 len            Length of seq. Log base 2 of real.
  m 2 map        q:  List from mapping over sequence using lambda d -> k -> b.
                 r:  Convert to range using U before mapping.
@@ -141,10 +141,10 @@ b, etc as respectively the first, second, etc parameter.
                  r  Decrement (a - 1).
  u
  v
- w
- x
- y
- z
+ w 0 empty-list     Variable with initial value [].
+ x 1 auto-assign    Has arity 1 on first usage, where xa means =xa. Simple
+ y 1 auto-assign    variable with arity 0 later. y works exactly the same.
+ z 0 zero           Variable with initial value 0.
  A
  B 0 break          Python break. Implicit ).
  C
@@ -160,21 +160,21 @@ b, etc as respectively the first, second, etc parameter.
                     and call (arity 2, call is optional), later occurrences only
                     call the lambda.
  M
- N 0 quote          Variable with initial value '"'.
+ N
  O
  P
  Q
  R
  S 1 sorted      q  Sorts the sequence.
                  r  If a > 0 range(1, 1+floor(a)) else range(1+floor(a), 1)
- T 0 ten            Variable with initial value 10.
+ T
  U 1 unary-range q  Python range(len(a)).
                  r  If a > 0 range(floor(a)) else range(floor(a), 0).
  V
  W
  X
  Y
- Z 0 zero           Variable with initial value 0.
+ Z
 ." 0 bin-string     Binary string. ."test" is the same as [116 101 115 116).
 .\
 .! 1 factorial   r  Factorial or gamma(a+1) function.

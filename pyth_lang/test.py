@@ -400,18 +400,18 @@ class Power(metaclass=PythTest):
 # =
 class Assign(metaclass=PythTest):
     r"""
-    =Z5Z
+    =a5a
     5
     ---
-    Z+3=Z5Z
+    z+3=z5z
     0
     8
     5
     ---
-    =+Z5Z
+    =+z5z
     5
     ---
-    =Z5=.!ZZ
+    =z5=.!zz
     120
     """
 
@@ -548,6 +548,16 @@ class Repr(metaclass=PythTest):
 # #
 # $
 # a
+class Alphabet(metaclass=PythTest):
+    r"""
+    a
+    abcdefghijklmnopqrstuvwxyz
+    ---
+    =a5a
+    5
+    """
+
+
 # b
 class LineBreak(metaclass=PythTest):
     r"""
@@ -560,18 +570,38 @@ class LineBreak(metaclass=PythTest):
 
 
 # c
-# d
 class Space(metaclass=PythTest):
     r"""
-    +d"foo
+    +c"foo
      foo
     ---
-    =d5d
+    =c5c
     5
     """
 
 
+# d
+class EmptyString(metaclass=PythTest):
+    r"""
+    s["foo"d"bar"
+    foobar
+    ---
+    ld
+    0
+    """
+
+
 # e
+class Ten(metaclass=PythTest):
+    r"""
+    e
+    10
+    ---
+    =e*e2e
+    20
+    """
+
+
 # f
 # g
 # h
@@ -591,16 +621,6 @@ class Head(metaclass=PythTest):
 # i
 # j
 # k
-class EmptyString(metaclass=PythTest):
-    r"""
-    s["foo"k"bar"
-    foobar
-    ---
-    lk
-    0
-    """
-
-
 # l
 class Len(metaclass=PythTest):
     r"""
@@ -621,16 +641,16 @@ class Len(metaclass=PythTest):
 # m
 class Map(metaclass=PythTest):
     r"""
-    m[1 2)d
+    m[1 2)a
     [1, 2]
     ---
-    m5d
+    m5a
     [0, 1, 2, 3, 4]
     ---
-    m5mdk
+    m5mab
     [[], [0], [0, 1], [0, 1, 2], [0, 1, 2, 3]]
     ---
-    m3dm3d
+    m3am3a
     [0, 1, 2]
     [0, 1, 2]
     """
@@ -640,7 +660,7 @@ class Map(metaclass=PythTest):
 # o
 class OrderBy(metaclass=PythTest):
     r"""
-    o["cc""b""aaa")lN
+    o["cc""b""aaa")la
     ['b', 'cc', 'aaa']
     """
 
@@ -751,23 +771,47 @@ class Tail(metaclass=PythTest):
 # u
 # v
 # w
+class EmptyList(metaclass=PythTest):
+    r"""
+    w
+    []
+    ---
+    =w5w
+    5
+    """
+
+
 # x
 # y
 # z
+class Zero(metaclass=PythTest):
+    r"""
+    z
+    0
+    ---
+    +z2
+    2
+    ---
+    z"test"
+    0
+    test
+    """
+
+
 # A
 # B
 class Break(metaclass=PythTest):
     r"""
-    FZ[1 2)ZB
+    Fa[1 2)aB
     1
     ---
-    Fb"test"FZ"12"+bZB
+    Fa"test"Fb"12"+abB
     t1
     e1
     s1
     t1
     ---
-    Fb"test"FZ"12"+bZ)B
+    Fa"test"Fb"12"+ab)B
     t1
     t2
     """
@@ -779,7 +823,7 @@ class Break(metaclass=PythTest):
 # F
 class For(metaclass=PythTest):
     r"""
-    FZ[1 42 30 3)+Z5Z)10
+    Fa[1 42 30 3)+a5a)10
     6
     1
     47
@@ -790,13 +834,13 @@ class For(metaclass=PythTest):
     3
     10
     ---
-    FZ"test"+"ni"Z
+    Fa"test"+"ni"a
     nit
     nie
     nis
     nit
     ---
-    FZ5^Z3
+    Fa5^a3
     0
     1
     8
@@ -833,16 +877,6 @@ class Lambda(metaclass=PythTest):
 
 # M
 # N
-class Quote(metaclass=PythTest):
-    r"""
-    N
-    "
-    ---
-    =N5N
-    5
-    """
-
-
 # O
 # P
 # Q
@@ -868,16 +902,6 @@ class Sorted(metaclass=PythTest):
 
 
 # T
-class Ten(metaclass=PythTest):
-    r"""
-    T
-    10
-    ---
-    =T*T2T
-    20
-    """
-
-
 # U
 class UnaryRange(metaclass=PythTest):
     r"""
@@ -897,20 +921,6 @@ class UnaryRange(metaclass=PythTest):
 # X
 # Y
 # Z
-class Zero(metaclass=PythTest):
-    r"""
-    Z
-    0
-    ---
-    +Z2
-    2
-    ---
-    Z"test"
-    0
-    test
-    """
-
-
 # ."
 class BinString(metaclass=PythTest):
     r"""

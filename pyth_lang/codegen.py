@@ -1,6 +1,3 @@
-import collections
-
-
 EXPR_FUNC = {
     '!':  'Pnot',
     ']':  'one_list',
@@ -36,13 +33,8 @@ EXPR_PATTERNS = {
     '=': {2: "assign('{}', {})"},
 }
 
-# Variables to cycle through for lambda functions.
-EXPR_LAMBDA_VAR = {
-    'm': ('d', 'k', 'b'),
-    'o': ('N', 'Z'),
-}
-
-# Lambda pattern. 0 is the lambda variable(s), the rest are arguments.
+# Lambda pattern. 0 is the lambda variable(s) separated by commas, the rest are arguments.
+LAMBDA_VARS = "abcde"
 EXPR_LAMBDA_PATTERNS = {
     'm': {2: '[{2} for {0} in makeiter({1})]'},
     'o': {2: 'order_by({1}, lambda {0}: {2})'},
@@ -57,7 +49,7 @@ class Codegen:
     def __init__(self, parser):
         self.ast = parser.parse()
         self.arity_seen = set()
-        self.lambda_var_cycle = collections.defaultdict(int)
+        self.lambda_var = 0
 
     def gen_code(self):
         return "\n".join(self._gen_block(self.ast))
@@ -114,11 +106,10 @@ class Codegen:
             patterns = EXPR_LAMBDA_PATTERNS[node.data]
             if len(node.children) not in patterns:
                 raise CodegenError("arity of '{}' must be one of {}".format(node.data, sorted(patterns.keys())))
-            var_cycle = EXPR_LAMBDA_VAR[node.data]
-            var = var_cycle[self.lambda_var_cycle[node.data] % len(var_cycle)]
-            self.lambda_var_cycle[node.data] += 1
+            var = LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)]
+            self.lambda_var += 1
             exprs = [self._gen_expr(child) for child in node.children]
-            self.lambda_var_cycle[node.data] -= 1
+            self.lambda_var -= 1
             return patterns[len(node.children)].format(var, *exprs)
 
         if node.data in EXPR_PATTERNS:

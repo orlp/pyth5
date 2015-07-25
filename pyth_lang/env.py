@@ -300,16 +300,25 @@ def Prepr(a):
 # #
 # $
 # a
+a = "abcdefghijklmnopqrstuvwxyz"
+
+
 # b
 b = "\n"
 
 
 # c
+c = " "
+
+
 # d
-d = " "
+d = ""
 
 
 # e
+e = Real(10)
+
+
 # f
 # g
 # h
@@ -393,9 +402,15 @@ def tail(a):
 # u
 # v
 # w
+w = []
+
+
 # x
 # y
 # z
+z = Real(0)
+
+
 # A
 # B
 # C
@@ -410,9 +425,6 @@ def tail(a):
 # L
 # M
 # N
-N = '"'
-
-
 # O
 # P
 # Q
@@ -435,9 +447,6 @@ def Psorted(a):
 
 
 # T
-T = Real(10)
-
-
 # U
 def unary_range(a):
     if isreal(a):
@@ -454,9 +463,6 @@ def unary_range(a):
 # X
 # Y
 # Z
-Z = Real(0)
-
-
 # .!
 def factorial(a):
     if isreal(a):
