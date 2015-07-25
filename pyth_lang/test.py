@@ -783,6 +783,18 @@ class EmptyList(metaclass=PythTest):
 
 # x
 # y
+class AutoAssign(metaclass=PythTest):
+    r"""
+    +x5xx
+    10
+    5
+    ---
+    *y10+y3y
+    130
+    10
+    """
+
+
 # z
 class Zero(metaclass=PythTest):
     r"""
@@ -857,19 +869,19 @@ class For(metaclass=PythTest):
 # L
 class Lambda(metaclass=PythTest):
     r"""
-    L*5b2L50
+    L*5a2L50
     10
     250
     ---
     L0
     ---
-    L|<b1*bLtb5
+    L|<a1*aLta5
     120
     ---
     L0)L"test"
     0
     ---
-    +L+2*3b5L10L30
+    +L+2*3a5L10L30
     49
     92
     """

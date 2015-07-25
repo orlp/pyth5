@@ -27,17 +27,21 @@ EXPR_FUNC = {
 
 # Simple patterns.
 EXPR_PATTERNS = {
-    '&': {2: '({} and {})'},
-    '|': {2: '({} or {})'},
-    '?': {3: '({1} if {0} else {2})'},
-    '=': {2: "assign('{}', {})"},
+    '&':       {2: '({} and {})'},
+    '|':       {2: '({} or {})'},
+    '?':       {3: '({1} if {0} else {2})'},
+    '=':       {2: "assign('{}', {})"},
+    'init-x':  {1: "assign('x', {})"},
+    'init-y':  {1: "assign('y', {})"},
 }
 
 # Lambda pattern. 0 is the lambda variable(s) separated by commas, the rest are arguments.
 LAMBDA_VARS = "abcde"
 EXPR_LAMBDA_PATTERNS = {
-    'm': {2: '[{2} for {0} in makeiter({1})]'},
-    'o': {2: 'order_by({1}, lambda {0}: {2})'},
+    'm':       {2: '[{2} for {0} in makeiter({1})]'},
+    'o':       {2: 'order_by({1}, lambda {0}: {2})'},
+    'init-L':  {1: "assign('L', lambda {0}: {1})",
+                2: "assign('L', lambda {0}: {1})({2})"}
 }
 
 
@@ -94,13 +98,6 @@ class Codegen:
 
         if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
-
-        if node.data == 'L' and 'L' not in self.arity_seen:
-            self.arity_seen.add('L')
-            code = "assign('L', lambda b: {})".format(self._gen_expr(node.children[0]))
-            if len(node.children) > 1:
-                code += '({})'.format(', '.join(map(self._gen_expr, node.children[1:])))
-            return code
 
         if node.data in EXPR_LAMBDA_PATTERNS:
             patterns = EXPR_LAMBDA_PATTERNS[node.data]

@@ -406,7 +406,13 @@ w = []
 
 
 # x
+x = Real(0)
+
+
 # y
+x = Real(0)
+
+
 # z
 z = Real(0)
 

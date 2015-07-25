@@ -10,7 +10,7 @@
 VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
 NO_AUTOPRINT = {'=', 'p'}
 BLOCK_TOKS = 'FB'
-LAMBDA_TOKS = {'L'}
+INIT_FIRST_TIME = {'x', 'y', 'L'}
 
 ARITIES = {
     '!':  1,
@@ -68,13 +68,16 @@ class ASTNode:
 class Parser:
     def __init__(self, lex):
         self.lex = lex
-        self.seen_lambda = set()
+        self.seen_init = set()
 
     def parse(self):
         return self._parse_block(True)
 
     def _parse_expr(self, start_tok=None):
         tok = start_tok or self.lex.get_token()
+
+        if tok.data in INIT_FIRST_TIME and tok.data not in self.seen_init:
+            return self._parse_init(tok)
 
         if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
             return ASTNode('lit', tok.data)
@@ -94,10 +97,6 @@ class Parser:
         data = tok.data
         children = []
         arity = ARITIES[tok.data]
-
-        if tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
-            self.seen_lambda.add(tok.data)
-            arity += 1
 
         while arity and self.lex.has_token():
             tok = self.lex.peek_token()
@@ -137,6 +136,12 @@ class Parser:
             raise ParserError("expected variable after '={}'".format(start_tok.data))
 
         return ASTNode('expr', '=', [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
+
+    def _parse_init(self, tok):
+        self.seen_init.add(tok.data)
+        init_expr = self._parse_expr()
+        actual_expr = self._parse_expr(tok)
+        return ASTNode('expr', 'init-' + tok.data, [init_expr] + actual_expr.children)
 
     def _parse_block(self, root=False):
         implicit_print = True
@@ -184,9 +189,9 @@ class Parser:
                 block.children.append((self._parse_block(), False))
                 implicit_print = True
             else:
-                if tok.type == 'symb' and tok.data in LAMBDA_TOKS and tok.data not in self.seen_lambda:
+                if tok.type == 'symb' and tok.data in INIT_FIRST_TIME and tok.data not in self.seen_init:
                     expr = self._parse_expr()
-                    # Don't autoprint if we're only defining a lambda function.
+                    # Don't autoprint if we're only defining.
                     if len(expr.children) == 1:
                         implicit_print = False
                 else:
