@@ -28,12 +28,12 @@ EXPR_FUNC = {
     '.>':  'rightshift',
 }
 
-# Simple pattern with fixed arity.
-EXPR_PATTERN = {
-    '&': (2, '({} and {})'),
-    '|': (2, '({} or {})'),
-    '?': (3, '({1} if {0} else {2})'),
-    '=': (2, "assign('{}', {})"),
+# Simple patterns.
+EXPR_PATTERNS = {
+    '&': {2: '({} and {})'},
+    '|': {2: '({} or {})'},
+    '?': {3: '({1} if {0} else {2})'},
+    '=': {2: "assign('{}', {})"},
 }
 
 # Variables to cycle through for lambda functions.
@@ -43,9 +43,9 @@ EXPR_LAMBDA_VAR = {
 }
 
 # Lambda pattern. 0 is the lambda variable(s), the rest are arguments.
-EXPR_LAMBDA_PATTERN = {
-    'm': (2, '[{2} for {0} in makeiter({1})]'),
-    'o': (2, 'order_by({1}, lambda {0}: {2})'),
+EXPR_LAMBDA_PATTERNS = {
+    'm': {2: '[{2} for {0} in makeiter({1})]'},
+    'o': {2: 'order_by({1}, lambda {0}: {2})'},
 }
 
 
@@ -103,17 +103,6 @@ class Codegen:
         if node.data == '[':
             return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
 
-        if node.data in EXPR_LAMBDA_PATTERN:
-            var_cycle = EXPR_LAMBDA_VAR[node.data]
-            arity, pattern = EXPR_LAMBDA_PATTERN[node.data]
-            if arity != len(node.children):
-                raise CodegenError("arity of '{}' must be {}".format(node.data, arity))
-            var = var_cycle[self.lambda_var_cycle[node.data] % len(var_cycle)]
-            self.lambda_var_cycle[node.data] += 1
-            exprs = [self._gen_expr(child) for child in node.children]
-            self.lambda_var_cycle[node.data] -= 1
-            return pattern.format(var, *exprs)
-
         if node.data == 'L' and 'L' not in self.arity_seen:
             self.arity_seen.add('L')
             code = "assign('L', lambda b: {})".format(self._gen_expr(node.children[0]))
@@ -121,11 +110,22 @@ class Codegen:
                 code += '({})'.format(', '.join(map(self._gen_expr, node.children[1:])))
             return code
 
-        if node.data in EXPR_PATTERN:
-            arity, pattern = EXPR_PATTERN[node.data]
-            if arity != len(node.children):
-                raise CodegenError("arity of '{}' must be {}".format(node.data, arity))
-            return pattern.format(*map(self._gen_expr, node.children))
+        if node.data in EXPR_LAMBDA_PATTERNS:
+            patterns = EXPR_LAMBDA_PATTERNS[node.data]
+            if len(node.children) not in patterns:
+                raise CodegenError("arity of '{}' must be one of {}".format(node.data, sorted(patterns.keys())))
+            var_cycle = EXPR_LAMBDA_VAR[node.data]
+            var = var_cycle[self.lambda_var_cycle[node.data] % len(var_cycle)]
+            self.lambda_var_cycle[node.data] += 1
+            exprs = [self._gen_expr(child) for child in node.children]
+            self.lambda_var_cycle[node.data] -= 1
+            return patterns[len(node.children)].format(var, *exprs)
+
+        if node.data in EXPR_PATTERNS:
+            patterns = EXPR_PATTERNS[node.data]
+            if len(node.children) not in patterns:
+                raise CodegenError("arity of '{}' must be one of {}".format(node.data, sorted(patterns.keys())))
+            return patterns[len(node.children)].format(*map(self._gen_expr, node.children))
 
         if node.data in EXPR_FUNC:
             children = map(self._gen_expr, node.children)
