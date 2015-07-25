@@ -76,11 +76,11 @@ class Parser:
     def _parse_expr(self, start_tok=None):
         tok = start_tok or self.lex.get_token()
 
-        if tok.data in INIT_FIRST_TIME and tok.data not in self.seen_init:
-            return self._parse_init(tok)
-
         if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
             return ASTNode('lit', tok.data)
+
+        if tok.data in INIT_FIRST_TIME and tok.data not in self.seen_init:
+            return self._parse_init(tok)
 
         if tok.data in BLOCK_TOKS:
             raise ParserError(
@@ -152,16 +152,12 @@ class Parser:
         block = ASTNode('block', 'root' if root else block_tok.data)
 
         if block.data == 'F':
-            var = self.lex.peek_token()
-            if var.type != 'symb' or var.data not in VARIABLES:
-                raise ParserError("expected variable after 'F'")
-
-            block.variable = self._parse_expr()
             block.iterable = self._parse_expr()
 
         while self.lex.has_token():
             tok = self.lex.peek_token()
 
+            # Suppress autoprint.
             if tok.type == 'symb' and tok.data == ' ':
                 self.lex.get_token()
                 implicit_print = False
@@ -189,16 +185,13 @@ class Parser:
                 block.children.append((self._parse_block(), False))
                 implicit_print = True
             else:
-                if tok.type == 'symb' and tok.data in INIT_FIRST_TIME and tok.data not in self.seen_init:
-                    expr = self._parse_expr()
-                    # Don't autoprint if we're only defining.
-                    if len(expr.children) == 1:
-                        implicit_print = False
-                else:
-                    expr = self._parse_expr()
-
+                expr = self._parse_expr()
+                # Don't autoprint if we're only defining.
+                if expr.data.startswith('init-') and len(expr.children) == 1:
+                    implicit_print = False
                 if tok.type == 'symb' and tok.data in NO_AUTOPRINT:
                     implicit_print = False
+
                 block.children.append((expr, implicit_print))
                 implicit_print = True
 

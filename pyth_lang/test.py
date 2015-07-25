@@ -818,16 +818,16 @@ class Zero(metaclass=PythTest):
 # B
 class Break(metaclass=PythTest):
     r"""
-    Fa[1 2)aB
+    F[1 2)aB
     1
     ---
-    Fa"test"Fb"12"+abB
+    F"test"F"12"+abB
     t1
     e1
     s1
     t1
     ---
-    Fa"test"Fb"12"+ab)B
+    F"test"F"12"+ab)B
     t1
     t2
     """
@@ -839,7 +839,7 @@ class Break(metaclass=PythTest):
 # F
 class For(metaclass=PythTest):
     r"""
-    Fa[1 42 30 3)+a5a)10
+    F[1 42 30 3)+a5a)10
     6
     1
     47
@@ -850,18 +850,26 @@ class For(metaclass=PythTest):
     3
     10
     ---
-    Fa"test"+"ni"a
+    F"test"+"ni"a
     nit
     nie
     nis
     nit
     ---
-    Fa5^a3
+    F5^a3
     0
     1
     8
     27
     64
+    ---
+    F2F3,ab
+    [0, 0]
+    [0, 1]
+    [0, 2]
+    [1, 0]
+    [1, 1]
+    [1, 2]
     """
 
 

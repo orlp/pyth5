@@ -149,7 +149,8 @@ b, etc as respectively the first, second, etc parameter.
  C
  D
  E
- F S for            Fab becomes Python's for a in b. Works as FaUb if b is real.
+ F S for            Fa becomes Python's for var in a. Opens a block. Variable
+                    rotates as lambda variables. Works as FUa if a is real.
  G
  H
  I
@@ -259,7 +260,7 @@ b, etc as respectively the first, second, etc parameter.
 .X
 .Y
 .Z
-$a 0 alphabet-$    Variable with initial value "abcdefghijklmnopqrstuvwxyz".
-$q 0 qwerty        Variable with initial value "qwertyuiopasdfghjklzxcvbnm".
-$A 0 ALPHABET      Variable with initial value "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
-$Q 0 QWERTY        Variable with initial value "QWERTYUIOPASDFGHJKLZXCVBNM".
+$a 0 alphabet-$     Variable with initial value "abcdefghijklmnopqrstuvwxyz".
+$q 0 qwerty         Variable with initial value "qwertyuiopasdfghjklzxcvbnm".
+$A 0 ALPHABET       Variable with initial value "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+$Q 0 QWERTY         Variable with initial value "QWERTYUIOPASDFGHJKLZXCVBNM".

@@ -405,14 +405,8 @@ def tail(a):
 w = []
 
 
-# x
-x = Real(0)
-
-
-# y
-x = Real(0)
-
-
+# x - intentionally left undefined.
+# y - intentionally left undefined.
 # z
 z = Real(0)
 

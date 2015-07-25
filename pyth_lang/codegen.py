@@ -61,6 +61,9 @@ class Codegen:
     def _gen_block(self, node, level=0):
         assert node.type == 'block'
 
+        if node.data == 'F':
+            self.lambda_var += 1
+
         lines = []
         for child, implicit_print in node.children:
             if child.type == 'block':
@@ -81,8 +84,10 @@ class Codegen:
                 lines.append(child_code)
 
         if node.data == 'F':
+            self.lambda_var -= 1
+            var = LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)]
             lines = [" "*4 + line for line in lines]
-            lines = ['for {} in makeiter({}):'.format(node.variable.data, self._gen_expr(node.iterable))] + lines
+            lines = ['for {} in makeiter({}):'.format(var, self._gen_expr(node.iterable))] + lines
         elif node.data == 'B':
             lines = ['break']
         elif node.data != 'root':
