@@ -1,7 +1,7 @@
 # To stay consistent, we keep all symbols in the following order where possible:
 # <space>
 # <newline>
-# "\!&|?();[],_+-*/%^=<>:@{}`'~#$
+# "\!&|?();[],_+-*/%^=<>:@{}`'~#
 # abcdefghijklmnopqrstuvwxyz
 # ABCDEFGHIJKLMNOPQRSTUVWXYZ
 # <.symbols>
