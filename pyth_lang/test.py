@@ -792,6 +792,10 @@ class AutoAssign(metaclass=PythTest):
     *y10+y3y
     130
     10
+    ---
+    x3
+    ---
+    y10
     """
 
 
