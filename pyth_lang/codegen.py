@@ -31,6 +31,7 @@ EXPR_PATTERNS = {
     '|':       {2: '({} or {})'},
     '?':       {3: '({1} if {0} else {2})'},
     '=':       {2: "assign('{}', {})"},
+    '~':       {2: "post_assign('{}', {})"},
     'init-x':  {1: "assign('x', {})"},
     'init-y':  {1: "assign('y', {})"},
 }

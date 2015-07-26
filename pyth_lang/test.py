@@ -545,6 +545,16 @@ class Repr(metaclass=PythTest):
 
 # '
 # ~
+class PostAssign(metaclass=PythTest):
+    r"""
+    +2~+z3z
+    2
+    3
+    ---
+    ~+z10
+    """
+
+
 # #
 class Forever(metaclass=PythTest):
     r"""

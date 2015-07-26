@@ -97,6 +97,7 @@ b, etc as respectively the first, second, etc parameter.
                 qr  Cartesian product of a with floor(b) repeats.
  = 2 assign         Deep copy assignment. Returns returns the updated value.
                     Supports augmented assignment, e.g. =+Z5 is equal to =Z+Z5
+ ~ 2 post-assign    Same as =. Returns the old value.
  < 2 less-than      Python <.
                qr   Python a[:floor(b)].
                rq   Python b[:-floor(a)].
@@ -110,7 +111,6 @@ b, etc as respectively the first, second, etc parameter.
           rr|rs|sr  Check if str(a) is in str(b).
  ` 1 repr           Python repr.
  '
- ~
  # S forever        Infinite while loop. On exception, surpresses it and breaks.
  a 0 alphabet       Variable with initial value "abcdefghijklmnopqrstuvwxyz".
  b 0 line-break     Variable with initial value "\n".

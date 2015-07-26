@@ -8,7 +8,7 @@
 
 
 VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
-NO_AUTOPRINT = {'=', 'p'}
+NO_AUTOPRINT = {'=', '~', 'p'}
 BLOCK_TOKS = 'FB#'
 INIT_FIRST_TIME = {'x', 'y', 'L'}
 
@@ -25,7 +25,6 @@ ARITIES = {
     '-':  2,
     '*':  2,
     '^':  2,
-    '=':  2,
     '<':  2,
     '>':  2,
     '`':  1,
@@ -88,11 +87,11 @@ class Parser:
                 .format(tok.data)
             )
 
+        if tok.data in '=~':
+            return self._parse_assign(tok.data)
+
         if tok.data not in ARITIES:
             raise ParserError("symbol not implemented: '{}'".format(tok.data))
-
-        if tok.data == '=':
-            return self._parse_assign()
 
         data = tok.data
         children = []
@@ -118,24 +117,24 @@ class Parser:
 
         return ASTNode('expr', data, children)
 
-    def _parse_assign(self):
+    def _parse_assign(self, data):
         assign_var = self.lex.get_token()
         if assign_var.type != 'symb':
-            raise ParserError("expected symbol after '='")
+            raise ParserError("expected symbol after '{}'".format(data))
 
         if assign_var.data in VARIABLES:
-            return ASTNode('expr', '=', [ASTNode('lit', assign_var.data, []), self._parse_expr()])
+            return ASTNode('expr', data, [ASTNode('lit', assign_var.data, []), self._parse_expr()])
 
         start_tok = assign_var
-        if start_tok.data not in ARITIES or ARITIES[start_tok.data] < 1 or start_tok.data == '=':
-            raise ParserError("expected function after '='")
+        if start_tok.data not in ARITIES or ARITIES[start_tok.data] < 1:
+            raise ParserError("expected variable or function after '{}'".format(data))
 
         # We peek to keep the variable in the lexer as first argument.
         assign_var = self.lex.peek_token()
         if assign_var.type != 'symb' or assign_var.data not in VARIABLES:
-            raise ParserError("expected variable after '={}'".format(start_tok.data))
+            raise ParserError("expected variable after '{}{}'".format(data, start_tok.data))
 
-        return ASTNode('expr', '=', [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
+        return ASTNode('expr', data, [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
 
     def _parse_init(self, tok):
         self.seen_init.add(tok.data)

@@ -239,10 +239,21 @@ def power(a, b):
 
 # =
 def assign(a, b):
-    if isstr(a):
-        environment[a] = b
+    if not isstr(a):
+        raise BadTypeCombinationError('assign', a, b)
 
+    environment[a] = b
     return b
+
+
+# ~
+def post_assign(a, b):
+    if not isstr(a):
+        raise BadTypeCombinationError('post-assign', a, b)
+
+    old = environment[a]
+    environment[a] = b
+    return old
 
 
 # <
@@ -296,7 +307,6 @@ def Prepr(a):
 
 
 # '
-# ~
 # #
 # $
 # a
