@@ -330,6 +330,19 @@ e = Real(10)
 
 
 # f
+def Pfilter(a, b):
+    if isreal(a):
+        n = sym.floor(a)
+        while not b(n):
+            n += 1
+        return n
+
+    if isseq(a):
+        return list(filter(b, a))
+
+    raise BadTypeCombinationError('Pfilter', a, b)
+
+
 # g
 # h
 def head(a):

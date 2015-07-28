@@ -624,6 +624,19 @@ class Ten(metaclass=PythTest):
 
 
 # f
+class Filter(metaclass=PythTest):
+    r"""
+    fU10<a5
+    [0, 1, 2, 3, 4]
+    ---
+    fq.!a120
+    5
+    ---
+    f2!-ae
+    10
+    """
+
+
 # g
 # h
 class Head(metaclass=PythTest):

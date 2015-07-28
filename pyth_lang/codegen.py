@@ -1,3 +1,4 @@
+# Simple one-to-one function translation.
 EXPR_FUNC = {
     '!':  'Pnot',
     ']':  'one_list',
@@ -37,8 +38,10 @@ EXPR_PATTERNS = {
 }
 
 # Lambda pattern. 0 is the lambda variable(s) separated by commas, the rest are arguments.
-LAMBDA_VARS = "abcde"
+LAMBDA_VARS = 'abcde'
 EXPR_LAMBDA_PATTERNS = {
+    'f':       {1: 'Pfilter(Real(1), lambda {0}: {1})',
+                2: 'Pfilter({1}, lambda {0}: {2})'},
     'm':       {2: '[{2} for {0} in makeiter({1})]'},
     'o':       {2: 'order_by({1}, lambda {0}: {2})'},
     'init-L':  {1: "assign('L', lambda {0}: {1})",

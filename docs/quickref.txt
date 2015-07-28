@@ -117,7 +117,9 @@ b, etc as respectively the first, second, etc parameter.
  c 0 space          Variable with initial value " ".
  d 0 empty-string   Variable with initial value "".
  e 0 ten            Variable with initial value 10.
- f
+ f 2 filter     q:  Filter sequence using lambda function.
+                r:  Smallest integer n on [floor(a), inf) where b(n) is truthy.
+                 :  Smallest integer n >= 1 such that b(n) is truthy.
  g 
  h 1 head        q  First element (a[0]).
                  r  Increment (a + 1).
