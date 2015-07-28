@@ -75,22 +75,22 @@ b, etc as respectively the first, second, etc parameter.
  _ 1 neg         r  Negation.
                  q  Reverse (a[::-1]).
  + 2 plus           On both same type, Python +.
-            al|la   Prepend/append.
-            rs|sr   Convert to str and concatenate.
-               r_   Absolute value.
-               __   Positive infinity.
- - 2 minus     rr   Subtraction.
-               rl   Convert a to range (like U) and setwise difference.
-               ll   Setwise difference.
-            lr|ls   Remove all occurences of b from a.
-         ss|rs|sr   Convert to str then remove all occurences of b in a.
-               sl   Convert every element in the list to a str and
-                      remove all occurences of the elements in b from a.
-               r_   Negative absolute value.
-               __   Negative infinity.
+             al|la  Prepend/append.
+             rs|sr  Convert to str and concatenate.
+                r_  Absolute value.
+                __  Positive infinity.
+ - 2 minus      rr  Subtraction.
+                rl  Convert a to range (like U) and setwise difference.
+                ll  Setwise difference.
+             lr|ls  Remove all occurences of b from a.
+          ss|rs|sr  Convert to str then remove all occurences of b in a.
+                sl  Convert every element in the list to a str and
+                    remove all occurences of the elements in b from a.
+                r_  Negative absolute value.
+                __  Negative infinity.
  * 2 times          Python *.
-            rs|sr   Truncate real and repeat sequence.
-               sq   Cartesian product.
+             rs|sr  Truncate real and repeat sequence.
+                sq  Cartesian product.
  /
  %
  ^ 2 power      rr  Power.
@@ -99,11 +99,11 @@ b, etc as respectively the first, second, etc parameter.
                     Supports augmented assignment, e.g. =+Z5 is equal to =Z+Z5
  ~ 2 post-assign    Same as =. Returns the old value.
  < 2 less-than      Python <.
-               qr   Python a[:floor(b)].
-               rq   Python b[:-floor(a)].
+                qr  Python a[:floor(b)].
+                rq  Python b[:-floor(a)].
  > 2 greater-than   Python >.
-               qr   Python a[floor(b):].
-               rq   Python b[-floor(a):].
+                qr  Python a[floor(b):].
+                rq  Python b[-floor(a):].
  :
  @
  {
