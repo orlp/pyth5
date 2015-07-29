@@ -933,6 +933,16 @@ class End(metaclass=PythTest):
 
 
 # I
+class If(metaclass=PythTest):
+    r"""
+    I0p8 10)5
+    5
+    ---
+    I8p3)5
+    35
+    """
+
+
 # J
 # K
 # L

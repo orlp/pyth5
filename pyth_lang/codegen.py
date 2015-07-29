@@ -94,7 +94,10 @@ class Codegen:
             self.lambda_var -= 1
             var = LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)]
             lines = [" "*4 + line for line in lines]
-            lines = ['for {} in makeiter({}):'.format(var, self._gen_expr(node.iterable))] + lines
+            lines = ['for {} in makeiter({}):'.format(var, self._gen_expr(node.args[0]))] + lines
+        elif node.data == 'I':
+            lines = [" "*4 + line for line in lines]
+            lines = ['if {}:'.format(self._gen_expr(node.args[0]))] + lines
         elif node.data == '#':
             lines = [" "*8 + line for line in lines]
             lines = ['while True:', '    try:'] + lines

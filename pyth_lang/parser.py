@@ -9,7 +9,7 @@
 
 VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
 NO_AUTOPRINT = {'=', '~', 'p'}
-BLOCK_TOKS = 'FB#'
+BLOCK_TOKS = 'IFB#'
 INIT_FIRST_TIME = {'x', 'y', 'L'}
 
 ARITIES = {
@@ -154,8 +154,8 @@ class Parser:
 
         block = ASTNode('block', 'root' if root else block_tok.data)
 
-        if block.data == 'F':
-            block.iterable = self._parse_expr()
+        if block.data in 'IF':
+            block.args = [self._parse_expr()]
 
         while self.lex.has_token():
             tok = self.lex.peek_token()
