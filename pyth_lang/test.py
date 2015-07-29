@@ -914,11 +914,8 @@ class End(metaclass=PythTest):
     H[0 1 2)
     2
     ---
-    H13
-    3
-    ---
-    H19.3
-    9.3
+    H"abcd"
+    d
     """
 
 
@@ -973,6 +970,22 @@ class Sorted(metaclass=PythTest):
 
 
 # T
+class Pop(metaclass=PythTest):
+    r"""
+    T[0 1 2)
+    [0, 1]
+    ---
+    T"test"
+    tes
+    ---
+    T13
+    3
+    ---
+    T19.3
+    9.3
+    """
+
+
 # U
 class UnaryRange(metaclass=PythTest):
     r"""

@@ -443,13 +443,12 @@ z = Real(0)
 # G
 # H
 def end(a):
-    if isreal(a):
-        return a % 10
-
     if isseq(a):
         return a[-1]
 
     raise BadTypeCombinationError('end', a)
+
+
 # I
 # J
 # K
@@ -478,6 +477,16 @@ def Psorted(a):
 
 
 # T
+def pop(a):
+    if isseq(a):
+        return a[:-1]
+
+    if isreal(a):
+        return a % 10
+
+    raise BadTypeCombinationError('pop', a)
+
+
 # U
 def unary_range(a):
     if isreal(a):

@@ -21,6 +21,7 @@ EXPR_FUNC = {
     'H':  'end',
     'L':  'L',
     'S':  'Psorted',
+    'T':  'pop',
     'U':  'unary_range',
     '.!': 'factorial',
     '.<':  'leftshift',

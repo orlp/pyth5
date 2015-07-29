@@ -155,7 +155,6 @@ b, etc as respectively the first, second, etc parameter.
                     rotates as lambda variables. Works as FUa if a is real.
  G
  H 1 end         q  Last element (a[-1]).
-                 r  Modulo 10 (a % 10).  
  I
  J
  K
@@ -170,7 +169,8 @@ b, etc as respectively the first, second, etc parameter.
  R
  S 1 sorted      q  Sorts the sequence.
                  r  If a > 0 range(1, 1+floor(a)) else range(1+floor(a), 1)
- T
+ T 1 pop         q  Everything but the last element. (a[:-1]).
+                 r  Modulo 10 (a % 10).  
  U 1 unary-range q  Python range(len(a)).
                  r  If a > 0 range(floor(a)) else range(floor(a), 0).
  V
