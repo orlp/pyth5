@@ -691,6 +691,19 @@ class Map(metaclass=PythTest):
 
 
 # n
+class NotEquals(metaclass=PythTest):
+    r"""
+    n00
+    0
+    ---
+    n01
+    1
+    ---
+    n"1"1
+    1
+    """
+
+
 # o
 class OrderBy(metaclass=PythTest):
     r"""

@@ -374,6 +374,10 @@ def Plen(a):
 
 # m
 # n
+def not_equals(a, b):
+    return Real(bool(a != b))
+
+
 # o
 def order_by(a, b):
     if isstr(a):

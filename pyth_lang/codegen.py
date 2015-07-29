@@ -14,6 +14,7 @@ EXPR_FUNC = {
     '}':  'Pin',
     'h':  'head',
     'l':  'Plen',
+    'n':  'not_equals',
     'p':  'Pprint',
     'q':  'equals',
     's':  'Psum',

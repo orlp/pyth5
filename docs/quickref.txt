@@ -129,7 +129,7 @@ b, etc as respectively the first, second, etc parameter.
  l 1 len            Length of seq. Log base 2 of real.
  m 2 map        q:  List from mapping over sequence using lambda d -> k -> b.
                 r:  Convert to range using U before mapping.
- n
+ n 2 not-equals     Python a != b.
  o 2 order-by   q:  Sorting with lambda key function using N -> Z.
                 r:  Convert to range using U before sorting.
  p 1 print          Print without trailing newline. Returns its input.
