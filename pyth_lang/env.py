@@ -442,6 +442,14 @@ z = Real(0)
 # F
 # G
 # H
+def end(a):
+    if isreal(a):
+        return a % 10
+
+    if isseq(a):
+        return a[-1]
+
+    raise BadTypeCombinationError('end', a)
 # I
 # J
 # K

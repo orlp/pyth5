@@ -909,6 +909,19 @@ class For(metaclass=PythTest):
 
 # G
 # H
+class End(metaclass=PythTest):
+    r"""
+    H[0 1 2)
+    2
+    ---
+    H13
+    3
+    ---
+    H19.3
+    9.3
+    """
+
+
 # I
 # J
 # K

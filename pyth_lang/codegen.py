@@ -18,6 +18,7 @@ EXPR_FUNC = {
     'q':  'equals',
     's':  'Psum',
     't':  'tail',
+    'H':  'end',
     'L':  'L',
     'S':  'Psorted',
     'U':  'unary_range',

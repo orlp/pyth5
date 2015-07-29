@@ -154,7 +154,8 @@ b, etc as respectively the first, second, etc parameter.
  F S for            Fa becomes Python's for var in a. Opens a block. Variable
                     rotates as lambda variables. Works as FUa if a is real.
  G
- H
+ H 1 end         q  Last element (a[-1]).
+                 r  Modulo 10 (a % 10).  
  I
  J
  K
