@@ -58,14 +58,14 @@ class ParserError(Exception):
 
 
 class ASTNode:
-    def __init__(self, type, data, children=None, attrib=None):
+    def __init__(self, type, data, args=None, children=None):
         self.type = type
         self.data = data
+        self.args = args or []
         self.children = children or []
-        self.attrib = attrib or {}
 
     def __repr__(self):
-        return 'ASTNode({!r}, {!r}, {!r})'.format(self.type, self.data, self.children)
+        return 'ASTNode({!r}, {!r}, {!r})'.format(self.type, self.data, self.args)
 
 
 class Parser:
@@ -98,7 +98,7 @@ class Parser:
             raise ParserError("symbol not implemented: '{}'".format(tok.data))
 
         data = tok.data
-        children = []
+        args = []
         arity = ARITIES[tok.data]
 
         while arity and self.lex.has_token():
@@ -116,10 +116,10 @@ class Parser:
                 self.lex.get_token()
                 continue
 
-            children.append(self._parse_expr())
+            args.append(self._parse_expr())
             arity -= 1
 
-        return ASTNode('expr', data, children)
+        return ASTNode('expr', data, args)
 
     def _parse_assign(self, data):
         assign_var = self.lex.get_token()
@@ -144,7 +144,7 @@ class Parser:
         self.seen_init.add(tok.data)
         init_expr = self._parse_expr()
         actual_expr = self._parse_expr(tok)
-        return ASTNode('expr', 'init-' + tok.data, [init_expr] + actual_expr.children)
+        return ASTNode('expr', 'init-' + tok.data, [init_expr] + actual_expr.args)
 
     def _parse_block(self, root=False):
         implicit_print = True
@@ -190,7 +190,7 @@ class Parser:
             else:
                 expr = self._parse_expr()
                 # Don't autoprint if we're only defining.
-                if expr.data.startswith('init-') and len(expr.children) == 1:
+                if expr.data.startswith('init-') and len(expr.args) == 1:
                     implicit_print = False
                 if tok.type == 'symb' and tok.data in NO_AUTOPRINT:
                     implicit_print = False

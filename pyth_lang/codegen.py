@@ -51,6 +51,14 @@ EXPR_LAMBDA_PATTERNS = {
                 2: "assign('L', lambda {0}: {1})({2})"}
 }
 
+# Block patterns. In order: block indentation, prologue and epilogue. Arguments are given through format parameters.
+BLOCK_PATTERNS = {
+    'I': [1, ['if {0}:'], []],
+    '#': [2, ['while True:', '    try:'], ['    except Exception:', '        break']],
+    'B': [0, [], ['break']],
+    'F': [1, ['for {0} in makeiter({1}):'], []]
+}
+
 
 class CodegenError(Exception):
     pass
@@ -67,6 +75,8 @@ class Codegen:
 
     def _gen_block(self, node, level=0):
         assert node.type == 'block'
+
+        args = [self._gen_expr(arg) for arg in node.args]
 
         if node.data == 'F':
             self.lambda_var += 1
@@ -92,18 +102,13 @@ class Codegen:
 
         if node.data == 'F':
             self.lambda_var -= 1
-            var = LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)]
-            lines = [" "*4 + line for line in lines]
-            lines = ['for {} in makeiter({}):'.format(var, self._gen_expr(node.args[0]))] + lines
-        elif node.data == 'I':
-            lines = [" "*4 + line for line in lines]
-            lines = ['if {}:'.format(self._gen_expr(node.args[0]))] + lines
-        elif node.data == '#':
-            lines = [" "*8 + line for line in lines]
-            lines = ['while True:', '    try:'] + lines
-            lines += ['    except Exception:', '        break']
-        elif node.data == 'B':
-            lines = ['break']
+            args.insert(0, LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)])
+
+        if node.data in BLOCK_PATTERNS:
+            ident, prologue, epilogue = BLOCK_PATTERNS[node.data]
+            prologue = [line.format(*args) for line in prologue]
+            epilogue = [line.format(*args) for line in epilogue]
+            lines = prologue + [" "*(4 * ident) + line for line in lines] + epilogue
         elif node.data != 'root':
             raise CodegenError("unknown block type: '{}'".format(node.data))
 
@@ -116,27 +121,27 @@ class Codegen:
             return self._gen_lit(node)
 
         if node.data == '[':
-            return '[{}]'.format(', '.join(map(self._gen_expr, node.children)))
+            return '[{}]'.format(', '.join(map(self._gen_expr, node.args)))
 
         if node.data in EXPR_LAMBDA_PATTERNS:
             patterns = EXPR_LAMBDA_PATTERNS[node.data]
-            if len(node.children) not in patterns:
+            if len(node.args) not in patterns:
                 raise CodegenError("arity of '{}' must be one of {}".format(node.data, sorted(patterns.keys())))
             var = LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)]
             self.lambda_var += 1
-            exprs = [self._gen_expr(child) for child in node.children]
+            exprs = [self._gen_expr(arg) for arg in node.args]
             self.lambda_var -= 1
-            return patterns[len(node.children)].format(var, *exprs)
+            return patterns[len(node.args)].format(var, *exprs)
 
         if node.data in EXPR_PATTERNS:
             patterns = EXPR_PATTERNS[node.data]
-            if len(node.children) not in patterns:
+            if len(node.args) not in patterns:
                 raise CodegenError("arity of '{}' must be one of {}".format(node.data, sorted(patterns.keys())))
-            return patterns[len(node.children)].format(*map(self._gen_expr, node.children))
+            return patterns[len(node.args)].format(*map(self._gen_expr, node.args))
 
         if node.data in EXPR_FUNC:
-            children = map(self._gen_expr, node.children)
-            return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(children))
+            args = map(self._gen_expr, node.args)
+            return '{}({})'.format(EXPR_FUNC[node.data], ', '.join(args))
 
         raise CodegenError("AST node ('{}', '{}') not implemented".format(node.type, node.data))
 
