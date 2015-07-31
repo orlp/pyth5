@@ -53,10 +53,11 @@ EXPR_LAMBDA_PATTERNS = {
 
 # Block patterns. In order: block indentation, prologue and epilogue. Arguments are given through format parameters.
 BLOCK_PATTERNS = {
-    'I': [1, ['if {0}:'], []],
     '#': [2, ['while True:', '    try:'], ['    except Exception:', '        break']],
     'B': [0, [], ['break']],
-    'F': [1, ['for {0} in makeiter({1}):'], []]
+    'E': [1, ['else:'], []],
+    'F': [1, ['for {0} in makeiter({1}):'], []],
+    'I': [1, ['if {0}:'], []]
 }
 
 
@@ -103,6 +104,9 @@ class Codegen:
         if node.data == 'F':
             self.lambda_var -= 1
             args.insert(0, LAMBDA_VARS[self.lambda_var % len(LAMBDA_VARS)])
+
+        if node.data in 'EFI' and not lines:
+            lines = ['pass']
 
         if node.data in BLOCK_PATTERNS:
             ident, prologue, epilogue = BLOCK_PATTERNS[node.data]

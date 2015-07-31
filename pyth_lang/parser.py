@@ -9,7 +9,7 @@
 
 VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
 NO_AUTOPRINT = {'=', '~', 'p'}
-BLOCK_TOKS = 'IFB#'
+BLOCK_TOKS = '#BEFI'
 INIT_FIRST_TIME = {'x', 'y', 'L'}
 
 ARITIES = {
@@ -72,6 +72,7 @@ class Parser:
     def __init__(self, lex):
         self.lex = lex
         self.seen_init = set()
+        self.seen_else = False
 
     def parse(self):
         return self._parse_block(True)
@@ -166,13 +167,24 @@ class Parser:
                 implicit_print = False
 
             # Handle break.
-            elif tok.type == 'symb' and tok.data in 'B':
+            elif tok.type == 'symb' and tok.data == 'B':
                 self.lex.get_token()
                 block.children.append((ASTNode('block', 'B'), False))
                 implicit_print = True
 
                 if not root:
                     break
+
+            # Handle else.
+            elif tok.type == 'symb' and tok.data == 'E':
+                if self.seen_else:
+                    block.children.append((self._parse_block(), False))
+                    implicit_print = True
+                    self.seen_else = False
+                else:
+                    self.seen_else = True
+                    break
+
 
             elif tok.type == 'symb' and tok.data in ');':
                 # Ignore symbol exit if we're root.

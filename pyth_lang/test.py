@@ -883,9 +883,26 @@ class Break(metaclass=PythTest):
 # C
 # D
 # E
+class Else(metaclass=PythTest):
+    r"""
+    I0p8 10E5
+    5
+    ---
+    I8p3E5
+    3
+    ---
+    F9Iqa5BE1
+    ---
+    F4Iqa5BE1
+    1
+    """
+
+
 # F
 class For(metaclass=PythTest):
     r"""
+    F10)
+    ---
     F[1 42 30 3)+a5a)10
     6
     1

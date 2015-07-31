@@ -26,7 +26,7 @@ class Lexer:
         # Newlines only seperate tokens, just ignore.
         while self._hasc() and self._peekc() == b'\n':
             self.idx += 1
-        return self.cache or self._hasc()
+        return bool(self.cache or self._hasc())
 
     def peek_token(self, ahead=0):
         while len(self.cache) <= ahead:

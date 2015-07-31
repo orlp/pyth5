@@ -150,7 +150,7 @@ b, etc as respectively the first, second, etc parameter.
  B 0 break          Python break. Implicit ).
  C
  D
- E
+ E S else           Python else. Implicit ).
  F S for            Fa becomes Python's for var in a. Opens a block. Variable
                     rotates as lambda variables. Works as FUa if a is real.
  G
