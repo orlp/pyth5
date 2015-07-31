@@ -87,7 +87,7 @@ class Lexer:
                 break
 
             # Handle escape sequences.
-            if c == b'\\' and self._peekc() in '"\\':
+            if c == b'\\' and self._hasc() and self._peekc() in b'"\\':
                 s += self._getc()
             else:
                 s += c
