@@ -1039,6 +1039,13 @@ class UnaryRange(metaclass=PythTest):
 
 # V
 # W
+class While(metaclass=PythTest):
+    r"""
+    x5Wxp=-x1
+    43210
+    """
+
+
 # X
 # Y
 # Z

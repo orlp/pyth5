@@ -174,7 +174,7 @@ b, etc as respectively the first, second, etc parameter.
  U 1 unary-range q  Python range(len(a)).
                  r  If a > 0 range(floor(a)) else range(floor(a), 0).
  V
- W
+ W S while          Python while a. Opens a block.
  X
  Y
  Z
