@@ -155,7 +155,7 @@ b, etc as respectively the first, second, etc parameter.
                     rotates as lambda variables. Works as FUa if a is real.
  G
  H 1 end         q  Last element (a[-1]).
- I 1 if             Python's if a. Opens a block.
+ I S if             Python's if a. Opens a block.
  J
  K
  L 1 lambda         On first occurrence define lambda function with parameter b
