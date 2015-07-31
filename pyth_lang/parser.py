@@ -72,7 +72,7 @@ class Parser:
     def __init__(self, lex):
         self.lex = lex
         self.seen_init = set()
-        self.seen_else = False
+        self.else_propagate = False
 
     def parse(self):
         return self._parse_block(True)
@@ -171,20 +171,22 @@ class Parser:
                 self.lex.get_token()
                 block.children.append((ASTNode('block', 'B'), False))
                 implicit_print = True
-
-                if not root:
-                    break
+                break
 
             # Handle else.
             elif tok.type == 'symb' and tok.data == 'E':
-                if self.seen_else:
+                # Either we're in stage two of the implicit ) of E, or we are right after a break.
+                after_break = (block.children and block.children[-1][0].children
+                               and block.children[-1][0].children[-1][0].data == 'B')
+                if self.else_propagate or after_break:
                     block.children.append((self._parse_block(), False))
                     implicit_print = True
-                    self.seen_else = False
+                    self.else_propagate = False
                 else:
-                    self.seen_else = True
+                    if root:
+                        raise ParserError('else used at root level')
+                    self.else_propagate = True
                     break
-
 
             elif tok.type == 'symb' and tok.data in ');':
                 # Ignore symbol exit if we're root.

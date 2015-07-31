@@ -888,13 +888,10 @@ class Else(metaclass=PythTest):
     I0p8 10E5
     5
     ---
-    I8p3E5
-    3
-    ---
-    F9Iqa5BE1
-    ---
-    F4Iqa5BE1
+    F4E1
     1
+    ---
+    F4BE1
     """
 
 
