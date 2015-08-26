@@ -515,6 +515,19 @@ class GreaterThan(metaclass=PythTest):
 # :
 # @
 # {
+class Uniquify(metaclass=PythTest):
+    r"""
+    {5
+    [1, 2, 3, 4, 5]
+    ---
+    {_3
+    [-2, -1, 0]
+    ---
+    {[1 9 4 1 3 3 4)
+    [1, 9, 4, 3]
+    """
+
+
 # }
 class In(metaclass=PythTest):
     r"""
@@ -1010,12 +1023,6 @@ class Lambda(metaclass=PythTest):
 # S
 class Sorted(metaclass=PythTest):
     r"""
-    S5
-    [1, 2, 3, 4, 5]
-    ---
-    S_3
-    [-2, -1, 0]
-    ---
     S"test"
     estt
     ---

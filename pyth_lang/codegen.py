@@ -11,6 +11,7 @@ EXPR_FUNC = {
     '<':  'less_than',
     '>':  'greater_than',
     '`':  'Prepr',
+    '{':  'uniquify',
     '}':  'Pin',
     'h':  'head',
     'l':  'Plen',

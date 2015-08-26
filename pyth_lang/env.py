@@ -287,6 +287,20 @@ def greater_than(a, b):
 # :
 # @
 # {
+def uniquify(a):
+    if isseq(a):
+        seen = set()
+        return [e for e in a if e not in seen and not seen.add(e)]
+
+    if isreal(a):
+        a = sym.floor(a)
+        if a < 0:
+            return list(sym.Range(1+a, 1))
+        return list(sym.Range(1, 1+a))
+
+    raise BadTypeCombinationError('uniquify', a)
+
+
 # }
 def Pin(a, b):
     if issig('al', a, b):
@@ -465,12 +479,6 @@ def end(a):
 # R
 # S
 def Psorted(a):
-    if isreal(a):
-        a = sym.floor(a)
-        if a < 0:
-            return list(sym.Range(1+a, 1))
-        return list(sym.Range(1, 1+a))
-
     if islist(a):
         return list(sorted(a))
 
