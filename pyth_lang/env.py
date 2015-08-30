@@ -98,11 +98,18 @@ def autoprint(a):
         print(Pstr(a))
 
 
-def makeiter(r):
-    if isreal(r):
-        return real_to_range(r)
+def makeiter(a):
+    if isreal(a):
+        return real_to_range(a)
 
-    return r
+    return a
+
+
+def freeze(a):
+    if islist(a):
+        return tuple(freeze(e) for e in a)
+
+    return a
 
 
 # !
@@ -288,9 +295,19 @@ def greater_than(a, b):
 # @
 # {
 def uniquify(a):
-    if isseq(a):
+    if isstr(a):
         seen = set()
-        return [e for e in a if e not in seen and not seen.add(e)]
+        return "".join(c for c in a if c not in seen and not seen.add(c))
+
+    if islist(a):
+        seen = set()
+        result = []
+        for e in a:
+            f = freeze(e)
+            if f not in seen:
+                seen.add(f)
+                result.append(e)
+        return result
 
     if isreal(a):
         a = sym.floor(a)
