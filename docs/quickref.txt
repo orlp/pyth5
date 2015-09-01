@@ -89,8 +89,9 @@ b, etc as respectively the first, second, etc parameter.
                 r_  Negative absolute value.
                 __  Negative infinity.
  * 2 times          Python *.
+                a_  Square - same as *aa.
              rs|sr  Truncate real and repeat sequence.
-                sq  Cartesian product.
+                qq  Cartesian product.
  /
  %
  ^ 2 power      rr  Power.

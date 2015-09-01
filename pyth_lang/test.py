@@ -385,6 +385,15 @@ class Times(metaclass=PythTest):
     *3 5
     15
     ---
+    *3
+    9
+    ---
+    *"ab"
+    ['aa', 'ab', 'ba', 'bb']
+    ---
+    *U2
+    [[0, 0], [0, 1], [1, 0], [1, 1]]
+    ---
     *3"ni"
     ninini
     ---
@@ -396,6 +405,9 @@ class Times(metaclass=PythTest):
     ---
     *"foo""bar"
     ['fb', 'fa', 'fr', 'ob', 'oa', 'or', 'ob', 'oa', 'or']
+    ---
+    *"ab"U2
+    [['a', 0], ['a', 1], ['b', 0], ['b', 1]]
     """
 
 

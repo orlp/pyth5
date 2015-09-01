@@ -209,7 +209,7 @@ def minus(a=None, b=None):
 
 
 # *
-def times(a, b):
+def times(a, b=None):
     if issig('rr', a, b):
         return a * b
 
@@ -224,6 +224,9 @@ def times(a, b):
 
     if issig('qq', a, b):
         return [list(tup) for tup in itertools.product(a, b)]
+
+    if issig('a_', a, b):
+        return times(a, a)
 
     raise BadTypeCombinationError('times', a, b)
 
