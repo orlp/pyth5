@@ -7,7 +7,7 @@
 # <.symbols>
 
 
-VARIABLES = ['a', 'b', 'c', 'd', 'e', 'w', 'x', 'y', 'z', '$a', '$q', '$A', '$Q']
+VARIABLES = ['a', 'b', 'c', 'd', 'e', 'v', 'w', 'x', 'y', 'z', 'V', '$a', '$q', '$A', '$Q']
 NO_AUTOPRINT = {'=', '~', 'p'}
 BLOCK_TOKS = '#BEFIW'
 INIT_FIRST_TIME = {'x', 'y', 'L'}
@@ -73,6 +73,7 @@ class Parser:
     def __init__(self, lex):
         self.lex = lex
         self.seen_init = set()
+        self.should_init_var = {'v': 0, 'V': 0}
         self.else_propagate = False
 
     def parse(self):
@@ -85,6 +86,10 @@ class Parser:
             return self._parse_init(tok)
 
         if tok.type == 'lit' or tok.type == 'symb' and tok.data in VARIABLES:
+            if tok.data in 'vV':
+                if self.should_init_var[tok.data] == 0:
+                    self.should_init_var[tok.data] = 1
+
             return ASTNode('lit', tok.data)
 
         if tok.data in BLOCK_TOKS:
@@ -129,18 +134,24 @@ class Parser:
             raise ParserError("expected symbol after '{}'".format(data))
 
         if assign_var.data in VARIABLES:
-            return ASTNode('expr', data, [ASTNode('lit', assign_var.data, []), self._parse_expr()])
+            ast = ASTNode('expr', data, [ASTNode('lit', assign_var.data, []), self._parse_expr()])
+        else:
+            start_tok = assign_var
+            if start_tok.data not in ARITIES or ARITIES[start_tok.data] < 1:
+                raise ParserError("expected variable or function after '{}'".format(data))
 
-        start_tok = assign_var
-        if start_tok.data not in ARITIES or ARITIES[start_tok.data] < 1:
-            raise ParserError("expected variable or function after '{}'".format(data))
+            # We peek to keep the variable in the lexer as first argument.
+            assign_var = self.lex.peek_token()
+            if assign_var.type != 'symb' or assign_var.data not in VARIABLES:
+                raise ParserError("expected variable after '{}{}'".format(data, start_tok.data))
 
-        # We peek to keep the variable in the lexer as first argument.
-        assign_var = self.lex.peek_token()
-        if assign_var.type != 'symb' or assign_var.data not in VARIABLES:
-            raise ParserError("expected variable after '{}{}'".format(data, start_tok.data))
+            ast = ASTNode('expr', data, [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
 
-        return ASTNode('expr', data, [ASTNode('lit', assign_var.data, []), self._parse_expr(start_tok)])
+        if assign_var.data in 'vV':
+            if self.should_init_var[assign_var.data] == 0:
+                self.should_init_var[assign_var.data] = -1
+
+        return ast
 
     def _parse_init(self, tok):
         self.seen_init.add(tok.data)

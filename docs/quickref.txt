@@ -66,7 +66,7 @@ b, etc as respectively the first, second, etc parameter.
  & 2 and            Logical and. Short-circuiting.
  | 2 or             Logical or. Short-circuiting.
  ? 3 ternary        Python ternary. ?abc becomes b if a else c.
- (
+ ( 1 eval        s  Evaluates string.
  ) S close          Close one open expr or block. [) becomes [] in Python.
  ; S close-all      Closes all open symbols and blocks. Infinite ).
  [ U list           Unbounded list literal. Close with ).
@@ -143,7 +143,7 @@ b, etc as respectively the first, second, etc parameter.
  t 1 tail        q  Everything but first element (a[1:]).
                  r  Decrement (a - 1).
  u
- v
+ v 0 var-input      Variable initialized with line of input. v reads before V.
  w 0 empty-list     Variable with initial value [].
  x 1 auto-assign    Has arity 1 on first usage, where xa means =xa. Simple
  y 1 auto-assign    variable with arity 0 later. y works exactly the same.
@@ -174,7 +174,7 @@ b, etc as respectively the first, second, etc parameter.
                  r  Modulo 10 (a % 10).  
  U 1 unary-range q  Python range(len(a)).
                  r  If a > 0 range(floor(a)) else range(floor(a), 0).
- V
+ V 0 var-eval-input Variable initialized with evaluated line of input.
  W S while          Python while a. Opens a block.
  X
  Y

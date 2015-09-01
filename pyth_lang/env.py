@@ -112,6 +112,19 @@ def freeze(a):
     return a
 
 
+def normalize(a):
+    if isinstance(a, tuple):
+        return [normalize(e) for e in a]
+
+    if isinstance(a, (int, float)):
+        return Real(a)
+
+    if isinstance(a, complex):
+        raise RuntimeError('complex numbers not yet supported in Pyth')
+
+    return a
+
+
 # !
 def Pnot(a):
     return Real(not a)
@@ -121,6 +134,13 @@ def Pnot(a):
 # |
 # ?
 # (
+def Peval(a):
+    if isstr(a):
+        return normalize(eval(a))
+
+    raise BadTypeCombinationError('Peval', a)
+
+
 # )
 # ;
 # [

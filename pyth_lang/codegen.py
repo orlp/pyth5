@@ -69,12 +69,19 @@ class CodegenError(Exception):
 
 class Codegen:
     def __init__(self, parser):
+        self.parser = parser
         self.ast = parser.parse()
         self.arity_seen = set()
         self.lambda_var = 0
 
     def gen_code(self):
-        return "\n".join(self._gen_block(self.ast))
+        code = "\n".join(self._gen_block(self.ast))
+        if self.parser.should_init_var['V'] > 0:
+            code = "V = Peval(input())\n" + code
+        if self.parser.should_init_var['v'] > 0:
+            code = "v = input()\n" + code
+
+        return code
 
     def _gen_block(self, node, level=0):
         assert node.type == 'block'

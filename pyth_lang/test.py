@@ -872,6 +872,15 @@ class Tail(metaclass=PythTest):
 
 # u
 # v
+class VarInput(metaclass=PythTest):
+    def test_newline(self):
+        self.assert_pyth("`v", "'1'", "1")
+        self.assert_pyth("`v", "'test'", "test")
+        self.assert_pyth("=v30v", "30")
+        self.assert_pyth("~+v30v", "2030", "20")
+        self.assert_pyth("vV", "1\n2", "1\n2")
+
+
 # w
 class EmptyList(metaclass=PythTest):
     r"""
@@ -1087,6 +1096,15 @@ class UnaryRange(metaclass=PythTest):
 
 
 # V
+class VarInput(metaclass=PythTest):
+    def test_newline(self):
+        self.assert_pyth("`V", "1", "1")
+        self.assert_pyth("`V", "'test'", "'test'")
+        self.assert_pyth("=V30V", "30")
+        self.assert_pyth("~+V30V", "50", "20")
+        self.assert_pyth("Vv", "2\n1", "1\n2")
+
+
 # W
 class While(metaclass=PythTest):
     r"""
